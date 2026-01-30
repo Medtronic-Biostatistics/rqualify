@@ -71,7 +71,7 @@ character,attr,se,~,_,/}
 \UseRawInputEncoding
 
 
-```{r codeexec, echo=FALSE}}
+```{r codeexec, echo=FALSE}
 
 # Helper function for running code at the command line
 code_exec <- function(code_block, file_prefix, folder_output){
