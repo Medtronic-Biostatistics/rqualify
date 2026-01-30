@@ -71,6 +71,39 @@ character,attr,se,~,_,/}
 \UseRawInputEncoding
 
 
+```{r codeexec, echo=FALSE}}
+
+# Helper function for running code at the command line
+code_exec <- function(code_block, file_prefix, folder_output){
+
+  # Set code file name
+  file_code <- file.path(folder_output, paste0(file_prefix, ".R"))
+
+  # Write code_block to R file
+  fileConn <- file(file_code)
+  writeLines(code_block, fileConn)
+  close(fileConn)
+
+  # Set output file name
+  file_output <- file.path(folder_output, paste0(file_prefix, "Out.txt"))
+
+  # Command to run @ command line
+  cmd <- paste(shQuote(file.path(R.home("bin"), "R")),
+               "CMD BATCH --vanilla --no-timing", 
+               shQuote(file_code), 
+               shQuote(file_output))
+
+  # Run the command
+  run <- try(system(cmd))
+
+  # Load results and return
+  readLines(file.path(folder_output, paste0(file_prefix, "Out.txt")))
+}
+
+```
+
+
+
 ```{r titlepage, echo=FALSE}
 
 # Get R installation facts
