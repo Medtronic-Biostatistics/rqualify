@@ -1,7 +1,7 @@
 #' Run IQ-OQ on an installation of R software
 #'
-#' @param path_save Character. Path to save the R-validation folder. If not provided
-#'   on Windows, you will be prompted to select a folder.
+#' @param path_save Character. Path to save the R-validation folder. Ensure
+#'   a folder named `R-validation` does not already exist at this location.
 #'
 #' @param setup_tinytex Logical. If TRUE, sets up tinytex for LaTeX document
 #'  generation.
@@ -37,7 +37,7 @@
 #'
 #' @importFrom rmarkdown render
 #' @importFrom tinytex pdflatex
-#' @importFrom utils choose.dir read.csv zip
+#' @importFrom utils read.csv zip
 #'
 #' @export
 rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
@@ -46,16 +46,9 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   # Get function call
   mf   <- match.call(expand.dots = FALSE)
 
-  # If path_save not provided, prompt for input
+  # Check that path_save is input
   if(!"path_save" %in% names(mf)){
-    if(tolower(.Platform$OS.type) == "windows"){
-      path_save <- choose.dir(caption = "Select a folder")
-      if(is.na(path_save)){
-        stop("No folder selected. Please select a valid folder.")
-      }
-    } else{
-      stop("Automatic folder selection is only available on Windows. Please provide 'path_save'.")
-    }
+    stop("Automatic folder selection is only available on Windows. Please provide 'path_save'.")
   }
 
   # Normalize folder path

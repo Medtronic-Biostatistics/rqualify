@@ -13,8 +13,8 @@ rqualify(
 )
 }
 \arguments{
-\item{path_save}{Character. Path to save the R-validation folder. If not provided
-on Windows, you will be prompted to select a folder.}
+\item{path_save}{Character. Path to save the R-validation folder. Ensure
+a folder named `R-validation` does not already exist at this location.}
 
 \item{setup_tinytex}{Logical. If TRUE, sets up tinytex for LaTeX document
 generation.}
