@@ -7,7 +7,7 @@ Authors@R: c(
       email = "donald.r.musgrove@medtronic.com",
       role = c("aut", "cre")
     ),
-    person("Schwartz", "Marc",
+    person("Marc", "Schwartz", 
       email = "Marc@MSBiostats.com",
       role = c("aut"),
       comment = "For initial validation code."
