@@ -1,0 +1,43 @@
+---
+title: "Introduction to rqualify"
+description: >
+  Get started with rqualify.
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to rqualify}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The goal of rqualify is to ease the R software validation steps required for regulatory submissions. The `rqualify` function automates the generation of a validation document that can be used to demonstrate that an R environment is suitable for use in a regulated setting.
+
+Once the `rqualify` package is installed, executing the validation script is as simple as running the function:
+
+```         
+rqualify(path_save = "C:/path/to/your/folder")
+```
+
+Ensure the folder you specify does not already include a folder named `R-validation`.
+
+There is also the option to automatically zip up the results. By default, if the validation is successful, the `R-validation` folder is zipped up into a file named `R-validation.zip`. If you would like to disable this feature, you can set `create_zip=FALSE` in the call to `rqualify`. See `?rqualify` for more info.
+
+## How does rqualify work?
+
+The `rqualify` function performs the following steps: 
+
+1. Creates the folder tree `R-validation/IQ-OQ-TestOutput` at the specified `path_save`. 
+2. Installs tinytex and necessary LaTeX packages (if `setup_tinytex=TRUE`). 
+3. Installs pandoc (if `setup_pandoc=TRUE`). 
+4. Copies `R-validation.Rmd` to the `R-validation` folder. 
+5. Executes the IQ-OQ by rendering `R-validation.Rmd` to `R-validation.tex`. 
+6. Compiles `R-validation.tex` to `R-validation.pdf`. 
+7. If IQ-OQ is successful, creates `R-validation.zip` at the folder where `R-validation` is located (if `create_zip=TRUE`).
+
+In case you are developing a process for user-level qualification, the file `R-validation.Rmd` located in the root directory of this package at `validation_r/R-validation.Rmd` can be used as a template for your own validation document. Note, if viewing on Github, the `R-validation.Rmd` file is located at `inst/validation_r/R-validation.Rmd`.
+
+## Tips for a Successful Qualification
+
+* Install and execute the qualification code on a new and fresh installation of R, prior to installing packages, or the validation may **fail**.
+* Install and validate on a new minor release of R, e.g., upgrading from 4.**4**.3 to 4.**5**.1; notice the bold numbers indicate the minor releases.
+* If unwilling to install and validate on a new minor release of R, e.g., upgrading from 4.**4**.1 to 4.**4**.2, the validation may **fail**.
+* If running the validation a second time within the same `R-validation` folder, remove or rename the `IQ-OQ-TestOutput` subfolder that was created.

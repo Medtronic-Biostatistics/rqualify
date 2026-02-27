@@ -46,11 +46,6 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   # Get function call
   mf   <- match.call(expand.dots = FALSE)
 
-  # Check that path_save is input
-  if(!"path_save" %in% names(mf)){
-    stop("Automatic folder selection is only available on Windows. Please provide 'path_save'.")
-  }
-
   # Normalize folder path
   path_save <- normalizePath(path_save, winslash="/")
 

@@ -1,4 +1,24 @@
 url: https://medtronic-biostatistics.github.io/rqualify/
+
+home:
+  title: Qualify R Installations
+
+authors:
+  Donnie Musgrove:
+    href: https://github.com/donaldmusgrove
+  Marc Schwartz:
+    href: https://msbiostats.com/
+  footer:
+    roles: [cre]
+
+
 template:
   bootstrap: 5
 
+
+articles:
+- title: Details
+  navbar:
+  contents:
+  - details
+  - background
