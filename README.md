@@ -24,7 +24,7 @@ Once the `rqualify` package is installed, executing the validation
 script is as simple as running the function:
 
 ```         
-rqualify()
+rqualify(path_save  = path.expand('~'))
 ```
 
 You will be prompted to select a folder where the validation files will
