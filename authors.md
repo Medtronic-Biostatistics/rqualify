@@ -2,9 +2,10 @@
 
 ## Authors
 
-- **Donnie Musgrove**. Author, maintainer.
+- **[Donnie Musgrove](https://github.com/donaldmusgrove)**. Author,
+  maintainer.
 
-- **Marc Schwartz**. Author.  
+- **[Marc Schwartz](https://msbiostats.com/)**. Author.  
   For initial validation code.
 
 ## Citation

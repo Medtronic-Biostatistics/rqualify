@@ -21,7 +21,7 @@ that an R environment is suitable for use in a regulated setting.
 Once the `rqualify` package is installed, executing the validation
 script is as simple as running the function:
 
-    rqualify()
+    rqualify(path_save  = path.expand('~'))
 
 You will be prompted to select a folder where the validation files will
 be saved – make sure the folder you select does not already include a
@@ -39,6 +39,15 @@ disable this feature, you can set `create_zip=FALSE` in the call to
 [`?rqualify`](https://medtronic-biostatistics.github.io/rqualify/reference/rqualify.md)
 for more info.
 
+## Special Thanks
+
+We would like to thank [Marc Schwartz](https://msbiostats.com/) for
+allowing us to modify [R-IQ-OQ](https://github.com/marcschwartz/R-IQ-OQ)
+into the RMarkdown file made available by this package. As the original
+code was released under the GNU GPL version 2 license, we are adhering
+to the licensing and releasing this package under GNU GPL version 2 as
+well.
+
 # Package index
 
 ## All functions
@@ -48,3 +57,14 @@ for more info.
 - [`rqualify_setup()`](https://medtronic-biostatistics.github.io/rqualify/reference/rqualify_setup.md)
   : Initialize environment for IQ-OQ.
 
+# Articles
+
+### Details
+
+- [Details](https://medtronic-biostatistics.github.io/rqualify/articles/details.md):
+
+  Details.
+
+- [Background](https://medtronic-biostatistics.github.io/rqualify/articles/background.md):
+
+  Background.
