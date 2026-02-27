@@ -42,3 +42,11 @@ default, if the validation is successful, the `R-validation` folder is
 zipped up into a file named `R-validation.zip`. If you would like to
 disable this feature, you can set `create_zip=FALSE` in the call to `rqualify`.
 See `?rqualify` for more info.
+
+## Special Thanks
+
+We would like to thank [Marc Schwartz](https://msbiostats.com/) for allowing
+us to modify [R-IQ-OQ](https://github.com/marcschwartz/R-IQ-OQ) into the
+RMarkdown file made available by this package. As the original code was
+released under the GNU GPL version 2 license, we are adhering to the licensing
+and releasing this package under GNU GPL version 2 as well.
