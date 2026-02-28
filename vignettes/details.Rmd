@@ -44,7 +44,7 @@ IQ process:
 
 During OQ, the functions `testInstalledBasic` and `testInstalledPackages` from the
 base `tools` package are used to check the functionality of base and recommended packages. 
-The following 7 checks are performed:
+The following 7 checks are performed: 
 
 1. System test execution via `testInstalledBasic("both")`
 2. Base package examples execution via `testInstalledPackages(scope="base", types="examples")`
