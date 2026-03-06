@@ -30,7 +30,8 @@ Imports:
     rmarkdown,
     tinytex
 Suggests:
-    knitr
+    knitr,
+    testthat (>= 3.0.0)
 Encoding: UTF-8
 VignetteBuilder: knitr
 LazyData: true
