@@ -6,7 +6,6 @@
 \usage{
 rqualify_setup(
   path_save,
-  r_test_path,
   setup_tinytex = TRUE,
   setup_pandoc = TRUE,
   verbose = TRUE
@@ -15,9 +14,6 @@ rqualify_setup(
 \arguments{
 \item{path_save}{Character. Path where the 'R-validation' folder will be created
 to store validation outputs.}
-
-\item{r_test_path}{Character. Path to the folder containing the base tests
-to be copied into the 'R-validation/IQ-OQ-TestOutput' directory.}
 
 \item{setup_tinytex}{Logical. If TRUE, sets up tinytex for LaTeX document
 generation.}
@@ -35,8 +31,7 @@ The function sets up the environment by configuring locale settings and
 }
 \examples{
 \dontrun{
-rqualify_setup(path_save   = "~",
-               r_test_path = file.path(R.home(), "tests"))
+rqualify_setup(path_save   = "~")
 }
 
 }

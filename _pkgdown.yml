@@ -6,6 +6,8 @@ home:
 authors:
   Donnie Musgrove:
     href: https://github.com/donaldmusgrove
+  Graeme L. Hickey:
+    href: https://github.com/graemeleehickey
   Marc Schwartz:
     href: https://msbiostats.com/
   footer:
@@ -17,8 +19,9 @@ template:
 
 
 articles:
-- title: Details
+- title: Qualification Details
   navbar:
   contents:
   - details
   - background
+  - usage

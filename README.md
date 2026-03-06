@@ -1,5 +1,11 @@
 # rqualify <a href="https://medtronic-biostatistics.github.io/rqualify/"><img src="man/figures/logo.png" alt="rqualify website" align="right" height="111"/></a>
 
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/Medtronic-Biostatistics/rqualify/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Medtronic-Biostatistics/rqualify/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/Medtronic-Biostatistics/rqualify/graph/badge.svg)](https://app.codecov.io/gh/Medtronic-Biostatistics/rqualify)
+<!-- badges: end -->
+
+
 This package is currently under active development.
 
 ## Installation

@@ -1,10 +1,10 @@
 ---
-title: "Details"
+title: "Qualification Details"
 description: >
-  Details.
+  Qualification Details
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Details}
+  %\VignetteIndexEntry{Qualification Details}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 resource_files:
