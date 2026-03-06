@@ -3,9 +3,6 @@
 #'@param path_save Character. Path where the 'R-validation' folder will be created
 #'  to store validation outputs.
 #'
-#' @param r_test_path Character. Path to the folder containing the base tests
-#'   to be copied into the 'R-validation/IQ-OQ-TestOutput' directory.
-#'
 #' @param setup_tinytex Logical. If TRUE, sets up tinytex for LaTeX document
 #'  generation.
 #'
@@ -18,8 +15,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' rqualify_setup(path_save   = "~",
-#'                r_test_path = file.path(R.home(), "tests"))
+#' rqualify_setup(path_save   = "~")
 #' }
 #'
 #' @seealso \code{\link{rqualify}} which calls this function internally.
@@ -31,7 +27,7 @@
 #'
 #'
 #' @export
-rqualify_setup <- function(path_save, r_test_path, setup_tinytex=TRUE,
+rqualify_setup <- function(path_save, setup_tinytex=TRUE,
                            setup_pandoc=TRUE, verbose=TRUE){
 
   # Get function call

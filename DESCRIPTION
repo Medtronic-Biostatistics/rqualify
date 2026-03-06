@@ -4,7 +4,7 @@ Title: Qualification of R Software Installations
 Version: 0.1.0
 Authors@R: c(
     person("Donnie", "Musgrove",
-      email = "donald.r.musgrove@medtronic.com",
+      email = "donniemusgrove@gmail.com",
       role = c("aut", "cre")
     ),
     person("Graeme L.", "Hickey",
@@ -29,7 +29,10 @@ Imports:
     pandoc,
     rmarkdown,
     tinytex
+Suggests:
+    knitr
 Encoding: UTF-8
+VignetteBuilder: knitr
 LazyData: true
 RoxygenNote: 7.3.2
 Config/testthat/edition: 3
