@@ -1,4 +1,4 @@
-# Details
+# Qualification Details
 
 The qualification process carried out by this package can be split into
 two steps:
