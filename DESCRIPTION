@@ -7,11 +7,17 @@ Authors@R: c(
       email = "donald.r.musgrove@medtronic.com",
       role = c("aut", "cre")
     ),
+    person("Graeme L.", "Hickey",
+           email = "graemeleehickey@gmail.com",
+           role = "aut",
+           comment = c(ORCID = "0000-0002-4989-0054")
+    ),
     person("Marc", "Schwartz", 
       email = "Marc@MSBiostats.com",
-      role = c("aut"),
+      role = "aut",
       comment = "For initial validation code."
-    )
+    ),
+    person("Medtronic Inc.", role = "fnd")
   )
 Description: Functions for qualifying R software installations.
 License: GPL-2
