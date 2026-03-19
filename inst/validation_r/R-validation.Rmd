@@ -143,16 +143,6 @@ Platform     <- gsub("_", " ", RVersionInfo$platform)
 
 \newpage
 
-# Change log
-
--   **Version 1.0.00 - November 21, 2025**
-
--   Initial version
-
--   Author/Title: Donald Musgrove
-
-\newpage
-
 # Introduction
 
 The R software being tested in this report was downloaded from The Comprehensive R Archive Network (CRAN):
