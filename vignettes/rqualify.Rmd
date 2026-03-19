@@ -14,7 +14,8 @@ The goal of rqualify is to ease the R software validation steps required for reg
 Once the `rqualify` package is installed, executing the validation script is as simple as running the function:
 
 ```         
-rqualify(path_save = "C:/path/to/your/folder")
+library(rqualify)
+rqualify(path_save = path.expand("~"))
 ```
 
 Ensure the folder you specify does not already include a folder named `R-validation`.
@@ -37,7 +38,7 @@ In case you are developing a process for user-level qualification, the file `R-v
 
 ## Tips for a Successful Qualification
 
-* Install and execute the qualification code on a new and fresh installation of R, prior to installing packages, or the validation may **fail**.
+* Best practice is to Install and execute the qualification code on a new and fresh installation of R, prior to installing additional packages.
 * Install and validate on a new minor release of R, e.g., upgrading from 4.**4**.3 to 4.**5**.1; notice the bold numbers indicate the minor releases.
 * If unwilling to install and validate on a new minor release of R, e.g., upgrading from 4.**4**.1 to 4.**4**.2, the validation may **fail**.
 * If running the validation a second time within the same `R-validation` folder, remove or rename the `IQ-OQ-TestOutput` subfolder that was created.

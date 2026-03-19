@@ -18,10 +18,24 @@ template:
   bootstrap: 5
 
 
-articles:
-- title: Qualification Details
-  navbar:
-  contents:
-  - details
-  - background
-  - usage
+navbar:
+  structure:
+    left:  [intro, reference, tutorials, news]
+    right: [search, github]
+  left:
+  - icon: fa-home
+    href: index.html
+  - text: Reference
+    href: reference/index.html
+  - text: Articles
+    menu:
+    - text: "Qualification Details"
+      href: articles/details.html
+    - text: "Background"
+      href: articles/background.html
+    - text: "Package Usage"
+      href: articles/usage.html
+    - text: "And more..."
+      href: articles/index.html
+  - text: News
+    href: news/index.html

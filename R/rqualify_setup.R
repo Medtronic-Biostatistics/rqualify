@@ -15,7 +15,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' rqualify_setup(path_save   = "~")
+#' rqualify_setup(path_save = path.expand("~"))
 #' }
 #'
 #' @seealso \code{\link{rqualify}} which calls this function internally.

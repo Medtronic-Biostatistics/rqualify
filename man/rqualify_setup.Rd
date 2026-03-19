@@ -31,7 +31,7 @@ The function sets up the environment by configuring locale settings and
 }
 \examples{
 \dontrun{
-rqualify_setup(path_save   = "~")
+rqualify_setup(path_save = path.expand("~"))
 }
 
 }
