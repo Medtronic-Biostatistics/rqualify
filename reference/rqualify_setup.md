@@ -46,6 +46,6 @@ which calls this function internally.
 
 ``` r
 if (FALSE) { # \dontrun{
-rqualify_setup(path_save   = "~")
+rqualify_setup(path_save = path.expand("~"))
 } # }
 ```

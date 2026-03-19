@@ -30,7 +30,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rqualify</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="../articles/rqualify.html">Get started</a></li>
+<li class="nav-item"><a class="nav-link" href="../index.html"><span class="fa fa-home"></span></a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
@@ -47,8 +47,10 @@
 <li><a class="dropdown-item" href="../articles/details.html">Qualification Details</a></li>
     <li><a class="dropdown-item" href="../articles/background.html">Background</a></li>
     <li><a class="dropdown-item" href="../articles/usage.html">Package Usage</a></li>
+    <li><a class="dropdown-item" href="../articles/index.html">And more...</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -112,9 +114,9 @@ and the validation is successful, creates a zip file of the
 </ol>
 <p>For step 2 to be successful, R must be installed with the tests
 folder. This is default behavior in Windows, but may not be the case in
-Linux. If you are running on Linux and encounter an error at this step,
-please refer to the instructions provided in the R Installation and
-Administration manual (<a href="https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Testing-a-Unix_002dalike-Installation" class="external-link uri">https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Testing-a-Unix_002dalike-Installation</a>)
+Linux or macOS. If you are running on Linux and encounter an error at
+this step, please refer to the instructions provided in the R
+Installation and Administration manual (<a href="https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Testing-a-Unix_002dalike-Installation" class="external-link uri">https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Testing-a-Unix_002dalike-Installation</a>)
 to install R with the tests folder.</p>
 <p>For additional details on inputs and outputs of the
 <code>rqualify</code> function, please refer to the function
@@ -142,6 +144,12 @@ errors.</li>
 and appear to hang. This is not unexpected behavior, and the function
 will only proceed to the next step once the installation is
 complete.</p>
+<p>We have also received reports from macOS users that a permissions
+popup may appear prompting users to approve installation. This may occur
+during the stage of installing tinytex or Pandoc. If you encounter this
+popup, please approve the installation to allow the process to continue.
+If you do not approve the installation, the process will not be able to
+proceed and will likely result in an error.</p>
 <p>For additional details on inputs and outputs of the
 <code>rqualify_setup</code> function, please refer to the function
 documentation <code><a href="../reference/rqualify_setup.html">?rqualify_setup</a></code>.</p>

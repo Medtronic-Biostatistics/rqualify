@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">rqualify</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="articles/rqualify.html">Get started</a></li>
+<li class="active nav-item"><a class="nav-link" href="index.html"><span class="fa fa-home"></span></a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
@@ -45,8 +45,10 @@
 <li><a class="dropdown-item" href="articles/details.html">Qualification Details</a></li>
     <li><a class="dropdown-item" href="articles/background.html">Background</a></li>
     <li><a class="dropdown-item" href="articles/usage.html">Package Usage</a></li>
+    <li><a class="dropdown-item" href="articles/index.html">And more...</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">News</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -72,8 +74,11 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>The package can currently be installed from this Github repository using the following (ensure devtools is installed):</p>
-<pre><code><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_git</span><span class="op">(</span><span class="st">"https://github.com/Medtronic-Biostatistics/rqualify.git"</span><span class="op">)</span></span></code></pre>
+<p>You can install the package via CRAN:</p>
+<pre><code><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rqualify"</span><span class="op">)</span></span></code></pre>
+<p>The package can currently be installed from this Github repository using the following:</p>
+<pre><code><span><span class="co"># if needed install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"Medtronic-Biostatistics/rqualify"</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="purpose">Purpose<a class="anchor" aria-label="anchor" href="#purpose"></a>
@@ -84,10 +89,9 @@
 <h2 id="r-software-qualification">R Software Qualification<a class="anchor" aria-label="anchor" href="#r-software-qualification"></a>
 </h2>
 <p>Once the <code>rqualify</code> package is installed, executing the validation script is as simple as running the function:</p>
-<pre><code><span><span class="fu"><a href="reference/rqualify.html">rqualify</a></span><span class="op">(</span>path_save  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/path.expand.html" class="external-link">path.expand</a></span><span class="op">(</span><span class="st">'~'</span><span class="op">)</span><span class="op">)</span></span></code></pre>
-<p>You will be prompted to select a folder where the validation files will be saved – make sure the folder you select does not already include a folder named <code>R-validation</code>.</p>
-<p>Alternately, you can specify the output folder directly:</p>
-<pre><code><span><span class="fu"><a href="reference/rqualify.html">rqualify</a></span><span class="op">(</span>path_save <span class="op">=</span> <span class="st">"C:/path/to/your/folder"</span><span class="op">)</span></span></code></pre>
+<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Medtronic-Biostatistics/rqualify" class="external-link">rqualify</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/rqualify.html">rqualify</a></span><span class="op">(</span>path_save  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/path.expand.html" class="external-link">path.expand</a></span><span class="op">(</span><span class="st">'~'</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<p>Make sure the folder you specify does not already include a folder named <code>R-validation</code>.</p>
 <p>There is also the option to automatically zip up the results. By default, if the validation is successful, the <code>R-validation</code> folder is zipped up into a file named <code>R-validation.zip</code>. If you would like to disable this feature, you can set <code>create_zip=FALSE</code> in the call to <code>rqualify</code>. See <code><a href="reference/rqualify.html">?rqualify</a></code> for more info.</p>
 </div>
 <div class="section level2">

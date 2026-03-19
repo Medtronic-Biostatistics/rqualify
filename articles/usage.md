@@ -29,9 +29,9 @@ steps sequentially:
     successful, creates a zip file of the `R-validation` folder.
 
 For step 2 to be successful, R must be installed with the tests folder.
-This is default behavior in Windows, but may not be the case in Linux.
-If you are running on Linux and encounter an error at this step, please
-refer to the instructions provided in the R Installation and
+This is default behavior in Windows, but may not be the case in Linux or
+macOS. If you are running on Linux and encounter an error at this step,
+please refer to the instructions provided in the R Installation and
 Administration manual
 (<https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Testing-a-Unix_002dalike-Installation>)
 to install R with the tests folder.
@@ -58,6 +58,13 @@ carries out the following steps sequentially:
 During step 3, the installation of tinytex, the process may be slow and
 appear to hang. This is not unexpected behavior, and the function will
 only proceed to the next step once the installation is complete.
+
+We have also received reports from macOS users that a permissions popup
+may appear prompting users to approve installation. This may occur
+during the stage of installing tinytex or Pandoc. If you encounter this
+popup, please approve the installation to allow the process to continue.
+If you do not approve the installation, the process will not be able to
+proceed and will likely result in an error.
 
 For additional details on inputs and outputs of the `rqualify_setup`
 function, please refer to the function documentation

@@ -4,10 +4,15 @@ This package is currently under active development.
 
 ## Installation
 
-The package can currently be installed from this Github repository using
-the following (ensure devtools is installed):
+You can install the package via CRAN:
 
-    devtools::install_git("https://github.com/Medtronic-Biostatistics/rqualify.git")
+    install.packages("rqualify")
+
+The package can currently be installed from this Github repository using
+the following:
+
+    # if needed install.packages("remotes")
+    remotes::install_github("Medtronic-Biostatistics/rqualify")
 
 ## Purpose
 
@@ -21,15 +26,11 @@ that an R environment is suitable for use in a regulated setting.
 Once the `rqualify` package is installed, executing the validation
 script is as simple as running the function:
 
+    library(rqualify)
     rqualify(path_save  = path.expand('~'))
 
-You will be prompted to select a folder where the validation files will
-be saved – make sure the folder you select does not already include a
-folder named `R-validation`.
-
-Alternately, you can specify the output folder directly:
-
-    rqualify(path_save = "C:/path/to/your/folder")
+Make sure the folder you specify does not already include a folder named
+`R-validation`.
 
 There is also the option to automatically zip up the results. By
 default, if the validation is successful, the `R-validation` folder is

@@ -1,15 +1,25 @@
 # Articles
 
-### Qualification Details
+### All vignettes
+
+- [Background](https://medtronic-biostatistics.github.io/rqualify/articles/background.md):
+
+  Background.
 
 - [Qualification
   Details](https://medtronic-biostatistics.github.io/rqualify/articles/details.md):
 
   Qualification Details
 
-- [Background](https://medtronic-biostatistics.github.io/rqualify/articles/background.md):
+- [Introduction to the rqualify
+  Package](https://medtronic-biostatistics.github.io/rqualify/articles/rqualify-cran.md):
 
-  Background.
+  Introduction to the rqualify Package.
+
+- [Introduction to
+  rqualify](https://medtronic-biostatistics.github.io/rqualify/articles/rqualify.md):
+
+  Get started with rqualify.
 
 - [Package
   Usage](https://medtronic-biostatistics.github.io/rqualify/articles/usage.md):

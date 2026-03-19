@@ -8,7 +8,8 @@ an R environment is suitable for use in a regulated setting.
 Once the `rqualify` package is installed, executing the validation
 script is as simple as running the function:
 
-    rqualify(path_save = "C:/path/to/your/folder")
+    library(rqualify)
+    rqualify(path_save = path.expand("~"))
 
 Ensure the folder you specify does not already include a folder named
 `R-validation`.
@@ -45,9 +46,9 @@ file is located at `inst/validation_r/R-validation.Rmd`.
 
 ## Tips for a Successful Qualification
 
-- Install and execute the qualification code on a new and fresh
-  installation of R, prior to installing packages, or the validation may
-  **fail**.
+- Best practice is to Install and execute the qualification code on a
+  new and fresh installation of R, prior to installing additional
+  packages.
 - Install and validate on a new minor release of R, e.g., upgrading from
   4.**4**.3 to 4.**5**.1; notice the bold numbers indicate the minor
   releases.
