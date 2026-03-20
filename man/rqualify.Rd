@@ -25,6 +25,11 @@ generation.}
 
 \item{create_zip}{Logical. If TRUE, creates a zip file of the R-validation folder after validation.}
 }
+\value{
+The function does not return a value but generates output files in the 
+  specified location. The validation report will be available in the R-validation 
+  folder, and if successful, a zip file of the folder will also be created.
+}
 \description{
 Run IQ-OQ on an installation of R software
 }
@@ -51,5 +56,6 @@ The following steps are carried out:
 \dontrun{
 rqualify(path_save  = path.expand('~'))
 }
+
 
 }

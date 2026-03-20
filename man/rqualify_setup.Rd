@@ -22,6 +22,11 @@ generation.}
 
 \item{verbose}{Logical. If TRUE, prints progress messages to the console.}
 }
+\value{
+This function does not return a value. It performs side effects by 
+  setting up the environment and creating necessary directories for 
+  validation outputs.
+}
 \description{
 Initialize environment for IQ-OQ.
 }
