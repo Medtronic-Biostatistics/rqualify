@@ -67,7 +67,7 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   # Run the tests and generate validation report
   #-----------------------------------------------------------------------------
   # Copy Rmd validation file to 'path_rvalidation'
-  fc <- file.copy(system.file("validation_r/R-validation.Rmd", package='rqualify'),
+  fc <- file.copy(system.file("qualify_r/R-validation.Rmd", package='rqualify'),
                   path_rvalidation)
 
   # Remder: Rmd >> tex >> pdf
