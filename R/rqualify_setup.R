@@ -17,6 +17,10 @@
 #' \dontrun{
 #' rqualify_setup(path_save = path.expand("~"))
 #' }
+#' 
+#' @return This function does not return a value. It performs side effects by 
+#'   setting up the environment and creating necessary directories for 
+#'   validation outputs.
 #'
 #' @seealso \code{\link{rqualify}} which calls this function internally.
 #'

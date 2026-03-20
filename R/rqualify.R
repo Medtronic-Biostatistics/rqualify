@@ -30,10 +30,15 @@
 #'   \item If IQ-OQ is successful, create R-validation.zip at folder where R-validation is located
 #' }
 #'
+#' @return The function does not return a value but generates output files in the 
+#'   specified location. The validation report will be available in the R-validation 
+#'   folder, and if successful, a zip file of the folder will also be created.
+#'
 #' @examples
 #' \dontrun{
 #' rqualify(path_save  = path.expand('~'))
 #' }
+#'
 #'
 #' @importFrom rmarkdown render
 #' @importFrom tinytex pdflatex
