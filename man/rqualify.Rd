@@ -28,7 +28,7 @@ generation.}
 \value{
 The function does not return a value but generates output files in the 
   specified location. The validation report will be available in the R-validation 
-  folder, and if successful, a zip file of the folder will also be created.
+  folder, and if successful, a zip file of the folder may also be created.
 }
 \description{
 Run IQ-OQ on an installation of R software
@@ -39,6 +39,10 @@ sets up the environment, and executes the validation process.
 The output of the validation will be saved in the created folder. By default,
 the contents of the R-validation folder will be zipped up if the validation
 is successful.
+
+The validation process involves running a series of tests on the R installation and
+  can be quite time consuming. The function will print progress messages to the 
+  console if `verbose` is set to TRUE.
 
 The following steps are carried out:
 

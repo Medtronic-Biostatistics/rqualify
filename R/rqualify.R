@@ -17,6 +17,10 @@
 #' The output of the validation will be saved in the created folder. By default,
 #' the contents of the R-validation folder will be zipped up if the validation
 #' is successful.
+#' 
+#' The validation process involves running a series of tests on the R installation and
+#'   can be quite time consuming. The function will print progress messages to the 
+#'   console if `verbose` is set to TRUE.
 #'
 #' The following steps are carried out:
 #'
@@ -29,10 +33,11 @@
 #'   \item Compile R-validation.tex to R-validation.pdf
 #'   \item If IQ-OQ is successful, create R-validation.zip at folder where R-validation is located
 #' }
+#' 
 #'
 #' @return The function does not return a value but generates output files in the 
 #'   specified location. The validation report will be available in the R-validation 
-#'   folder, and if successful, a zip file of the folder will also be created.
+#'   folder, and if successful, a zip file of the folder may also be created.
 #'
 #' @examples
 #' \dontrun{

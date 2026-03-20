@@ -11,7 +11,9 @@
 #' @param verbose Logical. If TRUE, prints progress messages to the console.
 #'
 #' @details The function sets up the environment by configuring locale settings and
-#'   installing any dependencies, including tinytex and pandoc.
+#'   installing any dependencies, including tinytex and pandoc. The process can
+#'   be quite time consuming, especially if tinytex needs to be installed, and there
+#'   may be apparent hanging processes -- this is expected behavior. 
 #'
 #' @examples
 #' \dontrun{
