@@ -92,6 +92,7 @@
 <span><span class="fu"><a href="reference/rqualify.html">rqualify</a></span><span class="op">(</span>path_save  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/path.expand.html" class="external-link">path.expand</a></span><span class="op">(</span><span class="st">'~'</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 <p>Make sure the folder you specify does not already include a folder named <code>R-validation</code>.</p>
 <p>There is also the option to automatically zip up the results. By default, if the validation is successful, the <code>R-validation</code> folder is zipped up into a file named <code>R-validation.zip</code>. If you would like to disable this feature, you can set <code>create_zip=FALSE</code> in the call to <code>rqualify</code>. See <code><a href="reference/rqualify.html">?rqualify</a></code> for more info.</p>
+<p>Automatic zipping uses the <code>zip</code> function from the <code>utils</code> package and may fail quietly. In that case, the validation document will still be generated and saved in the <code>R-validation</code> folder, but the zip file will not be created. If you want to create the zip file manually, you can use any standard zip utility to compress the <code>R-validation</code> folder into a zip file.</p>
 </div>
 <div class="section level2">
 <h2 id="special-thanks">Special Thanks<a class="anchor" aria-label="anchor" href="#special-thanks"></a>

@@ -38,6 +38,13 @@ disable this feature, you can set `create_zip=FALSE` in the call to
 [`?rqualify`](https://medtronic-biostatistics.github.io/rqualify/reference/rqualify.md)
 for more info.
 
+Automatic zipping uses the `zip` function from the `utils` package and
+may fail quietly. In that case, the validation document will still be
+generated and saved in the `R-validation` folder, but the zip file will
+not be created. If you want to create the zip file manually, you can use
+any standard zip utility to compress the `R-validation` folder into a
+zip file.
+
 ## Special Thanks
 
 We would like to thank [Marc Schwartz](https://msbiostats.com/) for
