@@ -11,3 +11,4 @@
 ^vignettes/rqualify.Rmd$
 ^vignettes/usage.Rmd$
 ^cran-comments\.md$
+^CRAN-SUBMISSION$
