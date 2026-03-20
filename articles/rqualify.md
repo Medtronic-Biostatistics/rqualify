@@ -40,9 +40,9 @@ The `rqualify` function performs the following steps:
 
 In case you are developing a process for user-level qualification, the
 file `R-validation.Rmd` located in the root directory of this package at
-`validation_r/R-validation.Rmd` can be used as a template for your own
+`qualify_r/R-validation.Rmd` can be used as a template for your own
 validation document. Note, if viewing on Github, the `R-validation.Rmd`
-file is located at `inst/validation_r/R-validation.Rmd`.
+file is located at `inst/qualify_r/R-validation.Rmd`.
 
 ## Tips for a Successful Qualification
 

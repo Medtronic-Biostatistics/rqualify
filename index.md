@@ -1,7 +1,5 @@
 # rqualify
 
-This package is currently under active development.
-
 ## Installation
 
 You can install the package via CRAN:
@@ -11,7 +9,7 @@ You can install the package via CRAN:
 The package can currently be installed from this Github repository using
 the following:
 
-    # if needed install.packages("remotes")
+    # If needed install.packages("remotes")
     remotes::install_github("Medtronic-Biostatistics/rqualify")
 
 ## Purpose
