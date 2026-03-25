@@ -36,7 +36,7 @@ script is as simple as running the function:
 
 ```         
 library(rqualify)
-rqualify(path_save  = path.expand('~'))
+rqualify(path_save  = tempdir())
 ```
 
 Make sure the folder you specify does not already include a
