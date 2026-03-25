@@ -15,19 +15,14 @@
 #'   be quite time consuming, especially if tinytex needs to be installed, and there
 #'   may be apparent hanging processes -- this is expected behavior. 
 #'
-#' @examples
-#' rqualify_setup(path_save     = tempdir(),
-#'                setup_tinytex = FALSE,
-#'                setup_pandoc  = FALSE)
-#' 
 #' @return This function does not return a value. It performs side effects by 
 #'   setting up the environment and creating necessary directories for 
 #'   validation outputs.
 #'
 #' @seealso \code{\link{rqualify}} which calls this function internally.
 #'
-#' @importFrom pandoc pandoc_install pandoc_activate pandoc_available
-#' @importFrom tinytex install_tinytex tinytex_root is_tinytex
+#' @importFrom pandoc pandoc_install pandoc_activate
+#' @importFrom tinytex install_tinytex tinytex_root
 #'
 #' @export
 rqualify_setup <- function(path_save, setup_tinytex=TRUE,
@@ -87,7 +82,6 @@ rqualify_setup <- function(path_save, setup_tinytex=TRUE,
     }
 
     Sys.setenv(PATH = paste(path_tt, Sys.getenv("PATH"), sep=.Platform$path.sep))
-
   }
 
   #-----------------------------------------------------------------------------

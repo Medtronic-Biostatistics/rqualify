@@ -15,8 +15,8 @@
 #' The output of the validation will be saved in the created folder. 
 #' 
 #' The validation process involves running a series of tests on the R installation and
-#'   can be quite time consuming. The function will print progress messages to the 
-#'   console if `verbose` is set to TRUE.
+#' can be quite time consuming. The function will print progress messages to the 
+#' console if `verbose` is set to TRUE.
 #'
 #' The following steps are carried out:
 #'
@@ -29,14 +29,8 @@
 #'   \item Compile R-validation.tex to R-validation.pdf
 #' }
 #' 
-#' @return The path where the qualification results are saved.
-#'
-#' @examplesIf pandoc::pandoc_available() && tinytex::is_tinytex()
-#' \donttest{
-#' rqualify(path_save     = tempdir(),
-#'          setup_tinytex = FALSE,
-#'          setup_pandoc  = FALSE)
-#'}
+#' @return This function does not return a value. It performs side effects by 
+#'   rendering a RMarkdown document.
 #'
 #' @importFrom rmarkdown render
 #' @importFrom tinytex pdflatex
@@ -97,5 +91,4 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
     pass_validation <- TRUE
   }
 
-  return(path_rvalidation)
 }
