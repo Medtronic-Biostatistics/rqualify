@@ -80,8 +80,10 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   path_tex <- file.path(path_rvalidation, "R-validation.tex")
   
   render(path_rmd, output_format = "latex_document", quiet=!verbose)
+  
+  os <- setwd(path_rvalidation)
   pdflatex(path_tex)
-
+  setwd(os)
   if(verbose) cat("\n=== RMarkdown report complete===")
 
   # Check that validation passed
