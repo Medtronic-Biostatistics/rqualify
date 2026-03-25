@@ -10,13 +10,9 @@
 #'
 #' @param verbose Logical. If TRUE, prints progress messages to the console.
 #'
-#' @param create_zip Logical. If TRUE, creates a zip file of the R-validation folder after validation.
-#'
 #' @details This function creates a folder named R-validation at the specified path,
 #' sets up the environment, and executes the validation process.
-#' The output of the validation will be saved in the created folder. By default,
-#' the contents of the R-validation folder will be zipped up if the validation
-#' is successful.
+#' The output of the validation will be saved in the created folder. 
 #' 
 #' The validation process involves running a series of tests on the R installation and
 #'   can be quite time consuming. The function will print progress messages to the 
@@ -31,27 +27,24 @@
 #'   \item Copy R-validation.Rmd to the R-validation folder
 #'   \item Execute the IQ-OQ by rendering R-validation.Rmd to R-validation.tex
 #'   \item Compile R-validation.tex to R-validation.pdf
-#'   \item If IQ-OQ is successful, create R-validation.zip at folder where R-validation is located
 #' }
 #' 
+#' @return The path where the qualification results are saved.
 #'
-#' @return The function does not return a value but generates output files in the 
-#'   specified location. The validation report will be available in the R-validation 
-#'   folder, and if successful, a zip file of the folder may also be created.
-#'
-#' @examples
-#' \dontrun{
-#' rqualify(path_save  = path.expand('~'))
-#' }
-#'
+#' @examplesIf pandoc::pandoc_available() && tinytex::is_tinytex()
+#' \donttest{
+#' rqualify(path_save     = tempdir(),
+#'          setup_tinytex = FALSE,
+#'          setup_pandoc  = FALSE)
+#'}
 #'
 #' @importFrom rmarkdown render
 #' @importFrom tinytex pdflatex
-#' @importFrom utils read.csv zip
+#' @importFrom utils read.csv
 #'
 #' @export
 rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
-                     verbose=TRUE, create_zip=TRUE){
+                     verbose=TRUE){
 
   # Get function call
   mf   <- match.call(expand.dots = FALSE)
@@ -59,7 +52,7 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   # Normalize folder path
   path_save <- normalizePath(path_save, winslash="/")
 
-  # Check for existence of tests folder in R installation path
+  # Check for existence of tests folder
   r_test_path <- file.path(R.home(), "tests")
   if(!dir.exists(r_test_path)){
     stop("R installation does not contain 'tests' folder. If running on Linux, see https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Testing-a-Unix_002dalike-Installation for instructions to install R with tests.")
@@ -80,12 +73,15 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   fc <- file.copy(system.file("qualify_r/R-validation.Rmd", package='rqualify'),
                   path_rvalidation)
 
-  # Remder: Rmd >> tex >> pdf
+  # Render: Rmd >> tex >> pdf
   if(verbose) cat("\n=== Now generating RMarkdown report ===")
-  os <- setwd(path_rvalidation)
-  render("R-validation.Rmd", output_format = "latex_document")
-  pdflatex("R-validation.tex")
-  setwd(os)
+  
+  path_rmd <- file.path(path_rvalidation, "R-validation.Rmd")
+  path_tex <- file.path(path_rvalidation, "R-validation.tex")
+  
+  render(path_rmd, output_format = "latex_document", quiet=!verbose)
+  pdflatex(path_tex)
+
   if(verbose) cat("\n=== RMarkdown report complete===")
 
   # Check that validation passed
@@ -99,18 +95,5 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
     pass_validation <- TRUE
   }
 
-  # Zip up results?
-  if(create_zip & pass_validation){
-    wd <- getwd()
-    setwd(path_save)
-    zip(zipfile = file.path(path_save, "R-validation.zip"),
-        files   = "R-validation")
-    setwd(wd)
-  }
-
-  cat(sprintf("\nValidation output available at %s", path_rvalidation))
-
-  if(create_zip & pass_validation){
-    cat(sprintf("\nZipped validation output available at %s", file.path(path_save, "R-validation.zip\n\n")))
-  }
+  return(path_rvalidation)
 }

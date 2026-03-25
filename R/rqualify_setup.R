@@ -16,9 +16,9 @@
 #'   may be apparent hanging processes -- this is expected behavior. 
 #'
 #' @examples
-#' \dontrun{
-#' rqualify_setup(path_save = path.expand("~"))
-#' }
+#' rqualify_setup(path_save     = tempdir(),
+#'                setup_tinytex = FALSE,
+#'                setup_pandoc  = FALSE)
 #' 
 #' @return This function does not return a value. It performs side effects by 
 #'   setting up the environment and creating necessary directories for 
@@ -26,11 +26,8 @@
 #'
 #' @seealso \code{\link{rqualify}} which calls this function internally.
 #'
-#' @importFrom pandoc pandoc_install pandoc_activate
-#' @importFrom rmarkdown pandoc_available
-#' @importFrom tinytex install_tinytex tinytex_root
-#' @importFrom utils install.packages installed.packages
-#'
+#' @importFrom pandoc pandoc_install pandoc_activate pandoc_available
+#' @importFrom tinytex install_tinytex tinytex_root is_tinytex
 #'
 #' @export
 rqualify_setup <- function(path_save, setup_tinytex=TRUE,
@@ -64,11 +61,10 @@ rqualify_setup <- function(path_save, setup_tinytex=TRUE,
   Sys.setenv(LANGUAGE = "en")
 
 
-  #-------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
   # Set-up tinytex
-  #-------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
   if(setup_tinytex){
-
     if(verbose) cat("\n=== Now setting up tinytex ===")
 
     # Install the TinyTeX LaTeX bundle
@@ -94,19 +90,14 @@ rqualify_setup <- function(path_save, setup_tinytex=TRUE,
 
   }
 
-  #-------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
   # Set-up Pandoc
-  #-------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
   if(setup_pandoc){
     if(verbose) cat("\n=== Now setting up Pandoc ===")
-
-    # Check if Pandoc is installed, if not, install
-    has_pandoc     <- pandoc_available()
-
-    if(!has_pandoc){
-      pandoc_install()
-      pandoc_activate()
-    }
+    
+    pandoc_install()
+    pandoc_activate()
   }
 
   if(verbose) cat("\n=== Validation environment set-up complete ===")

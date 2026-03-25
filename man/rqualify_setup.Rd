@@ -37,9 +37,9 @@ The function sets up the environment by configuring locale settings and
   may be apparent hanging processes -- this is expected behavior.
 }
 \examples{
-\dontrun{
-rqualify_setup(path_save = path.expand("~"))
-}
+rqualify_setup(path_save     = tempdir(),
+               setup_tinytex = FALSE,
+               setup_pandoc  = FALSE)
 
 }
 \seealso{

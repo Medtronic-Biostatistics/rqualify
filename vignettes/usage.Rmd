@@ -34,9 +34,7 @@ the entire qualification process. It performs the following steps sequentially:
    during the setup process.
 5. Renders the `R-validation.Rmd` file to a PDF report, which includes
    the results of both IQ and OQ checks.
-6. If the `create_zip` argument is set to `TRUE` and the validation is
-   successful, creates a zip file of the `R-validation` folder.
-   
+
 For step 2 to be successful, R must be installed with the tests folder. This
 is default behavior in Windows, but may not be the case in Linux or macOS. If you are running on 
 Linux and encounter an error at this step, please refer to the instructions provided 

@@ -4,13 +4,7 @@
 \alias{rqualify}
 \title{Run IQ-OQ on an installation of R software}
 \usage{
-rqualify(
-  path_save,
-  setup_tinytex = TRUE,
-  setup_pandoc = TRUE,
-  verbose = TRUE,
-  create_zip = TRUE
-)
+rqualify(path_save, setup_tinytex = TRUE, setup_pandoc = TRUE, verbose = TRUE)
 }
 \arguments{
 \item{path_save}{Character. Path to save the R-validation folder. Ensure
@@ -22,13 +16,9 @@ generation.}
 \item{setup_pandoc}{Logical. If TRUE, sets up pandoc for document conversion.}
 
 \item{verbose}{Logical. If TRUE, prints progress messages to the console.}
-
-\item{create_zip}{Logical. If TRUE, creates a zip file of the R-validation folder after validation.}
 }
 \value{
-The function does not return a value but generates output files in the 
-  specified location. The validation report will be available in the R-validation 
-  folder, and if successful, a zip file of the folder may also be created.
+The path where the qualification results are saved.
 }
 \description{
 Run IQ-OQ on an installation of R software
@@ -36,9 +26,7 @@ Run IQ-OQ on an installation of R software
 \details{
 This function creates a folder named R-validation at the specified path,
 sets up the environment, and executes the validation process.
-The output of the validation will be saved in the created folder. By default,
-the contents of the R-validation folder will be zipped up if the validation
-is successful.
+The output of the validation will be saved in the created folder. 
 
 The validation process involves running a series of tests on the R installation and
   can be quite time consuming. The function will print progress messages to the 
@@ -53,13 +41,14 @@ The following steps are carried out:
   \item Copy R-validation.Rmd to the R-validation folder
   \item Execute the IQ-OQ by rendering R-validation.Rmd to R-validation.tex
   \item Compile R-validation.tex to R-validation.pdf
-  \item If IQ-OQ is successful, create R-validation.zip at folder where R-validation is located
 }
 }
 \examples{
-\dontrun{
-rqualify(path_save  = path.expand('~'))
+\dontshow{if (pandoc::pandoc_available() && tinytex::is_tinytex()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\donttest{
+rqualify(path_save     = tempdir(),
+         setup_tinytex = FALSE,
+         setup_pandoc  = FALSE)
 }
-
-
+\dontshow{\}) # examplesIf}
 }
