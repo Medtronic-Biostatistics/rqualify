@@ -11,7 +11,7 @@
 - **[Marc Schwartz](https://msbiostats.com/)**. Author.  
   For initial validation code.
 
-- **Medtronic Inc.**. Funder.
+- **Medtronic Inc.**. Copyright holder.
 
 ## Citation
 

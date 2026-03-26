@@ -78,8 +78,8 @@
 
     
     
-<p>The <code>rqualify</code> package consists of 2 functions and an R
-Markdown file:</p>
+<p>The <code>rqualify</code> package consists of 2 functions and R
+Markdown files:</p>
 <ol style="list-style-type: decimal">
 <li>
 <code>rqualify</code>: Orchestrates the qualification process.</li>
@@ -89,6 +89,9 @@ qualification process.</li>
 <li>
 <code>R-validation.Rmd</code>: An R Markdown file that defines the
 structure and content of the PDF report.</li>
+<li>
+<code>R-validationPreamble.Rmd</code>: The preamble, introduction
+portion of <code>R-validation.Rmd</code>.</li>
 </ol>
 <div class="section level2">
 <h2 id="rqualify">rqualify()<a class="anchor" aria-label="anchor" href="#rqualify"></a>
@@ -104,19 +107,16 @@ the function stops execution. This check ensures that the R installation
 is complete and includes the necessary components for testing.</li>
 <li>Calls the <code>rqualify_setup</code> function to set up the
 environment for the qualification process.</li>
-<li>Copies the <code>R-validation.Rmd</code> file to the
-<code>R-validation</code> folder created during the setup process.</li>
-<li>Renders the <code>R-validation.Rmd</code> file to a PDF report,
-which includes the results of both IQ and OQ checks.</li>
-<li>If the <code>create_zip</code> argument is set to <code>TRUE</code>
-and the validation is successful, creates a zip file of the
-<code>R-validation</code> folder.</li>
+<li>Copies the <code>Rmd</code> file to the <code>R-validation</code>
+folder created during the setup process.</li>
+<li>Renders the <code>Rmd</code> file to a PDF report, which includes
+the results of both IQ and OQ checks.</li>
 </ol>
-<p>For step 2 to be successful, R must be installed with the tests
-folder. This is default behavior in Windows, but may not be the case in
-Linux or macOS. If you are running on Linux and encounter an error at
-this step, please refer to the instructions provided in the R
-Installation and Administration manual (<a href="https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Testing-a-Unix_002dalike-Installation" class="external-link uri">https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Testing-a-Unix_002dalike-Installation</a>)
+<p>For step 2 to be successful with <code>R-validaion.Rmd</code>, R must
+be installed with the tests folder. This is default behavior in Windows,
+but may not be the case in Linux or macOS. If you are running on Linux
+and encounter an error at this step, please refer to the instructions
+provided in the R Installation and Administration manual (<a href="https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Testing-a-Unix_002dalike-Installation" class="external-link uri">https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Testing-a-Unix_002dalike-Installation</a>)
 to install R with the tests folder.</p>
 <p>For additional details on inputs and outputs of the
 <code>rqualify</code> function, please refer to the function
@@ -130,23 +130,19 @@ documentation <code><a href="../reference/rqualify.html">?rqualify</a></code>.</
 namespace. The function carries out the following steps
 sequentially:</p>
 <ol style="list-style-type: decimal">
-<li>Creates a folder tree <code>R-validation/IQ-OQ-TestOutput</code> at
-the <code>path_save</code>.</li>
-<li>Sets the locale and langauge settings to “C” and “en”,
-respectively.</li>
-<li>(Optional) Installs tinytex and adds it to the system path. In this
+<li>(Optional) Installs TinyTeX and adds it to the system path. In this
 step, the TinyTeX LaTeX bundle and the <code>grfext</code> LaTeX package
 are installed to ensure that the PDF report can be generated without
 errors.</li>
 <li>(Optional) Installs Pandoc if not available and installs it.</li>
 </ol>
-<p>During step 3, the installation of tinytex, the process may be slow
+<p>During step 1, the installation of TinyTeX, the process may be slow
 and appear to hang. This is not unexpected behavior, and the function
 will only proceed to the next step once the installation is
 complete.</p>
 <p>We have also received reports from macOS users that a permissions
 popup may appear prompting users to approve installation. This may occur
-during the stage of installing tinytex or Pandoc. If you encounter this
+during the stage of installing TinyTeX or Pandoc. If you encounter this
 popup, please approve the installation to allow the process to continue.
 If you do not approve the installation, the process will not be able to
 proceed and will likely result in an error.</p>
@@ -172,6 +168,13 @@ the R-IQ-OQ code, with modifications to fit the structure of an R
 Markdown file and to capture errors for display in the PDF report.</p>
 <p>For additional details and to see an example of a successful
 qualification, see <code><a href="../articles/details.html">vignette("details")</a></code>.</p>
+</div>
+<div class="section level2">
+<h2 id="rvalidationpreamble-rmd">RvalidationPreamble.Rmd<a class="anchor" aria-label="anchor" href="#rvalidationpreamble-rmd"></a>
+</h2>
+<p>The RvalidationPreamble.Rmd file is an R Markdown file that includes
+the first few pages of the validation report. It is primarily included
+to allow users to test the PDF rendering functionality.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

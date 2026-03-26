@@ -78,23 +78,18 @@
 
     
     
-<p>The goal of rqualify is to ease the R software validation steps
-required for regulatory submissions. The <code>rqualify</code> function
-automates the generation of a validation document that can be used to
-demonstrate that an R environment is suitable for use in a regulated
-setting.</p>
+<p>The primary goal of rqualify is to ease the R software validation
+steps required for regulatory submissions. The <code>rqualify</code>
+function automates the generation of a validation document that can be
+used to demonstrate that an R environment is suitable for use in a
+regulated setting.</p>
 <p>Once the <code>rqualify</code> package is installed, executing the
 validation script is as simple as running the function:</p>
-<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Medtronic-Biostatistics/rqualify" class="external-link">rqualify</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/rqualify.html">rqualify</a></span><span class="op">(</span>path_save <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/path.expand.html" class="external-link">path.expand</a></span><span class="op">(</span><span class="st">"~"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Medtronic-Biostatistics/rqualify" class="external-link">rqualify</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/rqualify.html">rqualify</a></span><span class="op">(</span>path_save <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Ensure the folder you specify does not already include a folder named
-<code>R-validation</code>.</p>
-<p>There is also the option to automatically zip up the results. By
-default, if the validation is successful, the <code>R-validation</code>
-folder is zipped up into a file named <code>R-validation.zip</code>. If
-you would like to disable this feature, you can set
-<code>create_zip=FALSE</code> in the call to <code>rqualify</code>. See
-<code><a href="../reference/rqualify.html">?rqualify</a></code> for more info.</p>
+<code>R-validation</code>. See <code><a href="../reference/rqualify.html">?rqualify</a></code> for more info.</p>
 <div class="section level2">
 <h2 id="how-does-rqualify-work">How does rqualify work?<a class="anchor" aria-label="anchor" href="#how-does-rqualify-work"></a>
 </h2>
@@ -111,9 +106,6 @@ at the specified <code>path_save</code>.</li>
 <code>R-validation.tex</code>.</li>
 <li>Compiles <code>R-validation.tex</code> to
 <code>R-validation.pdf</code>.</li>
-<li>If IQ-OQ is successful, creates <code>R-validation.zip</code> at the
-folder where <code>R-validation</code> is located (if
-<code>create_zip=TRUE</code>).</li>
 </ol>
 <p>In case you are developing a process for user-level qualification,
 the file <code>R-validation.Rmd</code> located in the root directory of

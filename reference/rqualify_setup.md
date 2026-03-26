@@ -5,37 +5,44 @@ Initialize environment for IQ-OQ.
 ## Usage
 
 ``` r
-rqualify_setup(
-  path_save,
-  setup_tinytex = TRUE,
-  setup_pandoc = TRUE,
-  verbose = TRUE
-)
+rqualify_setup(setup_tinytex = TRUE, setup_pandoc = TRUE, verbose = TRUE)
 ```
 
 ## Arguments
 
-- path_save:
-
-  Character. Path where the 'R-validation' folder will be created to
-  store validation outputs.
-
 - setup_tinytex:
 
-  Logical. If TRUE, sets up tinytex for LaTeX document generation.
+  Logical. If TRUE, sets up TinyTeX for LaTeX document generation. Note,
+  this does not install the tinytex R package, but the TinyTeX LaTeX
+  bundle. It is a convenient wrapper for installing TinyTeX using
+  \`tinytex::install_tinytex()\`, and adding the TinyTeX location to the
+  environment The function installes the "TinyTeX" bundle and the
+  additional package \`grfext\`, and sets the TinyTeX installation path
+  on the system PATH.
 
 - setup_pandoc:
 
-  Logical. If TRUE, sets up pandoc for document conversion.
+  Logical. If TRUE, sets up pandoc for document conversion. Note, this
+  does not install the pandoc R package, but the Pandoc software. It is
+  a convenient wrapper around \`pandoc::pandoc_install()\` and
+  \`pandoc::pandoc_activate()\`, which are called internally.
 
 - verbose:
 
   Logical. If TRUE, prints progress messages to the console.
 
+## Value
+
+A list with the installed Pandoc and TinyTeX versions, though the
+primary purpose of this function is its side effects, setting up TinyTeX
+and Pandoc as specified.
+
 ## Details
 
-The function sets up the environment by configuring locale settings and
-installing any dependencies, including tinytex and pandoc.
+\`rqualify_setup\` allows users to easily install TinyTeX and Pandoc as
+required for rendering Rmd files to PDF. The process can be quite time
+consuming, especially if TinyTeX needs to be installed, and there may be
+apparent hanging processes – this is expected behavior.
 
 ## See also
 
@@ -45,7 +52,8 @@ which calls this function internally.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-rqualify_setup(path_save = path.expand("~"))
-} # }
+rqualify_setup(setup_tinytex = FALSE,
+               setup_pandoc  = FALSE,
+               verbose       = FALSE)
+#> Error in system2("tlmgr", args, ...): error in running command
 ```

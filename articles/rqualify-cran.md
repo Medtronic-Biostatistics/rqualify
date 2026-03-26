@@ -6,9 +6,8 @@ full documentation. Here is only a minimal example:
 
 ``` r
 library(rqualify)
-rqualify(path_save     = path.expand('~'),
+rqualify(path_save     = tempdir(),
          setup_tinytex = TRUE,
          setup_pandoc  = TRUE,
-         verbose       = TRUE,
-         create_zip    = TRUE)
+         verbose       = TRUE)
 ```
