@@ -29,16 +29,17 @@ A list with the installed Pandoc and TinyTeX versions, though the primary
 Initialize environment for IQ-OQ.
 }
 \details{
-`rqualify_setup` allows users to easily install TinyTeX and Pandoc
+`rqualify_setup` is an internal function that installs TinyTeX and Pandoc
   as required for rendering Rmd files to PDF. The process can
   be quite time consuming, especially if TinyTeX needs to be installed, and there
   may be apparent hanging processes -- this is expected behavior.
 }
 \examples{
-rqualify_setup(setup_tinytex = FALSE,
-               setup_pandoc  = FALSE,
-               verbose       = FALSE)
-
+\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\donttest{
+rqualify_setup()
+}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link{rqualify}} which calls this function internally.

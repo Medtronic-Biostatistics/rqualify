@@ -22,11 +22,9 @@
 #' @return A list with the installed Pandoc and TinyTeX versions, though the primary
 #'  purpose of this function is its side effects, setting up TinyTeX and Pandoc as specified.
 #'   
-#' @examplesIf tinytex::is_tinytex() && pandoc::pandoc_available() && "grfext" %in% tinytex::tl_pkgs(only_installed = TRUE)
+#' @examplesIf rlang::is_interactive()
 #' \donttest{
-#' rqualify_setup(setup_tinytex = FALSE,
-#'                setup_pandoc  = FALSE,
-#'                verbose       = FALSE)
+#' rqualify_setup()
 #' }
 #'
 #' @seealso \code{\link{rqualify}} which calls this function internally.
