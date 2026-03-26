@@ -95,7 +95,7 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   #-----------------------------------------------------------------------------
   # Initialize environment
   #-----------------------------------------------------------------------------
-  rs <- rqualify_setup(path_save, setup_tinytex, setup_pandoc, verbose)
+  rs <- rqualify_setup(setup_tinytex, setup_pandoc, verbose)
   
   
   #-----------------------------------------------------------------------------
