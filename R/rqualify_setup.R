@@ -23,9 +23,11 @@
 #'  purpose of this function is its side effects, setting up TinyTeX and Pandoc as specified.
 #'   
 #' @examplesIf tinytex::is_tinytex() && pandoc::pandoc_available() && "grfext" %in% tinytex::tl_pkgs(only_installed = TRUE)
+#' \donttest{
 #' rqualify_setup(setup_tinytex = FALSE,
 #'                setup_pandoc  = FALSE,
 #'                verbose       = FALSE)
+#' }
 #'
 #' @seealso \code{\link{rqualify}} which calls this function internally.
 #'
