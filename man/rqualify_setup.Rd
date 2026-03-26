@@ -36,7 +36,8 @@ Initialize environment for IQ-OQ.
 }
 \examples{
 rqualify_setup(setup_tinytex = FALSE,
-               setup_pandoc  = FALSE)
+               setup_pandoc  = FALSE,
+               verbose       = FALSE)
 
 }
 \seealso{

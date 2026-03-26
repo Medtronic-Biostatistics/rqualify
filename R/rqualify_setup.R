@@ -24,7 +24,8 @@
 #'   
 #' @examples
 #' rqualify_setup(setup_tinytex = FALSE,
-#'                setup_pandoc  = FALSE)
+#'                setup_pandoc  = FALSE,
+#'                verbose       = FALSE)
 #'
 #' @seealso \code{\link{rqualify}} which calls this function internally.
 #'
