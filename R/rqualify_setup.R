@@ -14,7 +14,7 @@
 #'
 #' @param verbose Logical. If TRUE, prints progress messages to the console.
 #'
-#' @details `rqualify_setup` allows users to easily install TinyTeX and Pandoc
+#' @details `rqualify_setup` is an internal function that installs TinyTeX and Pandoc
 #'   as required for rendering Rmd files to PDF. The process can
 #'   be quite time consuming, especially if TinyTeX needs to be installed, and there
 #'   may be apparent hanging processes -- this is expected behavior. 
