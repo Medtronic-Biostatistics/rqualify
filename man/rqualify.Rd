@@ -62,7 +62,7 @@ The following steps are carried out:
 }
 }
 \examples{
-\dontshow{if (tinytex::is_tinytex() && pandoc::pandoc_available()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (tinytex::is_tinytex() && pandoc::pandoc_available() && "grfext" \%in\% tinytex::tl_pkgs(only_installed = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \donttest{
 rqualify(path_save     = tempdir(),
          setup_tinytex = FALSE,
