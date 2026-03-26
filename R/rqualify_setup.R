@@ -16,8 +16,13 @@
 #'   may be apparent hanging processes -- this is expected behavior. 
 #'
 #' @return This function does not return a value. It performs side effects by 
-#'   setting up the environment and creating necessary directories for 
+#'   setting up TinyTeX and Pandoc and creating necessary directories for 
 #'   validation outputs.
+#'   
+#' @examples
+#' rqualify_setup(path_save     = tempdir(),
+#'                setup_tinytex = FALSE,
+#'                setup_pandoc  = FALSE)
 #'
 #' @seealso \code{\link{rqualify}} which calls this function internally.
 #'

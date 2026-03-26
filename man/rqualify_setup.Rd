@@ -24,7 +24,7 @@ generation.}
 }
 \value{
 This function does not return a value. It performs side effects by 
-  setting up the environment and creating necessary directories for 
+  setting up TinyTeX and Pandoc and creating necessary directories for 
   validation outputs.
 }
 \description{

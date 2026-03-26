@@ -4,7 +4,13 @@
 \alias{rqualify}
 \title{Run IQ-OQ on an installation of R software}
 \usage{
-rqualify(path_save, setup_tinytex = TRUE, setup_pandoc = TRUE, verbose = TRUE)
+rqualify(
+  path_save,
+  setup_tinytex = TRUE,
+  setup_pandoc = TRUE,
+  file_rmd = "R-validation.Rmd",
+  verbose = TRUE
+)
 }
 \arguments{
 \item{path_save}{Character. Path to save the R-validation folder. Ensure
@@ -15,10 +21,14 @@ generation.}
 
 \item{setup_pandoc}{Logical. If TRUE, sets up pandoc for document conversion.}
 
+\item{file_rmd}{String. Name of RMarkdown file to render. Default is "R-validation.Rmd". 
+The RMarkdown file should be located in the `inst/qualify_r` folder of the package.}
+
 \item{verbose}{Logical. If TRUE, prints progress messages to the console.}
 }
 \value{
-The path where the qualification results are saved.
+This function does not return a value. It performs side effects by 
+  rendering a RMarkdown document.
 }
 \description{
 Run IQ-OQ on an installation of R software
@@ -29,8 +39,8 @@ sets up the environment, and executes the validation process.
 The output of the validation will be saved in the created folder. 
 
 The validation process involves running a series of tests on the R installation and
-  can be quite time consuming. The function will print progress messages to the 
-  console if `verbose` is set to TRUE.
+can be quite time consuming. The function will print progress messages to the 
+console if `verbose` is set to TRUE.
 
 The following steps are carried out:
 
@@ -44,11 +54,12 @@ The following steps are carried out:
 }
 }
 \examples{
-\dontshow{if (pandoc::pandoc_available() && tinytex::is_tinytex()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (tinytex::is_tinytex() && pandoc::pandoc_available()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \donttest{
 rqualify(path_save     = tempdir(),
          setup_tinytex = FALSE,
-         setup_pandoc  = FALSE)
+         setup_pandoc  = FALSE,
+         file_rmd      = "R-validationPreamble.Rmd")
 }
 \dontshow{\}) # examplesIf}
 }
