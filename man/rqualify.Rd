@@ -62,11 +62,11 @@ The following steps are carried out:
 }
 }
 \examples{
-\dontshow{if (tinytex::is_tinytex() && pandoc::pandoc_available() && "grfext" \%in\% tinytex::tl_pkgs(only_installed = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \donttest{
 rqualify(path_save     = tempdir(),
-         setup_tinytex = FALSE,
-         setup_pandoc  = FALSE,
+         setup_tinytex = TRUE,
+         setup_pandoc  = TRUE,
          file_rmd      = "R-validationPreamble.Rmd")
 }
 \dontshow{\}) # examplesIf}
