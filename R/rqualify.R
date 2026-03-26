@@ -56,6 +56,7 @@
 #' @importFrom tinytex pdflatex is_tinytex
 #' @importFrom tools file_path_sans_ext
 #' @importFrom utils read.csv
+#' @importFrom rlang is_interactive
 #'
 #' @export
 rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
