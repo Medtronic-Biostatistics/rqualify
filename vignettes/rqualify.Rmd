@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The goal of rqualify is to ease the R software validation steps required for regulatory submissions. The `rqualify` function automates the generation of a validation document that can be used to demonstrate that an R environment is suitable for use in a regulated setting.
+The primary goal of rqualify is to ease the R software validation steps required for regulatory submissions. The `rqualify` function automates the generation of a validation document that can be used to demonstrate that an R environment is suitable for use in a regulated setting.
 
 Once the `rqualify` package is installed, executing the validation script is as simple as running the function:
 

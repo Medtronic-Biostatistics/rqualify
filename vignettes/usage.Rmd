@@ -50,17 +50,15 @@ The `rqualify_setup` function is called internally by the `rqualify` function,
 but we make it available in the namespace. The function carries out the following
 steps sequentially:
 
-1. Creates a folder tree `R-validation/IQ-OQ-TestOutput` at the `path_save`.
-2. Sets the locale and langauge settings to "C" and "en", respectively.
-3. (Optional) Installs tinytex and adds it to the system path. In this step, the TinyTeX LaTeX bundle and the `grfext` LaTeX package are installed to ensure that the PDF report can be generated without errors.
-4. (Optional) Installs Pandoc if not available and installs it.
+1. (Optional) Installs TinyTeX and adds it to the system path. In this step, the TinyTeX LaTeX bundle and the `grfext` LaTeX package are installed to ensure that the PDF report can be generated without errors.
+2. (Optional) Installs Pandoc if not available and installs it.
 
-During step 3, the installation of tinytex, the process may be slow and appear to
+During step 1, the installation of TinyTeX, the process may be slow and appear to
 hang. This is not unexpected behavior, and the function will only proceed to the next step once the 
 installation is complete.
 
 We have also received reports from macOS users that a permissions popup may appear prompting
-users to approve installation. This may occur during the stage of installing tinytex or
+users to approve installation. This may occur during the stage of installing TinyTeX or
 Pandoc. If you encounter this popup, please approve the installation to allow the process to continue. 
 If you do not approve the installation, the process will not be able to proceed and will likely result in an error.
 
@@ -75,3 +73,8 @@ The structure of Rvalidation.Rmd closely follows [R-IQ-OQ](https://github.com/ma
 which is written R/Sweave. The R code chunks in Rvalidation.Rmd are adapted from the R-IQ-OQ code, with modifications to fit the structure of an R Markdown file and to capture errors for display in the PDF report.
 
 For additional details and to see an example of a successful qualification, see `vignette("details")`.
+
+
+## RvalidationPreamble.Rmd
+
+The RvalidationPreamble.Rmd file is an R Markdown file that includes the first few pages of the validation report. It is primarily included to allow users to test the PDF rendering functionality. 
