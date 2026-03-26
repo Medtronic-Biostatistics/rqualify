@@ -39,10 +39,10 @@ and Pandoc as specified.
 
 ## Details
 
-\`rqualify_setup\` allows users to easily install TinyTeX and Pandoc as
-required for rendering Rmd files to PDF. The process can be quite time
-consuming, especially if TinyTeX needs to be installed, and there may be
-apparent hanging processes – this is expected behavior.
+\`rqualify_setup\` is an internal function that installs TinyTeX and
+Pandoc as required for rendering Rmd files to PDF. The process can be
+quite time consuming, especially if TinyTeX needs to be installed, and
+there may be apparent hanging processes – this is expected behavior.
 
 ## See also
 
@@ -52,8 +52,9 @@ which calls this function internally.
 ## Examples
 
 ``` r
-rqualify_setup(setup_tinytex = FALSE,
-               setup_pandoc  = FALSE,
-               verbose       = FALSE)
-#> Error in system2("tlmgr", args, ...): error in running command
+if (FALSE) { # rlang::is_interactive()
+# \donttest{
+rqualify_setup()
+# }
+}
 ```

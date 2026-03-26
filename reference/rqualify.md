@@ -83,11 +83,11 @@ The following steps are carried out:
 ## Examples
 
 ``` r
-if (FALSE) { # tinytex::is_tinytex() && pandoc::pandoc_available() && "grfext" %in% tinytex::tl_pkgs(only_installed = TRUE)
+if (FALSE) { # rlang::is_interactive()
 # \donttest{
 rqualify(path_save     = tempdir(),
-         setup_tinytex = FALSE,
-         setup_pandoc  = FALSE,
+         setup_tinytex = TRUE,
+         setup_pandoc  = TRUE,
          file_rmd      = "R-validationPreamble.Rmd")
 # }
 }

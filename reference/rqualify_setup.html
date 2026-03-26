@@ -80,7 +80,7 @@ which are called internally.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>`rqualify_setup` allows users to easily install TinyTeX and Pandoc
+    <p>`rqualify_setup` is an internal function that installs TinyTeX and Pandoc
   as required for rendering Rmd files to PDF. The process can
   be quite time consuming, especially if TinyTeX needs to be installed, and there
   may be apparent hanging processes – this is expected behavior.</p>
@@ -92,11 +92,11 @@ which are called internally.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">rqualify_setup</span><span class="op">(</span>setup_tinytex <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
-<span class="r-in"><span>               setup_pandoc  <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
-<span class="r-in"><span>               verbose       <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in system2("tlmgr", args, ...):</span> error in running command</span>
-<span class="r-in"><span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># rlang::is_interactive()</span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="fu">rqualify_setup</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
