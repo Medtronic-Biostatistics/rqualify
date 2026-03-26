@@ -17,9 +17,12 @@ Authors@R: c(
       role = "aut",
       comment = "For initial validation code."
     ),
-    person("Medtronic Inc.", role = "fnd")
+    person("Medtronic Inc.", role = "cph")
   )
-Description: Functions for qualifying R software installations.
+Description: Qualify R software installations using R Markdown as the foundation 
+  for the Installation Qualification (IQ) and Operational Qualification (OQ) when
+  used in environments (such as regulated clinical trials) where such 
+  processes may be required.
 License: GPL-2
 URL: https://github.com/Medtronic-Biostatistics/rqualify, https://medtronic-biostatistics.github.io/rqualify/
 BugReports: https://github.com/Medtronic-Biostatistics/rqualify/issues

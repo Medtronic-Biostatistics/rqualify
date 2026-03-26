@@ -9,18 +9,16 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The goal of rqualify is to ease the R software validation steps required for regulatory submissions. The `rqualify` function automates the generation of a validation document that can be used to demonstrate that an R environment is suitable for use in a regulated setting.
+The primary goal of rqualify is to ease the R software validation steps required for regulatory submissions. The `rqualify` function automates the generation of a validation document that can be used to demonstrate that an R environment is suitable for use in a regulated setting.
 
 Once the `rqualify` package is installed, executing the validation script is as simple as running the function:
 
-```         
+```{r, eval = FALSE}
 library(rqualify)
-rqualify(path_save = path.expand("~"))
+rqualify(path_save = tempdir())
 ```
 
-Ensure the folder you specify does not already include a folder named `R-validation`.
-
-There is also the option to automatically zip up the results. By default, if the validation is successful, the `R-validation` folder is zipped up into a file named `R-validation.zip`. If you would like to disable this feature, you can set `create_zip=FALSE` in the call to `rqualify`. See `?rqualify` for more info.
+Ensure the folder you specify does not already include a folder named `R-validation`. See `?rqualify` for more info.
 
 ## How does rqualify work?
 
@@ -32,7 +30,6 @@ The `rqualify` function performs the following steps:
 4. Copies `R-validation.Rmd` to the `R-validation` folder. 
 5. Executes the IQ-OQ by rendering `R-validation.Rmd` to `R-validation.tex`. 
 6. Compiles `R-validation.tex` to `R-validation.pdf`. 
-7. If IQ-OQ is successful, creates `R-validation.zip` at the folder where `R-validation` is located (if `create_zip=TRUE`).
 
 In case you are developing a process for user-level qualification, the file `R-validation.Rmd` located in the root directory of this package at `qualify_r/R-validation.Rmd` can be used as a template for your own validation document. Note, if viewing on Github, the `R-validation.Rmd` file is located at `inst/qualify_r/R-validation.Rmd`.
 
