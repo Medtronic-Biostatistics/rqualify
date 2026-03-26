@@ -40,19 +40,7 @@ rqualify(path_save  = tempdir())
 ```
 
 Make sure the folder you specify does not already include a
-folder named `R-validation`.
-
-There is also the option to automatically zip up the results. By
-default, if the validation is successful, the `R-validation` folder is
-zipped up into a file named `R-validation.zip`. If you would like to
-disable this feature, you can set `create_zip=FALSE` in the call to `rqualify`.
-See `?rqualify` for more info. 
-
-Automatic zipping uses the `zip` function from the `utils` package and may fail 
-quietly. In that case, the validation document will still be generated and saved 
-in the `R-validation` folder, but the zip file will not be created. If you want 
-to create the zip file manually, you can use any standard zip utility to 
-compress the `R-validation` folder into a zip file.
+folder named `R-validation`. See `?rqualify` for more info. 
 
 ## Special Thanks
 

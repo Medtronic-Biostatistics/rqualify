@@ -1,65 +1,39 @@
 #' Initialize environment for IQ-OQ.
 #'
-#'@param path_save Character. Path where the 'R-validation' folder will be created
-#'  to store validation outputs.
-#'
-#' @param setup_tinytex Logical. If TRUE, sets up tinytex for LaTeX document
-#'  generation.
+#' @param setup_tinytex Logical. If TRUE, sets up TinyTeX for LaTeX document
+#'  generation. Note, this does not install the tinytex R package, but the TinyTeX 
+#'  LaTeX bundle. It is a convenient wrapper for installing TinyTeX using 
+#'  `tinytex::install_tinytex()`, and adding the TinyTeX location to the environment
+#'  The function installes the "TinyTeX" bundle and the additional package `grfext`,
+#'  and sets the TinyTeX installation path on the system PATH.
 #'
 #' @param setup_pandoc Logical. If TRUE, sets up pandoc for document conversion.
+#'  Note, this does not install the pandoc R package, but the Pandoc software. It
+#'  is a convenient wrapper around `pandoc::pandoc_install()` and `pandoc::pandoc_activate()`, 
+#'  which are called internally.
 #'
 #' @param verbose Logical. If TRUE, prints progress messages to the console.
 #'
-#' @details The function sets up the environment by configuring locale settings and
-#'   installing any dependencies, including tinytex and pandoc. The process can
-#'   be quite time consuming, especially if tinytex needs to be installed, and there
+#' @details `rqualify_setup` allows users to easily install TinyTeX and Pandoc
+#'   as required for rendering Rmd files to PDF. The process can
+#'   be quite time consuming, especially if TinyTeX needs to be installed, and there
 #'   may be apparent hanging processes -- this is expected behavior. 
 #'
-#' @return This function does not return a value. It performs side effects by 
-#'   setting up TinyTeX and Pandoc and creating necessary directories for 
-#'   validation outputs.
+#' @return A list with the installed Pandoc and TinyTeX versions, though the primary
+#'  purpose of this function is its side effects, setting up TinyTeX and Pandoc as specified.
 #'   
 #' @examples
-#' rqualify_setup(path_save     = tempdir(),
-#'                setup_tinytex = FALSE,
+#' rqualify_setup(setup_tinytex = FALSE,
 #'                setup_pandoc  = FALSE)
 #'
 #' @seealso \code{\link{rqualify}} which calls this function internally.
 #'
 #' @importFrom pandoc pandoc_install pandoc_activate
-#' @importFrom tinytex install_tinytex tinytex_root
+#' @importFrom tinytex install_tinytex tinytex_root tlmgr_version
+#' @importFrom rmarkdown pandoc_version
 #'
 #' @export
-rqualify_setup <- function(path_save, setup_tinytex=TRUE,
-                           setup_pandoc=TRUE, verbose=TRUE){
-
-  # Get function call
-  mf   <- match.call(expand.dots = FALSE)
-
-  if(verbose) cat("\n=== Now setting up environment for validation ===")
-
-  #-----------------------------------------------------------------------------
-  # Create folder 'R-validation' and 'R-validation/IQ-OQ-TestOutput' at path_save
-  #-----------------------------------------------------------------------------
-  path_rvalidation    <- file.path(path_save, "R-validation")
-  path_iqoqtestoutput <- file.path(path_rvalidation, "IQ-OQ-TestOutput")
-
-  if(dir.exists(path_rvalidation)){
-    stop("Folder 'R-validation' already exists at the specified path. Rename or remove.")
-  }
-
-  dc <- dir.create(path_rvalidation)
-  dc <- dir.create(path_iqoqtestoutput)
-
-
-  ##############################################################################
-  # Environment set-up
-  ##############################################################################
-  # Set locale and language - required for core test
-  Sys.setlocale("LC_COLLATE", "C")
-  Sys.setlocale("LC_TIME", "C")
-  Sys.setenv(LANGUAGE = "en")
-
+rqualify_setup <- function(setup_tinytex=TRUE, setup_pandoc=TRUE, verbose=TRUE){
 
   #-----------------------------------------------------------------------------
   # Set-up tinytex
@@ -100,5 +74,12 @@ rqualify_setup <- function(path_save, setup_tinytex=TRUE,
   }
 
   if(verbose) cat("\n=== Validation environment set-up complete ===")
+  
+  
+  #-----------------------------------------------------------------------------
+  # Return Pandoc and tinytex versions
+  #-----------------------------------------------------------------------------
+  list(pandoc_version  = rmarkdown::pandoc_version(), 
+       tinytex_version = tinytex::tlmgr_version())
 }
 

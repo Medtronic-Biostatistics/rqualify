@@ -3,19 +3,27 @@
 #' @param path_save Character. Path to save the R-validation folder. Ensure
 #'   a folder named `R-validation` does not already exist at this location.
 #'
-#' @param setup_tinytex Logical. If TRUE, sets up tinytex for LaTeX document
-#'  generation.
+#' @param setup_tinytex Logical. If TRUE, sets up TinyTeX for LaTeX document
+#'  generation. Note, this does not install the tinytex R package, but the TinyTeX 
+#'  LaTeX bundle. It is a convenient wrapper for installing TinyTeX using 
+#'  `tinytex::install_tinytex()`, and adding the TinyTeX location to the environment
+#'  path. See \code{\link{rqualify_setup}} for more details.
 #'
 #' @param setup_pandoc Logical. If TRUE, sets up pandoc for document conversion.
+#'  Note, this does not install the pandoc R package, but the Pandoc software. It
+#'  is a convenient wrapper around `pandoc::pandoc_install()` and `pandoc::pandoc_activate()`, 
+#'  which are called internally.
 #' 
-#' @param file_rmd String. Name of RMarkdown file to render. Default is "R-validation.Rmd". 
-#'   The RMarkdown file should be located in the `inst/qualify_r` folder of the package.
+#' @param file_rmd String. Name of RMarkdown file to render. Default is "R-validation.Rmd".
+#'   Also included is "R-validationPreamble.Rmd", which contains the preamble and introduction 
+#'   portion of the report. The RMarkdown file should be located in the `inst/qualify_r` 
+#'   folder of the package.
 #'
 #' @param verbose Logical. If TRUE, prints progress messages to the console.
 #' 
 #' @details This function creates a folder named R-validation at the specified path,
-#' sets up the environment, and executes the validation process.
-#' The output of the validation will be saved in the created folder. 
+#'   sets up the environment, and executes the validation process.
+#'   The output of the validation will be saved in the created folder. 
 #' 
 #' The validation process involves running a series of tests on the R installation and
 #' can be quite time consuming. The function will print progress messages to the 
@@ -25,15 +33,15 @@
 #'
 #' \enumerate{
 #'   \item Create the folder tree R-validation/IQ-OQ-TestOutput at path_save, or selected folder
-#'   \item Install tinytex and necessary LaTeX packages
-#'   \item Install pandoc
-#'   \item Copy R-validation.Rmd to the R-validation folder
-#'   \item Execute the IQ-OQ by rendering R-validation.Rmd to R-validation.tex
-#'   \item Compile R-validation.tex to R-validation.pdf
+#'   \item Install TinyTeX and necessary LaTeX packages
+#'   \item Install Pandoc
+#'   \item Copy Rmd file to the R-validation folder
+#'   \item Execute the IQ-OQ by rendering the Rmd to LaTeX
+#'   \item Compile the LaTeX file to pdf
 #' }
 #' 
-#' @return This function does not return a value. It performs side effects by 
-#'   rendering a RMarkdown document.
+#' @return The path to the `R-validation` folder. The primary purpose of this 
+#'   function is its side effects, rendering an RMarkdown document.
 #'   
 #' @examplesIf tinytex::is_tinytex() && pandoc::pandoc_available()
 #' \donttest{
@@ -69,10 +77,26 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   # Set rvalidation folder path
   path_rvalidation <- file.path(path_save, "R-validation")
   
+  
+  #-----------------------------------------------------------------------------
+  # Create folder 'R-validation' and 'R-validation/IQ-OQ-TestOutput' at path_save
+  #-----------------------------------------------------------------------------
+  path_rvalidation    <- file.path(path_save, "R-validation")
+  path_iqoqtestoutput <- file.path(path_rvalidation, "IQ-OQ-TestOutput")
+  
+  if(dir.exists(path_rvalidation)){
+    stop("Folder 'R-validation' already exists at the specified path. Rename or remove.")
+  }
+  
+  dc <- dir.create(path_rvalidation)
+  dc <- dir.create(path_iqoqtestoutput)
+  
+  
   #-----------------------------------------------------------------------------
   # Initialize environment
   #-----------------------------------------------------------------------------
   rs <- rqualify_setup(path_save, setup_tinytex, setup_pandoc, verbose)
+  
   
   #-----------------------------------------------------------------------------
   # Run the tests and generate validation report
@@ -82,6 +106,11 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   
   fc <- file.copy(system.file(path_rmd, package='rqualify'),
                   path_rvalidation)
+  
+  # Set locale and language - required for core test
+  Sys.setlocale("LC_COLLATE", "C")
+  Sys.setlocale("LC_TIME", "C")
+  Sys.setenv(LANGUAGE = "en")
   
   # Render: Rmd >> tex >> pdf
   if(verbose) cat("\n=== Now generating RMarkdown report ===")
@@ -109,4 +138,8 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
     }
   }
   
+  #-----------------------------------------------------------------------------
+  # Output report path
+  #-----------------------------------------------------------------------------
+  path_rvalidation
 }
