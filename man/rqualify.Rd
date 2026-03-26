@@ -16,27 +16,35 @@ rqualify(
 \item{path_save}{Character. Path to save the R-validation folder. Ensure
 a folder named `R-validation` does not already exist at this location.}
 
-\item{setup_tinytex}{Logical. If TRUE, sets up tinytex for LaTeX document
-generation.}
+\item{setup_tinytex}{Logical. If TRUE, sets up TinyTeX for LaTeX document
+generation. Note, this does not install the tinytex R package, but the TinyTeX 
+LaTeX bundle. It is a convenient wrapper for installing TinyTeX using 
+`tinytex::install_tinytex()`, and adding the TinyTeX location to the environment
+path. See \code{\link{rqualify_setup}} for more details.}
 
-\item{setup_pandoc}{Logical. If TRUE, sets up pandoc for document conversion.}
+\item{setup_pandoc}{Logical. If TRUE, sets up pandoc for document conversion.
+Note, this does not install the pandoc R package, but the Pandoc software. It
+is a convenient wrapper around `pandoc::pandoc_install()` and `pandoc::pandoc_activate()`, 
+which are called internally.}
 
-\item{file_rmd}{String. Name of RMarkdown file to render. Default is "R-validation.Rmd". 
-The RMarkdown file should be located in the `inst/qualify_r` folder of the package.}
+\item{file_rmd}{String. Name of RMarkdown file to render. Default is "R-validation.Rmd".
+Also included is "R-validationPreamble.Rmd", which contains the preamble and introduction 
+portion of the report. The RMarkdown file should be located in the `inst/qualify_r` 
+folder of the package.}
 
 \item{verbose}{Logical. If TRUE, prints progress messages to the console.}
 }
 \value{
-This function does not return a value. It performs side effects by 
-  rendering a RMarkdown document.
+The path to the `R-validation` folder. The primary purpose of this 
+  function is its side effects, rendering an RMarkdown document.
 }
 \description{
 Run IQ-OQ on an installation of R software
 }
 \details{
 This function creates a folder named R-validation at the specified path,
-sets up the environment, and executes the validation process.
-The output of the validation will be saved in the created folder. 
+  sets up the environment, and executes the validation process.
+  The output of the validation will be saved in the created folder. 
 
 The validation process involves running a series of tests on the R installation and
 can be quite time consuming. The function will print progress messages to the 
@@ -46,11 +54,11 @@ The following steps are carried out:
 
 \enumerate{
   \item Create the folder tree R-validation/IQ-OQ-TestOutput at path_save, or selected folder
-  \item Install tinytex and necessary LaTeX packages
-  \item Install pandoc
-  \item Copy R-validation.Rmd to the R-validation folder
-  \item Execute the IQ-OQ by rendering R-validation.Rmd to R-validation.tex
-  \item Compile R-validation.tex to R-validation.pdf
+  \item Install TinyTeX and necessary LaTeX packages
+  \item Install Pandoc
+  \item Copy Rmd file to the R-validation folder
+  \item Execute the IQ-OQ by rendering the Rmd to LaTeX
+  \item Compile the LaTeX file to pdf
 }
 }
 \examples{
