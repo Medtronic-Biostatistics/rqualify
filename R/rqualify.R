@@ -117,6 +117,12 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
     Sys.setenv(PATH = paste(path_tt, Sys.getenv("PATH"), sep=.Platform$path.sep))
   }
   
+  if(!setup_tinytex){
+    if(!is_tinytex() && render_latex){
+      stop("tinytex is not installed. Please set setup_tinytex to TRUE to install TinyTeX, or set render_latex to FALSE to skip rendering the LaTeX file to PDF.")
+    }
+  }
+  
   
   #-----------------------------------------------------------------------------
   # Set-up pandoc?
@@ -126,6 +132,12 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
     
     pandoc_install()
     pandoc_activate()
+  }
+  
+  if(!setup_pandoc){
+    if(!pandoc::pandoc_available()){
+      stop("Pandoc is not installed. Please set setup_pandoc to TRUE to install Pandoc.")
+    }
   }
   
 
@@ -165,8 +177,7 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   
   
   #-----------------------------------------------------------------------------
-  # If rendering R-validation.Rmd, check test summary results and print warning 
-  # if any tests failed
+  # Check test summary results and print warning if any tests failed
   #-----------------------------------------------------------------------------
   path_results <- file.path(path_rvalidation, "IQ-OQ-TestOutput", "test_summary.csv")
   
