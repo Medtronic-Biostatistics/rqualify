@@ -6,7 +6,7 @@
 #' @param setup_tinytex Logical. If TRUE, sets up TinyTeX for LaTeX document
 #'  generation. Note, this does not install the tinytex R package, but the TinyTeX 
 #'  LaTeX bundle. It is a convenient wrapper for installing TinyTeX using 
-#'  `tinytex::install_tinytex()`, and adding the TinyTeX location to the environment
+#'  `tinytex::install_tinytex()`, and adding the TinyTeX location to the environment.
 #'  The function installs the "TinyTeX" bundle and the additional package `grfext`,
 #'  and sets the TinyTeX installation path on the system PATH.
 #'
@@ -28,10 +28,10 @@
 #' can be quite time consuming. The function will print progress messages to the 
 #' console if `verbose` is set to TRUE.
 #'
-#' The following steps are carried out:
+#' The following steps are carried out using default arguments:
 #'
 #' \enumerate{
-#'   \item Create the folder tree R-validation/IQ-OQ-TestOutput at path_save, or selected folder
+#'   \item Create the folder tree R-validation/IQ-OQ-TestOutput at path_save
 #'   \item Install TinyTeX and necessary LaTeX packages
 #'   \item Install Pandoc
 #'   \item Copy Rmd file to the R-validation folder
