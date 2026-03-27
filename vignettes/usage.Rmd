@@ -19,12 +19,10 @@ The `rqualify` package consists of 2 functions and R Markdown files:
 
 1. `rqualify`: Orchestrates the qualification process.
 2. `R-validation.Rmd`: An R Markdown file that defines the structure and content of the PDF report.
-3. `R-validationPreamble.Rmd`: The preamble, introduction portion of `R-validation.Rmd`.
 
 ## rqualify()
 
-The `rqualify` function is the main function of the package, which orchestrates 
-the entire qualification process. It performs the following steps sequentially:
+The `rqualify` function is the main function of the package, which orchestrates the entire qualification process. It performs the following steps sequentially:
 
 1. Normalizes the folder path provided in `path_save`.
 2. Checks for the existence of the `tests` folder in the R installation path. If the folder does not exist, an error is thrown, and the function stops execution. This check ensures that the R installation is complete and includes the necessary components for testing.
@@ -60,8 +58,3 @@ The structure of Rvalidation.Rmd closely follows [R-IQ-OQ](https://github.com/ma
 which is written R/Sweave. The R code chunks in Rvalidation.Rmd are adapted from the R-IQ-OQ code, with modifications to fit the structure of an R Markdown file and to capture errors for display in the PDF report.
 
 For additional details and to see an example of a successful qualification, see `vignette("details")`.
-
-
-## RvalidationPreamble.Rmd
-
-The RvalidationPreamble.Rmd file is an R Markdown file that includes the first few pages of the validation report. It is primarily included to allow users to test the PDF rendering functionality. 

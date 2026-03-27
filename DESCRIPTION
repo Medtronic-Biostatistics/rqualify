@@ -30,7 +30,6 @@ Depends:
     R (>= 4.4.0)
 Imports:
     pandoc,
-    rlang,
     rmarkdown,
     tinytex
 Suggests:
