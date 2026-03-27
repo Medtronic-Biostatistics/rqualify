@@ -9,7 +9,6 @@ rqualify(
   setup_tinytex = TRUE,
   setup_pandoc = TRUE,
   render_latex = TRUE,
-  file_rmd = "R-validation.Rmd",
   verbose = TRUE
 )
 }
@@ -31,11 +30,6 @@ which are called internally.}
 
 \item{render_latex}{Logical. If TRUE, renders the generated LaTeX file to PDF using 
 `tinytex::pdflatex()`.}
-
-\item{file_rmd}{String. Name of RMarkdown file to render. Default is "R-validation.Rmd".
-Also included is "R-validationPreamble.Rmd", which contains the preamble and introduction 
-portion of the report. The RMarkdown file should be located in the `inst/qualify_r` 
-folder of the package.}
 
 \item{verbose}{Logical. If TRUE, prints progress messages to the console.}
 }
@@ -67,23 +61,17 @@ The following steps are carried out:
 }
 }
 \examples{
-\dontshow{if (rlang::is_interactive() && pandoc::pandoc_available() && is_tinytex()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (tinytex::is_tinytex() && pandoc::pandoc_available()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \donttest{
-# Render the R-validation report with TinyTeX and Pandoc already set-up
+# Render the R-validation report, must have TinyTeX and Pandoc installed for 
+# this example, otherwise set setup_tinytex and setup_pandoc to TRUE.
 rqualify(path_save     = tempdir(),
          setup_tinytex = FALSE,
          setup_pandoc  = FALSE)
 }
-  
-\dontshow{\}) # examplesIf}
-\dontshow{if (rlang::is_interactive() && pandoc::pandoc_available()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-\donttest{
-# Render a report to LaTeX only with Pandoc already set-up
-rqualify(path_save     = tempdir(),
-         setup_tinytex = FALSE,
-         setup_pandoc  = FALSE,
-         render_latex  = FALSE,
-         file_rmd      = "R-validationPreamble.Rmd")
+\dontshow{
+unlink(file.path(tempdir(), "R-validation"), recursive=TRUE)
 }
+  
 \dontshow{\}) # examplesIf}
 }

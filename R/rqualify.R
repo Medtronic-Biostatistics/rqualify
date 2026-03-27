@@ -18,11 +18,6 @@
 #' @param render_latex Logical. If TRUE, renders the generated LaTeX file to PDF using 
 #'   `tinytex::pdflatex()`.
 #' 
-#' @param file_rmd String. Name of RMarkdown file to render. Default is "R-validation.Rmd".
-#'   Also included is "R-validationPreamble.Rmd", which contains the preamble and introduction 
-#'   portion of the report. The RMarkdown file should be located in the `inst/qualify_r` 
-#'   folder of the package.
-#'
 #' @param verbose Logical. If TRUE, prints progress messages to the console.
 #' 
 #' @details This function creates a folder named R-validation at the specified path, allows
@@ -47,35 +42,27 @@
 #' @return The path to the `R-validation` folder. The primary purpose of this 
 #'   function is its side effects, rendering an RMarkdown document.
 #'   
-#' @examplesIf rlang::is_interactive() && pandoc::pandoc_available() && is_tinytex()
+#' @examplesIf tinytex::is_tinytex() && pandoc::pandoc_available()
 #' \donttest{
-#' # Render the R-validation report with TinyTeX and Pandoc already set-up
+#' # Render the R-validation report, must have TinyTeX and Pandoc installed for 
+#' # this example, otherwise set setup_tinytex and setup_pandoc to TRUE.
 #' rqualify(path_save     = tempdir(),
 #'          setup_tinytex = FALSE,
 #'          setup_pandoc  = FALSE)
-#'}
+#' }
+#' \dontshow{
+#' unlink(file.path(tempdir(), "R-validation"), recursive=TRUE)
+#' }
 #'   
-#' @examplesIf rlang::is_interactive() && pandoc::pandoc_available()
-#' \donttest{
-#' # Render a report to LaTeX only with Pandoc already set-up
-#' rqualify(path_save     = tempdir(),
-#'          setup_tinytex = FALSE,
-#'          setup_pandoc  = FALSE,
-#'          render_latex  = FALSE,
-#'          file_rmd      = "R-validationPreamble.Rmd")
-#'}
-#'
 #' @importFrom rmarkdown render pandoc_version
 #' @importFrom tools file_path_sans_ext
 #' @importFrom utils read.csv
-#' @importFrom rlang is_interactive
 #' @importFrom pandoc pandoc_install pandoc_activate pandoc_available
 #' @importFrom tinytex install_tinytex tinytex_root tlmgr_version pdflatex is_tinytex
 #'
 #' @export
 rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE, 
                      render_latex=TRUE,
-                     file_rmd="R-validation.Rmd",
                      verbose=TRUE){
   
   # Normalize folder path
@@ -87,7 +74,7 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
     stop("R installation does not contain 'tests' folder. If running on Linux, see https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Testing-a-Unix_002dalike-Installation for instructions to install R with tests.")
   }
   
-
+  
   #-----------------------------------------------------------------------------
   # Create folder 'R-validation' and 'R-validation/IQ-OQ-TestOutput' at path_save
   #-----------------------------------------------------------------------------
@@ -141,15 +128,12 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
     pandoc_activate()
   }
   
-  #list(pandoc_version  = rmarkdown::pandoc_version(), 
-  #     tinytex_version = tinytex::tlmgr_version())
-  
-  
+
   #-----------------------------------------------------------------------------
   # Render Rmd to tex
   #-----------------------------------------------------------------------------
   # Copy Rmd file to 'path_rvalidation'
-  path_rmd <- file.path("qualify_r", file_rmd)
+  path_rmd <- file.path("qualify_r", "R-validation.Rmd")
   
   fc <- file.copy(system.file(path_rmd, package='rqualify'),
                   path_rvalidation)
@@ -161,7 +145,7 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   
   if(verbose) cat("\n=== Now generating RMarkdown ===")
   
-  render(input         = file.path(path_rvalidation, file_rmd), 
+  render(input         = file.path(path_rvalidation, "R-validation.Rmd"), 
          output_format = "latex_document", 
          quiet         = !verbose)
   
@@ -169,10 +153,10 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   # Render tex to pdf?
   #-----------------------------------------------------------------------------
   if(render_latex){
-    path_tex <- file.path(path_rvalidation, paste0(file_path_sans_ext(file_rmd), ".tex"))
-  
+    path_tex <- file.path(path_rvalidation, "R-validation.tex")
+    
     if(verbose) cat("\n=== Now generating RMarkdown ===")
-  
+    
     os <- setwd(path_rvalidation)
     pdflatex(path_tex)
     setwd(os)
@@ -184,19 +168,16 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   # If rendering R-validation.Rmd, check test summary results and print warning 
   # if any tests failed
   #-----------------------------------------------------------------------------
-  if(file_rmd == "R-validation.Rmd" && render_latex){
-    path_results <- file.path(path_rvalidation, "IQ-OQ-TestOutput", "test_summary.csv")
+  path_results <- file.path(path_rvalidation, "IQ-OQ-TestOutput", "test_summary.csv")
+  
+  if(file.exists(path_results)){
+    summ_results <- read.csv(path_results)
     
-    if(file.exists(path_results)){
-      summ_results <- read.csv(path_results)
-      
-      if(any(summ_results$system_results %in% "FAIL") | any(summ_results$test_results %in% "FAIL")){
-        pass_validation <- FALSE
-        warning("R-validation failed. Please check the output files in the 'R-validation' folder.")
-      } else{
-        pass_validation <- TRUE
-      }  
-    }
+    if(any(summ_results$system_results %in% "FAIL") | any(summ_results$test_results %in% "FAIL")){
+      warning("R-validation failed. Please check the output files in the 'R-validation' folder.")
+    } 
+  } else{
+    warning("Test summary file not found. Please check the output files in the 'R-validation' folder.")
   }
   
   #-----------------------------------------------------------------------------
