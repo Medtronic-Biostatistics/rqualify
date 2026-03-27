@@ -5,10 +5,6 @@
 ^pkgdown$
 ^\.github$
 ^LICENSE$
-^vignettes/pdf$
-^vignettes/background.Rmd$
-^vignettes/details.Rmd$
-^vignettes/rqualify.Rmd$
-^vignettes/usage.Rmd$
+^vignettes$
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
