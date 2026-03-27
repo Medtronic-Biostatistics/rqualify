@@ -14,6 +14,9 @@
 #'  Note, this does not install the pandoc R package, but the Pandoc software. It
 #'  is a convenient wrapper around `pandoc::pandoc_install()` and `pandoc::pandoc_activate()`, 
 #'  which are called internally.
+#'  
+#' @param render_latex Logical. If TRUE, renders the generated LaTeX file to PDF using 
+#'   `tinytex::pdflatex()`.
 #' 
 #' @param file_rmd String. Name of RMarkdown file to render. Default is "R-validation.Rmd".
 #'   Also included is "R-validationPreamble.Rmd", which contains the preamble and introduction 
@@ -44,9 +47,17 @@
 #' @return The path to the `R-validation` folder. The primary purpose of this 
 #'   function is its side effects, rendering an RMarkdown document.
 #'   
+#' @examplesIf rlang::is_interactive() && pandoc::pandoc_available() && is_tinytex()
+#' \donttest{
+#' # Render the R-validation report with TinyTeX and Pandoc already set-up
+#' rqualify(path_save     = tempdir(),
+#'          setup_tinytex = FALSE,
+#'          setup_pandoc  = FALSE)
+#'}
+#'   
 #' @examplesIf rlang::is_interactive() && pandoc::pandoc_available()
 #' \donttest{
-#' # Render a report to LaTeX only
+#' # Render a report to LaTeX only with Pandoc already set-up
 #' rqualify(path_save     = tempdir(),
 #'          setup_tinytex = FALSE,
 #'          setup_pandoc  = FALSE,
