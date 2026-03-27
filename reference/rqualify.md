@@ -9,6 +9,7 @@ rqualify(
   path_save,
   setup_tinytex = TRUE,
   setup_pandoc = TRUE,
+  render_latex = TRUE,
   file_rmd = "R-validation.Rmd",
   verbose = TRUE
 )
@@ -27,9 +28,9 @@ rqualify(
   this does not install the tinytex R package, but the TinyTeX LaTeX
   bundle. It is a convenient wrapper for installing TinyTeX using
   \`tinytex::install_tinytex()\`, and adding the TinyTeX location to the
-  environment path. See
-  [`rqualify_setup`](https://medtronic-biostatistics.github.io/rqualify/reference/rqualify_setup.md)
-  for more details.
+  environment The function installs the "TinyTeX" bundle and the
+  additional package \`grfext\`, and sets the TinyTeX installation path
+  on the system PATH.
 
 - setup_pandoc:
 
@@ -37,6 +38,11 @@ rqualify(
   does not install the pandoc R package, but the Pandoc software. It is
   a convenient wrapper around \`pandoc::pandoc_install()\` and
   \`pandoc::pandoc_activate()\`, which are called internally.
+
+- render_latex:
+
+  Logical. If TRUE, renders the generated LaTeX file to PDF using
+  \`tinytex::pdflatex()\`.
 
 - file_rmd:
 
@@ -58,8 +64,9 @@ function is its side effects, rendering an RMarkdown document.
 ## Details
 
 This function creates a folder named R-validation at the specified path,
-sets up the environment, and executes the validation process. The output
-of the validation will be saved in the created folder.
+allows users to conveniently install TinyTeX and Pandox, renders an
+RMarkdown file to LaTeX, compiles the LaTeX to PDF, and saves the output
+in the created folder.
 
 The validation process involves running a series of tests on the R
 installation and can be quite time consuming. The function will print
@@ -83,11 +90,22 @@ The following steps are carried out:
 ## Examples
 
 ``` r
-if (FALSE) { # rlang::is_interactive()
+if (FALSE) { # rlang::is_interactive() && pandoc::pandoc_available() && is_tinytex()
 # \donttest{
+# Render the R-validation report with TinyTeX and Pandoc already set-up
 rqualify(path_save     = tempdir(),
-         setup_tinytex = TRUE,
-         setup_pandoc  = TRUE,
+         setup_tinytex = FALSE,
+         setup_pandoc  = FALSE)
+# }
+  
+}
+if (FALSE) { # rlang::is_interactive() && pandoc::pandoc_available()
+# \donttest{
+# Render a report to LaTeX only with Pandoc already set-up
+rqualify(path_save     = tempdir(),
+         setup_tinytex = FALSE,
+         setup_pandoc  = FALSE,
+         render_latex  = FALSE,
          file_rmd      = "R-validationPreamble.Rmd")
 # }
 }

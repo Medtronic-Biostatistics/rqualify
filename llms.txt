@@ -47,8 +47,6 @@ well.
 
 - [`rqualify()`](https://medtronic-biostatistics.github.io/rqualify/reference/rqualify.md)
   : Run IQ-OQ on an installation of R software
-- [`rqualify_setup()`](https://medtronic-biostatistics.github.io/rqualify/reference/rqualify_setup.md)
-  : Initialize environment for IQ-OQ.
 
 # Articles
 
@@ -62,11 +60,6 @@ well.
   Details](https://medtronic-biostatistics.github.io/rqualify/articles/details.md):
 
   Qualification Details
-
-- [Introduction to the rqualify
-  Package](https://medtronic-biostatistics.github.io/rqualify/articles/rqualify-cran.md):
-
-  Introduction to the rqualify Package.
 
 - [Introduction to
   rqualify](https://medtronic-biostatistics.github.io/rqualify/articles/rqualify.md):

@@ -84,9 +84,6 @@ Markdown files:</p>
 <li>
 <code>rqualify</code>: Orchestrates the qualification process.</li>
 <li>
-<code>rqualify_setup</code>: Set-ups the environment for the
-qualification process.</li>
-<li>
 <code>R-validation.Rmd</code>: An R Markdown file that defines the
 structure and content of the PDF report.</li>
 <li>
@@ -105,12 +102,16 @@ performs the following steps sequentially:</p>
 installation path. If the folder does not exist, an error is thrown, and
 the function stops execution. This check ensures that the R installation
 is complete and includes the necessary components for testing.</li>
-<li>Calls the <code>rqualify_setup</code> function to set up the
-environment for the qualification process.</li>
+<li>(Optional) Installs TinyTeX and adds it to the system path. In this
+step, the TinyTeX LaTeX bundle and the <code>grfext</code> LaTeX package
+are installed to ensure that the PDF report can be generated without
+errors.</li>
+<li>(Optional) Installs Pandoc if not available and installs it.</li>
 <li>Copies the <code>Rmd</code> file to the <code>R-validation</code>
-folder created during the setup process.</li>
-<li>Renders the <code>Rmd</code> file to a PDF report, which includes
-the results of both IQ and OQ checks.</li>
+folder created.</li>
+<li>Renders the <code>Rmd</code> file to LaTeX, which executes the IQ
+and OQ checks defined in the R Markdown file.</li>
+<li>Renders the LaTeX to a PDF report.</li>
 </ol>
 <p>For step 2 to be successful with <code>R-validaion.Rmd</code>, R must
 be installed with the tests folder. This is default behavior in Windows,
@@ -118,25 +119,7 @@ but may not be the case in Linux or macOS. If you are running on Linux
 and encounter an error at this step, please refer to the instructions
 provided in the R Installation and Administration manual (<a href="https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Testing-a-Unix_002dalike-Installation" class="external-link uri">https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Testing-a-Unix_002dalike-Installation</a>)
 to install R with the tests folder.</p>
-<p>For additional details on inputs and outputs of the
-<code>rqualify</code> function, please refer to the function
-documentation <code><a href="../reference/rqualify.html">?rqualify</a></code>.</p>
-</div>
-<div class="section level2">
-<h2 id="rqualify_setup">rqualify_setup()<a class="anchor" aria-label="anchor" href="#rqualify_setup"></a>
-</h2>
-<p>The <code>rqualify_setup</code> function is called internally by the
-<code>rqualify</code> function, but we make it available in the
-namespace. The function carries out the following steps
-sequentially:</p>
-<ol style="list-style-type: decimal">
-<li>(Optional) Installs TinyTeX and adds it to the system path. In this
-step, the TinyTeX LaTeX bundle and the <code>grfext</code> LaTeX package
-are installed to ensure that the PDF report can be generated without
-errors.</li>
-<li>(Optional) Installs Pandoc if not available and installs it.</li>
-</ol>
-<p>During step 1, the installation of TinyTeX, the process may be slow
+<p>During step 3, the installation of TinyTeX, the process may be slow
 and appear to hang. This is not unexpected behavior, and the function
 will only proceed to the next step once the installation is
 complete.</p>
@@ -147,8 +130,8 @@ popup, please approve the installation to allow the process to continue.
 If you do not approve the installation, the process will not be able to
 proceed and will likely result in an error.</p>
 <p>For additional details on inputs and outputs of the
-<code>rqualify_setup</code> function, please refer to the function
-documentation <code><a href="../reference/rqualify_setup.html">?rqualify_setup</a></code>.</p>
+<code>rqualify</code> function, please refer to the function
+documentation <code><a href="../reference/rqualify.html">?rqualify</a></code>.</p>
 </div>
 <div class="section level2">
 <h2 id="rvalidation-rmd">Rvalidation.Rmd<a class="anchor" aria-label="anchor" href="#rvalidation-rmd"></a>

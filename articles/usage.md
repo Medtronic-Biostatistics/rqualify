@@ -3,11 +3,9 @@
 The `rqualify` package consists of 2 functions and R Markdown files:
 
 1.  `rqualify`: Orchestrates the qualification process.
-2.  `rqualify_setup`: Set-ups the environment for the qualification
-    process.
-3.  `R-validation.Rmd`: An R Markdown file that defines the structure
+2.  `R-validation.Rmd`: An R Markdown file that defines the structure
     and content of the PDF report.
-4.  `R-validationPreamble.Rmd`: The preamble, introduction portion of
+3.  `R-validationPreamble.Rmd`: The preamble, introduction portion of
     `R-validation.Rmd`.
 
 ## rqualify()
@@ -21,12 +19,15 @@ steps sequentially:
     path. If the folder does not exist, an error is thrown, and the
     function stops execution. This check ensures that the R installation
     is complete and includes the necessary components for testing.
-3.  Calls the `rqualify_setup` function to set up the environment for
-    the qualification process.
-4.  Copies the `Rmd` file to the `R-validation` folder created during
-    the setup process.
-5.  Renders the `Rmd` file to a PDF report, which includes the results
-    of both IQ and OQ checks.
+3.  (Optional) Installs TinyTeX and adds it to the system path. In this
+    step, the TinyTeX LaTeX bundle and the `grfext` LaTeX package are
+    installed to ensure that the PDF report can be generated without
+    errors.
+4.  (Optional) Installs Pandoc if not available and installs it.
+5.  Copies the `Rmd` file to the `R-validation` folder created.
+6.  Renders the `Rmd` file to LaTeX, which executes the IQ and OQ checks
+    defined in the R Markdown file.
+7.  Renders the LaTeX to a PDF report.
 
 For step 2 to be successful with `R-validaion.Rmd`, R must be installed
 with the tests folder. This is default behavior in Windows, but may not
@@ -36,23 +37,7 @@ R Installation and Administration manual
 (<https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Testing-a-Unix_002dalike-Installation>)
 to install R with the tests folder.
 
-For additional details on inputs and outputs of the `rqualify` function,
-please refer to the function documentation
-[`?rqualify`](https://medtronic-biostatistics.github.io/rqualify/reference/rqualify.md).
-
-## rqualify_setup()
-
-The `rqualify_setup` function is called internally by the `rqualify`
-function, but we make it available in the namespace. The function
-carries out the following steps sequentially:
-
-1.  (Optional) Installs TinyTeX and adds it to the system path. In this
-    step, the TinyTeX LaTeX bundle and the `grfext` LaTeX package are
-    installed to ensure that the PDF report can be generated without
-    errors.
-2.  (Optional) Installs Pandoc if not available and installs it.
-
-During step 1, the installation of TinyTeX, the process may be slow and
+During step 3, the installation of TinyTeX, the process may be slow and
 appear to hang. This is not unexpected behavior, and the function will
 only proceed to the next step once the installation is complete.
 
@@ -63,9 +48,9 @@ popup, please approve the installation to allow the process to continue.
 If you do not approve the installation, the process will not be able to
 proceed and will likely result in an error.
 
-For additional details on inputs and outputs of the `rqualify_setup`
-function, please refer to the function documentation
-[`?rqualify_setup`](https://medtronic-biostatistics.github.io/rqualify/reference/rqualify_setup.md).
+For additional details on inputs and outputs of the `rqualify` function,
+please refer to the function documentation
+[`?rqualify`](https://medtronic-biostatistics.github.io/rqualify/reference/rqualify.md).
 
 ## Rvalidation.Rmd
 
