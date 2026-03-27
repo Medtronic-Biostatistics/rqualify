@@ -8,6 +8,7 @@ rqualify(
   path_save,
   setup_tinytex = TRUE,
   setup_pandoc = TRUE,
+  render_latex = TRUE,
   file_rmd = "R-validation.Rmd",
   verbose = TRUE
 )
@@ -20,7 +21,8 @@ a folder named `R-validation` does not already exist at this location.}
 generation. Note, this does not install the tinytex R package, but the TinyTeX 
 LaTeX bundle. It is a convenient wrapper for installing TinyTeX using 
 `tinytex::install_tinytex()`, and adding the TinyTeX location to the environment
-path. See \code{\link{rqualify_setup}} for more details.}
+The function installs the "TinyTeX" bundle and the additional package `grfext`,
+and sets the TinyTeX installation path on the system PATH.}
 
 \item{setup_pandoc}{Logical. If TRUE, sets up pandoc for document conversion.
 Note, this does not install the pandoc R package, but the Pandoc software. It
@@ -42,9 +44,9 @@ The path to the `R-validation` folder. The primary purpose of this
 Run IQ-OQ on an installation of R software
 }
 \details{
-This function creates a folder named R-validation at the specified path,
-  sets up the environment, and executes the validation process.
-  The output of the validation will be saved in the created folder. 
+This function creates a folder named R-validation at the specified path, allows
+  users to conveniently install TinyTeX and Pandox, renders an RMarkdown file to LaTeX, 
+  compiles the LaTeX to PDF, and saves the output in the created folder.
 
 The validation process involves running a series of tests on the R installation and
 can be quite time consuming. The function will print progress messages to the 
@@ -62,11 +64,12 @@ The following steps are carried out:
 }
 }
 \examples{
-\dontshow{if (rlang::is_interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_interactive() && pandoc::pandoc_available()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \donttest{
 rqualify(path_save     = tempdir(),
-         setup_tinytex = TRUE,
-         setup_pandoc  = TRUE,
+         setup_tinytex = FALSE,
+         setup_pandoc  = FALSE,
+         render_latex  = FALSE,
          file_rmd      = "R-validationPreamble.Rmd")
 }
 \dontshow{\}) # examplesIf}
