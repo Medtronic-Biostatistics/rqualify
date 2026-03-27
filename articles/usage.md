@@ -5,8 +5,6 @@ The `rqualify` package consists of 2 functions and R Markdown files:
 1.  `rqualify`: Orchestrates the qualification process.
 2.  `R-validation.Rmd`: An R Markdown file that defines the structure
     and content of the PDF report.
-3.  `R-validationPreamble.Rmd`: The preamble, introduction portion of
-    `R-validation.Rmd`.
 
 ## rqualify()
 
@@ -72,9 +70,3 @@ file and to capture errors for display in the PDF report.
 For additional details and to see an example of a successful
 qualification, see
 [`vignette("details")`](https://medtronic-biostatistics.github.io/rqualify/articles/details.md).
-
-## RvalidationPreamble.Rmd
-
-The RvalidationPreamble.Rmd file is an R Markdown file that includes the
-first few pages of the validation report. It is primarily included to
-allow users to test the PDF rendering functionality.

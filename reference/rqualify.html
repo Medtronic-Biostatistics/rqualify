@@ -51,7 +51,6 @@
 <span>  setup_tinytex <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  setup_pandoc <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  render_latex <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  file_rmd <span class="op">=</span> <span class="st">"R-validation.Rmd"</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -69,7 +68,7 @@ a folder named `R-validation` does not already exist at this location.</p></dd>
 <dd><p>Logical. If TRUE, sets up TinyTeX for LaTeX document
 generation. Note, this does not install the tinytex R package, but the TinyTeX
 LaTeX bundle. It is a convenient wrapper for installing TinyTeX using
-`tinytex::install_tinytex()`, and adding the TinyTeX location to the environment
+`tinytex::install_tinytex()`, and adding the TinyTeX location to the environment.
 The function installs the "TinyTeX" bundle and the additional package `grfext`,
 and sets the TinyTeX installation path on the system PATH.</p></dd>
 
@@ -84,13 +83,6 @@ which are called internally.</p></dd>
 <dt id="arg-render-latex">render_latex<a class="anchor" aria-label="anchor" href="#arg-render-latex"></a></dt>
 <dd><p>Logical. If TRUE, renders the generated LaTeX file to PDF using
 `tinytex::pdflatex()`.</p></dd>
-
-
-<dt id="arg-file-rmd">file_rmd<a class="anchor" aria-label="anchor" href="#arg-file-rmd"></a></dt>
-<dd><p>String. Name of RMarkdown file to render. Default is "R-validation.Rmd".
-Also included is "R-validationPreamble.Rmd", which contains the preamble and introduction
-portion of the report. The RMarkdown file should be located in the `inst/qualify_r`
-folder of the package.</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
@@ -110,8 +102,8 @@ folder of the package.</p></dd>
 <p>The validation process involves running a series of tests on the R installation and
 can be quite time consuming. The function will print progress messages to the
 console if `verbose` is set to TRUE.</p>
-<p>The following steps are carried out:</p>
-<ol><li><p>Create the folder tree R-validation/IQ-OQ-TestOutput at path_save, or selected folder</p></li>
+<p>The following steps are carried out using default arguments:</p>
+<ol><li><p>Create the folder tree R-validation/IQ-OQ-TestOutput at path_save</p></li>
 <li><p>Install TinyTeX and necessary LaTeX packages</p></li>
 <li><p>Install Pandoc</p></li>
 <li><p>Copy Rmd file to the R-validation folder</p></li>
@@ -121,24 +113,18 @@ console if `verbose` is set to TRUE.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># rlang::is_interactive() &amp;&amp; pandoc::pandoc_available() &amp;&amp; is_tinytex()</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># tinytex::is_tinytex() &amp;&amp; pandoc::pandoc_available()</span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="co"># Render the R-validation report with TinyTeX and Pandoc already set-up</span></span></span>
+<span class="r-in"><span><span class="co"># Render the R-validation report, must have TinyTeX and Pandoc installed for </span></span></span>
+<span class="r-in"><span><span class="co"># this example, otherwise set setup_tinytex and setup_pandoc to TRUE.</span></span></span>
 <span class="r-in"><span><span class="fu">rqualify</span><span class="op">(</span>path_save     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>         setup_tinytex <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>         setup_pandoc  <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="fu">DONTSHOW</span><span class="op">(</span><span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"R-validation"</span><span class="op">)</span>, recursive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  </span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># rlang::is_interactive() &amp;&amp; pandoc::pandoc_available()</span></span></span>
-<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="co"># Render a report to LaTeX only with Pandoc already set-up</span></span></span>
-<span class="r-in"><span><span class="fu">rqualify</span><span class="op">(</span>path_save     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>         setup_tinytex <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
-<span class="r-in"><span>         setup_pandoc  <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
-<span class="r-in"><span>         render_latex  <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
-<span class="r-in"><span>         file_rmd      <span class="op">=</span> <span class="st">"R-validationPreamble.Rmd"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
