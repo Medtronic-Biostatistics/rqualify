@@ -1,0 +1,43 @@
+
+R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> options(echo = FALSE)
+Running vignettes for package 'utils'
+  Running 'Sweave.Rnw'
+Running vignettes for package 'stats'
+  Running 'reshape.Rnw'
+Running vignettes for package 'grid'
+  Running 'displaylist.Rnw'
+  Running 'frame.Rnw'
+  Running 'grid.Rnw'
+  Running 'grobs.Rnw'
+  Running 'interactive.Rnw'
+  Running 'locndimn.Rnw'
+  Running 'moveline.Rnw'
+  Running 'nonfinite.Rnw'
+  Running 'plotexample.Rnw'
+  Running 'rotated.Rnw'
+  Running 'saveload.Rnw'
+  Running 'sharing.Rnw'
+  Running 'viewports.Rnw'
+Running vignettes for package 'parallel'
+  Running 'parallel.Rnw'
+
+
+Test suite result: PASS
+

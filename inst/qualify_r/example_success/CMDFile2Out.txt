@@ -1,0 +1,45 @@
+
+R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> options(echo = FALSE)
+Testing examples for package 'base'
+Testing examples for package 'tools'
+  comparing 'tools-Ex.Rout' to 'tools-Ex.Rout.save' ... OK
+Testing examples for package 'utils'
+Testing examples for package 'grDevices'
+  comparing 'grDevices-Ex.Rout' to 'grDevices-Ex.Rout.save' ... OK
+Testing examples for package 'graphics'
+  comparing 'graphics-Ex.Rout' to 'graphics-Ex.Rout.save' ... OK
+Testing examples for package 'stats'
+  comparing 'stats-Ex.Rout' to 'stats-Ex.Rout.save' ... OK
+Testing examples for package 'datasets'
+  comparing 'datasets-Ex.Rout' to 'datasets-Ex.Rout.save' ... OK
+Testing examples for package 'methods'
+Testing examples for package 'grid'
+  comparing 'grid-Ex.Rout' to 'grid-Ex.Rout.save' ... OK
+Testing examples for package 'splines'
+  comparing 'splines-Ex.Rout' to 'splines-Ex.Rout.save' ... OK
+Testing examples for package 'stats4'
+  comparing 'stats4-Ex.Rout' to 'stats4-Ex.Rout.save' ... OK
+Testing examples for package 'tcltk'
+Testing examples for package 'compiler'
+Testing examples for package 'parallel'
+
+
+Test suite result: PASS
+

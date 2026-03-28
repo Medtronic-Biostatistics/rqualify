@@ -1,0 +1,149 @@
+
+R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> options(echo = FALSE)
+running strict specific tests
+  running code in 'eval-etc.R'
+  comparing 'eval-etc.Rout' to 'eval-etc.Rout.save' ... OK
+  running code in 'simple-true.R'
+  comparing 'simple-true.Rout' to 'simple-true.Rout.save' ... OK
+  running code in 'arith-true.R'
+  comparing 'arith-true.Rout' to 'arith-true.Rout.save' ... OK
+  running code in 'lm-tests.R'
+  comparing 'lm-tests.Rout' to 'lm-tests.Rout.save' ... OK
+  running code in 'ok-errors.R'
+  comparing 'ok-errors.Rout' to 'ok-errors.Rout.save' ... OK
+  running code in 'method-dispatch.R'
+  comparing 'method-dispatch.Rout' to 'method-dispatch.Rout.save' ... OK
+  running code in 'array-subset.R'
+  running code in 'p-r-random-tests.R'
+  comparing 'p-r-random-tests.Rout' to 'p-r-random-tests.Rout.save' ... OK
+  running code in 'd-p-q-r-tst-2.R'
+  running code in 'any-all.R'
+  comparing 'any-all.Rout' to 'any-all.Rout.save' ... OK
+  running code in 'structure.R'
+  comparing 'structure.Rout' to 'structure.Rout.save' ... OK
+  running code in 'd-p-q-r-tests.R'
+  comparing 'd-p-q-r-tests.Rout' to 'd-p-q-r-tests.Rout.save' ... OK
+running sloppy specific tests
+  running code in 'complex.R'
+  comparing 'complex.Rout' to 'complex.Rout.save' ... OK
+  running code in 'print-tests.R'
+  comparing 'print-tests.Rout' to 'print-tests.Rout.save' ... OK
+  running code in 'lapack.R'
+  comparing 'lapack.Rout' to 'lapack.Rout.save' ... OK
+  running code in 'datasets.R'
+  comparing 'datasets.Rout' to 'datasets.Rout.save' ... OK
+  running code in 'datetime.R'
+  comparing 'datetime.Rout' to 'datetime.Rout.save' ... OK
+  running code in 'iec60559.R'
+  comparing 'iec60559.Rout' to 'iec60559.Rout.save' ... OK
+running regression tests
+  running code in 'reg-tests-1a.R'
+  running code in 'reg-tests-1b.R'
+  running code in 'reg-tests-1c.R'
+  running code in 'reg-tests-1d.R'
+  running code in 'reg-tests-1e.R'
+  running code in 'reg-tests-2.R'
+  comparing 'reg-tests-2.Rout' to 'reg-tests-2.Rout.save' ... OK
+  running code in 'reg-examples1.R'
+  running code in 'reg-examples2.R'
+  running code in 'reg-packages.R'
+  running code in 'reg-S4-examples.R'
+  running code in 'classes-methods.R'
+  running code in 'datetime3.R'
+  running code in 'p-qbeta-strict-tst.R'
+  running code in 'reg-IO.R'
+  comparing 'reg-IO.Rout' to 'reg-IO.Rout.save' ... OK
+  running code in 'reg-IO2.R'
+  comparing 'reg-IO2.Rout' to 'reg-IO2.Rout.save' ... OK
+  running code in 'reg-plot.R'
+  comparing 'reg-plot.pdf' to 'reg-plot.pdf.save' ...6892c6892
+< /F1 1 Tf 1 Tr 7.48 0 0 7.48 382.53 302.24 Tm (l) Tj 0 Tr
+---
+> /F1 1 Tf 1 Tr 7.48 0 0 7.48 382.73 302.24 Tm (l) Tj 0 Tr
+6895c6895
+< /F1 1 Tf 1 Tr 7.48 0 0 7.48 387.27 302.24 Tm (l) Tj 0 Tr
+---
+> /F1 1 Tf 1 Tr 7.48 0 0 7.48 387.47 302.24 Tm (l) Tj 0 Tr
+6898c6898
+< /F1 1 Tf 1 Tr 7.48 0 0 7.48 392.01 302.24 Tm (l) Tj 0 Tr
+---
+> /F1 1 Tf 1 Tr 7.48 0 0 7.48 392.21 302.24 Tm (l) Tj 0 Tr
+6901c6901
+< /F1 1 Tf 1 Tr 7.48 0 0 7.48 396.75 302.24 Tm (l) Tj 0 Tr
+---
+> /F1 1 Tf 1 Tr 7.48 0 0 7.48 396.94 302.24 Tm (l) Tj 0 Tr
+6904c6904
+< /F1 1 Tf 1 Tr 7.48 0 0 7.48 401.49 302.24 Tm (l) Tj 0 Tr
+---
+> /F1 1 Tf 1 Tr 7.48 0 0 7.48 401.68 302.24 Tm (l) Tj 0 Tr
+6907c6907
+< /F1 1 Tf 1 Tr 7.48 0 0 7.48 406.22 302.24 Tm (l) Tj 0 Tr
+---
+> /F1 1 Tf 1 Tr 7.48 0 0 7.48 406.42 302.24 Tm (l) Tj 0 Tr
+6910c6910
+< /F1 1 Tf 1 Tr 7.48 0 0 7.48 410.96 302.24 Tm (l) Tj 0 Tr
+---
+> /F1 1 Tf 1 Tr 7.48 0 0 7.48 411.16 302.24 Tm (l) Tj 0 Tr
+7102c7102
+< 390.23 119.08 m 390.23 111.88 l  S
+---
+> 390.43 119.08 m 390.43 111.88 l  S
+7110c7110
+< /F2 1 Tf 12.00 0.00 0.00 12.00 379.65 93.16 Tm [(No) 15 (v)] TJ
+---
+> /F2 1 Tf 12.00 0.00 0.00 12.00 379.85 93.16 Tm [(No) 15 (v)] TJ
+7130,7131c7130,7131
+< 394.77 119.08 m 394.77 119.08 l  S
+< 394.77 119.08 m 394.77 104.22 l  S
+---
+> 394.97 119.08 m 394.97 119.08 l  S
+> 394.97 119.08 m 394.97 104.22 l  S
+7133c7133
+< /F2 1 Tf 12.00 0.00 0.00 12.00 359.18 78.76 Tm [(No) 15 (v 01 23:00)] TJ
+---
+> /F2 1 Tf 12.00 0.00 0.00 12.00 359.37 78.76 Tm [(No) 15 (v 01 23:00)] TJ
+7135,7136c7135,7136
+< 391.42 490.60 m 391.42 490.60 l  S
+< 391.42 490.60 m 391.42 497.80 l  S
+---
+> 391.61 490.60 m 391.61 490.60 l  S
+> 391.61 490.60 m 391.61 497.80 l  S
+7138c7138
+< /F2 1 Tf 12.00 0.00 0.00 12.00 355.82 507.88 Tm [(No) 15 (v 01 06:00)] TJ
+---
+> /F2 1 Tf 12.00 0.00 0.00 12.00 356.02 507.88 Tm [(No) 15 (v 01 06:00)] TJ
+DIFFERED
+  running code in 'reg-S4.R'
+  comparing 'reg-S4.Rout' to 'reg-S4.Rout.save' ... OK
+  running code in 'reg-BLAS.R'
+  running code in 'reg-encodings.R'
+  running code in 'reg-translation.R'
+  running code in 'reg-tests-3.R'
+  comparing 'reg-tests-3.Rout' to 'reg-tests-3.Rout.save' ... OK
+  running code in 'reg-examples3.R'
+  comparing 'reg-examples3.Rout' to 'reg-examples3.Rout.save' ... OK
+running tests of plotting Latin-1
+  expect failure or some differences if not in a Latin or UTF-8 locale
+  running code in 'reg-plot-latin1.R'
+  comparing 'reg-plot-latin1.pdf' to 'reg-plot-latin1.pdf.save' ...OK
+
+
+Test suite result: PASS
+

@@ -1,0 +1,529 @@
+---
+title: "Introduction to the rqualify Package"
+description: >
+  Introduction to the rqualify Package.
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to the rqualify Package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# R Installation IQ/OQ
+
+This vignette is an overview of the `R-validation.Rmd` file, showing what code is executed when the file is rendered. This overview is for informational purposes and documents the internal structure of the `R-validation.Rmd` file. If any of the code blocks are updated, this is not considered a breaking change as the document will still render properly.
+
+Please see <https://medtronic-biostatistics.github.io/rqualify/index.html> for the full documentation. Here is a minimal usage example:
+
+```{r, eval = FALSE}
+library(rqualify)
+
+# Execute qualification using default arguments
+rqualify(path_save = tempdir())
+
+```
+
+## R-validation.Rmd Contents
+
+```{r codeexec, echo=FALSE, message=FALSE}
+
+# Helper function for running code at the command line
+code_exec <- function(code_block, file_prefix, folder_output){
+  
+  # Set code file name
+  file_code <- file.path(folder_output, paste0(file_prefix, ".R"))
+  
+  # Write code_block to R file
+  fileConn <- file(file_code)
+  writeLines(code_block, fileConn)
+  close(fileConn)
+  
+  # Set output file name
+  file_output <- file.path(folder_output, paste0(file_prefix, "Out.txt"))
+  
+  # Command to run @ command line
+  cmd <- paste(shQuote(file.path(R.home("bin"), "R")),
+               "CMD BATCH --vanilla --no-timing", 
+               shQuote(file_code), 
+               shQuote(file_output))
+  
+  # Run the command
+  run <- try(system(cmd))
+  
+  # Load results and return
+  readLines(file.path(folder_output, paste0(file_prefix, "Out.txt")))
+}
+
+# Define tempdir()
+dir_temp <- file.path(tempdir(), "IQ-OQ-TestOutput")
+dir.create(dir_temp, showWarnings = FALSE)
+dir_temp <- normalizePath(dir_temp, winslash="/")
+
+```
+
+
+### Installation Facts
+
+First, some R installation facts are gathered and stored in variables. These variables are then used to populate the title page of the report with details about the R installation being qualified.
+
+```{r titlepage, message=FALSE}
+# Get R installation facts
+RVersionInfo <- R.Version()
+Version      <- RVersionInfo$version.string
+Arch         <- gsub("_", " ", RVersionInfo$arch)
+Platform     <- gsub("_", " ", RVersionInfo$platform)
+```
+
+R Version: `r Version`
+
+Architecture: `r Arch`
+
+Platform: `r Platform`
+
+
+### Installation Qualification
+
+The following is the output of `R.home()`, showing where R was installed on this computer:
+
+```{r rhome}
+r_home <- paste0(R.home(), sep="\n")
+```
+
+`r r_home`
+
+---
+
+The following is the output of `system("R -e 'q()'")`, presenting the R welcome banner as displayed from a default R console (terminal) to show the R console correctly running and then exiting:
+
+
+```{r rbanner}
+# Output the R startup banner
+results0 <- try(system(paste(shQuote(file.path(R.home("bin"), "R")), "-e", shQuote("q()")), intern = TRUE))
+
+if (class(results0) != "try-error"){
+  results0 <- paste(results0, collapse = "\n")
+  results0 <- gsub("> q\\(\\)", "", results0)
+}
+```
+
+`r results0`
+
+---
+
+The following is the output of `Sys.info()`, defining some details about the current system upon which R is running and user information:
+
+
+```{r rsysinfo}
+# Run Sys.info() at the command line
+results_sysinfo <- code_exec(code_block    = "Sys.info()",
+                             file_prefix   = "sysinfo",
+                             folder_output = dir_temp)
+
+# Clean-up the results (remove the unnecessary preamble and arrow)
+results_sysinfo_clean <- results_sysinfo[-(1:(which(results_sysinfo == "> Sys.info()")))]
+
+if(any(results_sysinfo_clean == "> ")){
+  results_sysinfo_clean <- results_sysinfo_clean[-which(results_sysinfo_clean == "> ")]
+}
+```
+
+`r results_sysinfo_clean`
+
+---
+
+
+The following is the output of `.Platform`, defining some details of the platform upon which R was built (compiled):
+
+```{r rplatform}
+# Run .Platform at the command line
+results_platform <- code_exec(code_block    = ".Platform",
+                              file_prefix   = "platform",
+                              folder_output = dir_temp)
+
+# Clean-up the results (remove the unnecessary preamble)
+results_platform_clean <- results_platform[-(1:(which(results_platform == "> .Platform")))]
+
+if(any(results_platform_clean == "> ")){
+  results_platform_clean <- results_platform_clean[-which(results_platform_clean == "> ")]
+}
+```
+
+`r results_platform_clean`
+
+---
+
+The following is the output of `R.version`, defining detailed information on the currently running version of R:
+
+```{r rversion}
+# Run R.version at the command line
+results_rversion <- code_exec(code_block    = "R.version",
+                              file_prefix   = "rversion",
+                              folder_output = dir_temp)
+
+# Clean-up the results (remove the unnecessary preamble)
+results_rversion_clean <- results_rversion[-(1:(which(results_rversion == "> R.version")))]
+
+if(any(results_rversion_clean == "> ")){
+  results_rversion_clean <- results_rversion_clean[-which(results_rversion_clean == "> ")]
+}
+```
+
+`r results_rversion_clean`
+
+---
+
+The following is the output of `.Machine`, defining the numerical characteristics of the computer upon which R is running:
+
+```{r rmachine}
+# Run .Machine at the command line
+results_machine <- code_exec(code_block    = ".Machine",
+                             file_prefix   = "machine",
+                             folder_output = dir_temp)
+
+# Clean-up the results (remove the unnecessary preamble)
+results_machine_clean <- results_machine[-(1:(which(results_machine == "> .Machine")))]
+
+if(any(results_machine_clean == "> ")){
+  results_machine_clean <- results_machine_clean[-which(results_machine_clean == "> ")]
+}
+```
+
+`r results_machine_clean`
+
+---
+
+The following is the output of `sessionInfo()`, defining current R version, locale information and attached packages:
+
+```{r rsession}
+# Run sessionInfo() at the command line
+results_sessioninfo <- code_exec(code_block   = "sessionInfo()",
+                                 file_prefix  = "sessioninfo",
+                                 folder_output = dir_temp)
+
+# Clean-up the results (remove the unnecessary preamble)
+results_sessioninfo_clean <- results_sessioninfo[-(1:(which(results_sessioninfo == "> sessionInfo()")))]
+
+if(any(results_sessioninfo_clean == "> ")){
+  results_sessioninfo_clean <- results_sessioninfo_clean[-which(results_sessioninfo_clean == "> ")]
+}
+```
+
+`r results_sessioninfo_clean`
+
+---
+
+The following is the output of `.libPaths()`, the current package library location; may be more than one folder:
+
+```{r lib_path}
+results_libpath <- code_exec(code_block   = ".libPaths()",
+                             file_prefix  = "libpaths",
+                             folder_output = dir_temp)
+
+# Clean-up the results (remove the unnecessary preamble)
+results_libpath_clean <- results_libpath[-(1:(which(results_libpath == "> .libPaths()")))]
+
+if(any(results_libpath_clean == "> ")){
+  results_libpath_clean <- results_libpath_clean[-which(results_libpath_clean == "> ")]
+}
+```
+
+`r results_libpath_clean`
+
+---
+
+The following is the output of `rmarkdown::pandoc_version()` listing the version of Pandoc used to render the report:
+
+```{r pandoc_ver}
+if(pandoc::pandoc_available()){
+  results_pandoc_ver <- code_exec(code_block   = "rmarkdown::pandoc_version()",
+                                  file_prefix  = "pandoc_ver",
+                                  folder_output = dir_temp)
+  
+  # Clean-up the results (remove the unnecessary preamble)
+  results_pandoc_ver_clean <- results_pandoc_ver[-(1:(which(results_pandoc_ver == "> rmarkdown::pandoc_version()")))]
+  
+  if(any(results_pandoc_ver_clean == "> ")){
+    results_pandoc_ver_clean <- results_pandoc_ver_clean[-which(results_pandoc_ver_clean == "> ")]
+  }
+} else{
+  results_pandoc_ver_clean <- "Pandoc not available"
+}
+```
+
+`r results_pandoc_ver_clean`
+
+---
+
+The following is the output of `tinytex::tlmgr_version()` listing the version and installation path of TinyTex used to render the report to pdf:
+```{r tinytex_ver}
+if(tinytex::is_tinytex()){
+  results_tinytex_ver <- code_exec(code_block   = "tinytex::tlmgr_version()",
+                                   file_prefix  = "tinytex_ver",
+                                   folder_output = dir_temp)
+  
+  # Clean-up the results (remove the unnecessary preamble)
+  results_tinytex_ver_clean <- results_tinytex_ver[-(1:(which(results_tinytex_ver == "> tinytex::tlmgr_version()")))]
+  
+  if(any(results_tinytex_ver_clean == "> ")){
+    results_tinytex_ver_clean <- results_tinytex_ver_clean[-which(results_tinytex_ver_clean == "> ")]
+  }
+} else{
+  results_tinytex_ver_clean <- "TinyTeX not available"
+}
+```
+
+`r results_tinytex_ver_clean`
+
+
+### Operational Qualification
+
+
+#### R Core Operational Qualification - System Tests (OQ)
+
+The following is the output of `testInstalledBasic("both")`, which runs a series of core system-wide operational tests of the R installation, including various regression tests:
+
+```{r oq1, eval=FALSE}
+
+# Copy system tests to IQ-OQ-TestOutput/tests
+r_test_path <- file.path(R.home(), "tests")
+fc          <- file.copy(r_test_path, "IQ-OQ-TestOutput", recursive=TRUE)
+
+# Set absolute test path
+path_system_tests <- normalizePath("IQ-OQ-TestOutput/tests", winslash="/")
+
+code_check1 <- sprintf('
+options(echo = FALSE)
+options(useFancyQuotes = FALSE)
+
+Failure <- tryCatch(tools:::testInstalledBasic(
+                    scope      = "basic",
+                    outDir     = "%s",
+                    testSrcdir = "%s"
+                    ),
+                    error=function(e) TRUE)
+
+if (Failure){
+  cat("\n\nTest suite result: FAIL\n\n")
+  fc <- file.create("IQ-OQ-TestOutput/CMDFile1Fail", showWarnings = FALSE)
+} else {
+  cat("\n\nTest suite result: PASS\n\n")
+}
+q(status = Failure)
+',path_system_tests,path_system_tests)
+
+results1 <- code_exec(code_block    = code_check1,
+                      file_prefix   = "CMDFile1",
+                      folder_output = "IQ-OQ-TestOutput")
+
+```
+
+```{r oq1read, echo=FALSE, results="asis"}
+readLines(system.file("qualify_r/example_success/CMDFile1Out.txt", package="rqualify"))
+```
+
+The final line of the above output displays the status of running the above tests. `PASS` indicates a successful running of the tests, a `FAIL` would indicate that an error was detected during the running of the tests.
+
+There may be some tests where the result of performing a `diff` on two files that were being compared demonstrate a content difference that may or may not be relevant and may be dependent upon locale settings. Any such differences displayed in the above output should be reviewed in detail to determine their relevance to the Operational Qualification of this R installation.
+
+---
+
+#### R Base Package Operational Qualification - Package Examples (OQ)
+
+The following is the output of `testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "base", types = "examples", errorsAreFatal = FALSE)`, which runs a series of operational tests of the R Base package code examples:
+
+```{r oq2, eval=FALSE}
+code_check2 <- '
+options(echo = FALSE)
+options(useFancyQuotes = FALSE)
+Failure <- tryCatch(tools:::testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "base", types = "examples", errorsAreFatal = FALSE),
+                    error=function(e) TRUE)
+if (Failure) {
+  cat("\n\nTest suite result: FAIL\n\n")
+  fc <- file.create("IQ-OQ-TestOutput/CMDFile2Fail")
+} else {
+  cat("\n\nTest suite result: PASS\n\n")
+}
+q(status = Failure)
+'
+results2 <- code_exec(code_block    = code_check2,
+                      file_prefix   = "CMDFile2",
+                      folder_output = "IQ-OQ-TestOutput")
+```
+
+```{r oq2read, echo=FALSE, results="asis"}
+readLines(system.file("qualify_r/example_success/CMDFile2Out.txt", package="rqualify"))
+```
+
+The final line of the above output displays the status of running the above tests. `PASS` indicates a successful running of the tests, a `FAIL` would indicate that an error was detected during the running of the tests. 
+
+There may be some tests where the result of performing a `diff` on two files that were being compared demonstrate a content difference that may or may not be relevant and may be dependent upon locale settings. Any such differences displayed in the above output should be reviewed in detail to determine their relevance to the Operational Qualification of this R installation.
+
+---
+
+#### R Base Package Operational Qualification - Package Vignettes (OQ)
+
+The following is the output of `testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "base", types = "vignettes", errorsAreFatal = FALSE)`, which runs a series of operational tests of the R Base package vignette code examples:
+
+```{r oq3, eval=FALSE}
+code_check3 <- '
+options(echo = FALSE)
+options(useFancyQuotes = FALSE)
+Failure <- tryCatch(tools:::testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "base", types = "vignettes", errorsAreFatal = FALSE),
+                    error=function(e) TRUE)
+if (Failure) {
+  cat("\n\nTest suite result: FAIL\n\n")
+  fc <- file.create("IQ-OQ-TestOutput/CMDFile3Fail", showWarnings = FALSE)
+} else {
+  cat("\n\nTest suite result: PASS\n\n")
+}
+q(status = Failure)
+'
+results3 <- code_exec(code_block    = code_check3,
+                      file_prefix   = "CMDFile3",
+                      folder_output = "IQ-OQ-TestOutput")
+```
+
+```{r oq3read, echo=FALSE, results="asis"}
+readLines(system.file("qualify_r/example_success/CMDFile3Out.txt", package="rqualify"))
+```
+
+The final line of the above output displays the status of running the above tests. `PASS` indicates a successful running of the tests, a `FAIL` would indicate that an error was detected during the running of the tests. 
+
+There may be some tests where the result of performing a `diff` on two files that were being compared demonstrate a content difference that may or may not be relevant and may be dependent upon locale settings. Any such differences displayed in the above output should be reviewed in detail to determine their relevance to the Operational Qualification of this R installation.
+
+---
+
+#### R Recommended Package Operational Qualification - Package Examples (OQ)
+
+The following is the output of `testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "recommended", types = "examples", errorsAreFatal = FALSE)`, which runs a series of operational tests of the R Recommended package code examples:
+
+```{r oq4, eval=FALSE}
+code_check4 <- '
+options(echo = FALSE)
+options(useFancyQuotes = FALSE)
+Failure <- tryCatch(tools:::testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "recommended", types = "examples", errorsAreFatal = FALSE),
+                    error=function(e) TRUE)
+if (Failure){
+  cat("\n\nTest suite result: FAIL\n\n")
+  fc <- file.create("IQ-OQ-TestOutput/CMDFile4Fail", showWarnings = FALSE)
+} else {
+  cat("\n\nTest suite result: PASS\n\n")
+}
+q(status = Failure)
+'
+results4 <- code_exec(code_block    = code_check4,
+                      file_prefix   = "CMDFile4",
+                      folder_output = "IQ-OQ-TestOutput")
+```
+
+```{r oq4read, echo=FALSE, results="asis"}
+readLines(system.file("qualify_r/example_success/CMDFile4Out.txt", package="rqualify"))
+```
+
+The final line of the above output displays the status of running the above tests. `PASS` indicates a successful running of the tests, a `FAIL` would indicate that an error was detected during the running of the tests. 
+
+There may be some tests where the result of performing a `diff` on two files that were being compared demonstrate a content difference that may or may not be relevant and may be dependent upon locale settings. Any such differences displayed in the above output should be reviewed in detail to determine their relevance to the Operational Qualification of this R installation.
+
+---
+
+#### R Recommended Package Operational Qualification - Package Vignettes (OQ)
+
+The following is the output of `testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "recommended", types = "vignettes", errorsAreFatal = FALSE)`, which runs a series of operational tests of the R Recommended package vignette code examples:
+
+```{r oq5, eval=FALSE}
+code_check5 <- '
+options(echo = FALSE)
+options(useFancyQuotes = FALSE)
+Failure <- tryCatch(tools:::testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "recommended", types = "vignettes", errorsAreFatal = FALSE),
+                    error=function(e) TRUE)
+if (Failure){
+  cat("\n\nTest suite result: FAIL\n\n")
+  fc <- file.create("IQ-OQ-TestOutput/CMDFile5Fail", showWarnings = FALSE)
+} else {
+  cat("\n\nTest suite result: PASS\n\n")
+}
+q(status = Failure)
+'
+results5 <- code_exec(code_block    = code_check5,
+                      file_prefix   = "CMDFile5",
+                      folder_output = "IQ-OQ-TestOutput")
+```
+
+```{r oq5read, echo=FALSE, results="asis"}
+readLines(system.file("qualify_r/example_success/CMDFile5Out.txt", package="rqualify"))
+```
+
+The final line of the above output displays the status of running the above tests. `PASS` indicates a successful running of the tests, a `FAIL` would indicate that an error was detected during the running of the tests. 
+
+There may be some tests where the result of performing a `diff` on two files that were being compared demonstrate a content difference that may or may not be relevant and may be dependent upon locale settings. Any such differences displayed in the above output should be reviewed in detail to determine their relevance to the Operational Qualification of this R installation.
+
+---
+
+#### R Base Package Operational Qualification - Package Tests (OQ)
+
+The following is the output of `testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "base", types = "tests", errorsAreFatal = FALSE)`, which runs a series of operational tests of the R Base package code tests:
+
+```{r oq6, eval=FALSE}
+code_check6 <- '
+options(echo = FALSE)
+options(useFancyQuotes = FALSE)
+Failure <- tryCatch(tools:::testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "base", types = "tests", errorsAreFatal = FALSE),
+                    error=function(e) TRUE)
+if (Failure){
+  cat("\n\nTest suite result: FAIL\n\n")
+  fc <- file.create("IQ-OQ-TestOutput/CMDFile6Fail", showWarnings = FALSE)
+} else {
+  cat("\n\nTest suite result: PASS\n\n")
+}
+q(status = Failure)
+'
+results6 <- code_exec(code_block    = code_check6,
+                      file_prefix   = "CMDFile6",
+                      folder_output = "IQ-OQ-TestOutput")
+```
+
+```{r oq6read, echo=FALSE, results="asis"}
+readLines(system.file("qualify_r/example_success/CMDFile6Out.txt", package="rqualify"))
+```
+
+The final line of the above output displays the status of running the above tests. `PASS` indicates a successful running of the tests, a `FAIL` would indicate that an error was detected during the running of the tests. 
+
+There may be some tests where the result of performing a `diff` on two files that were being compared demonstrate a content difference that may or may not be relevant and may be dependent upon locale settings. Any such differences displayed in the above output should be reviewed in detail to determine their relevance to the Operational Qualification of this R installation.
+
+---
+
+#### R Recommended Package Operational Qualification - Package Tests (OQ)
+
+The following is the output of `testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "recommended", types = "tests", errorsAreFatal = FALSE)`, which runs a series of operational tests of the R Recommended package code tests:
+
+```{r oq7, eval=FALSE}
+code_check7 <- '
+options(echo = FALSE)
+options(useFancyQuotes = FALSE)
+Failure <- tryCatch(tools:::testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "recommended", types = "tests", errorsAreFatal = FALSE),
+                    error=function(e) TRUE)
+if (Failure){
+  cat("\n\nTest suite result: FAIL\n\n")
+  fc <- file.create("IQ-OQ-TestOutput/CMDFile7Fail", showWarnings = FALSE)
+} else {
+  cat("\n\nTest suite result: PASS\n\n")
+}
+q(status = Failure)
+'
+results7 <- code_exec(code_block    = code_check7,
+                      file_prefix   = "CMDFile7",
+                      folder_output = "IQ-OQ-TestOutput")
+```
+
+```{r oq7read, echo=FALSE, results="asis"}
+readLines(system.file("qualify_r/example_success/CMDFile7Out.txt", package="rqualify"))
+```
+
+The final line of the above output displays the status of running the above tests. `PASS` indicates a successful running of the tests, a `FAIL` would indicate that an error was detected during the running of the tests. 
+
+There may be some tests where the result of performing a `diff` on two files that were being compared demonstrate a content difference that may or may not be relevant and may be dependent upon locale settings. Any such differences displayed in the above output should be reviewed in detail to determine their relevance to the Operational Qualification of this R installation.
+
+
+```{r codecleanup, echo=FALSE, message=FALSE}
+unlink(dir_temp)
+```

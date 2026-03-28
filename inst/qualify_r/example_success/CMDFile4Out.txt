@@ -1,0 +1,43 @@
+
+R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> options(echo = FALSE)
+Testing examples for package 'MASS'
+  comparing 'MASS-Ex.Rout' to 'MASS-Ex.Rout.save' ... OK
+Testing examples for package 'lattice'
+Testing examples for package 'Matrix'
+Testing examples for package 'nlme'
+Testing examples for package 'survival'
+  comparing 'survival-Ex.Rout' to 'survival-Ex.Rout.save' ... OK
+Testing examples for package 'boot'
+  comparing 'boot-Ex.Rout' to 'boot-Ex.Rout.save' ... OK
+Testing examples for package 'cluster'
+Testing examples for package 'codetools'
+Testing examples for package 'foreign'
+Testing examples for package 'KernSmooth'
+Testing examples for package 'rpart'
+  comparing 'rpart-Ex.Rout' to 'rpart-Ex.Rout.save' ... OK
+Testing examples for package 'class'
+Testing examples for package 'nnet'
+Testing examples for package 'spatial'
+  comparing 'spatial-Ex.Rout' to 'spatial-Ex.Rout.save' ... OK
+Testing examples for package 'mgcv'
+
+
+Test suite result: PASS
+

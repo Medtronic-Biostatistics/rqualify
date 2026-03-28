@@ -1,0 +1,134 @@
+
+R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> options(echo = FALSE)
+Running specific tests for package 'tools'
+  Running 'hashes.R'
+  Running 'QC.R'
+  Running 'Rd.R'
+  Running 'Rd2HTML.R'
+  Running 'Rd2pdf.R'
+  Running 'S3.R'
+  Running 'undoc.R'
+Running specific tests for package 'utils'
+  Running 'charclass.R'
+  Running 'completion.R'
+  Running 'relist.R'
+  Running 'Sweave-tst.R'
+  Running 'tar.R'
+Running specific tests for package 'grDevices'
+  Running 'convertColor-tests.R'
+  Running 'encodings.R'
+  comparing 'encodings.Rout' to 'encodings.Rout.save' ... OK
+  Running 'encodings2.R'
+  comparing 'encodings2.Rout' to 'encodings2.Rout.save' ... OK
+  Running 'encodings3.R'
+  comparing 'encodings3.Rout' to 'encodings3.Rout.save' ... OK
+  Running 'grDev-tsts.R'
+  Running 'palettes-tests.R'
+  Running 'ps-tests.R'
+  comparing 'ps-tests.Rout' to 'ps-tests.Rout.save' ... OK
+  Running 'saved-recordPlot.R'
+  Running 'urw-fonts.R'
+  Running 'xyTable.R'
+  comparing 'xyTable.Rout' to 'xyTable.Rout.save' ... OK
+  Running 'zzcheck-encodings.R'
+Running specific tests for package 'stats'
+  Running 'arimaML.R'
+  Running 'bandwidth.R'
+  comparing 'bandwidth.Rout' to 'bandwidth.Rout.save' ... OK
+  Running 'cmdscale.R'
+  Running 'density_chk.R'
+  Running 'dpq-xtra.R'
+  Running 'drop1-polr.R'
+  Running 'factanal-tst.R'
+  Running 'glm-etc.R'
+  Running 'glm.R'
+  comparing 'glm.Rout' to 'glm.Rout.save' ... OK
+  Running 'ig_glm.R'
+  Running 'ks-test.R'
+  comparing 'ks-test.Rout' to 'ks-test.Rout.save' ... OK
+  Running 'loglin.R'
+  comparing 'loglin.Rout' to 'loglin.Rout.save' ... OK
+  Running 'nafns.R'
+  Running 'nlm.R'
+  Running 'nls.R'
+  comparing 'nls.Rout' to 'nls.Rout.save' ... OK
+  Running 'NLSstClosest.R'
+  Running 'offsets.R'
+  Running 'ppr.R'
+  Running 'psmirnov.R'
+  comparing 'psmirnov.Rout' to 'psmirnov.Rout.save' ... OK
+  Running 'simulate.R'
+  comparing 'simulate.Rout' to 'simulate.Rout.save' ... OK
+  Running 'smooth.spline.R'
+  Running 'table-margins.R'
+  Running 'ts-tests.R'
+Running specific tests for package 'methods'
+  Running 'basicRefClass.R'
+  Running 'duplicateClass.R'
+  Running 'envRefClass.R'
+  Running 'fieldAssignments.R'
+  Running 'mixinInitialize.R'
+  Running 'namesAndSlots.R'
+  Running 'nextWithDots.R'
+  Running 'refClassExample.R'
+  Running 'S3.R'
+  Running 'testConditionalIs.R'
+  Running 'testGroupGeneric.R'
+  Running 'testIs.R'
+Running specific tests for package 'grid'
+  Running 'bugs.R'
+  Running 'clippaths.R'
+  Running 'compositing.R'
+  Running 'coords.R'
+  Running 'glyphs.R'
+  Running 'grep.R'
+  comparing 'grep.Rout' to 'grep.Rout.save' ... OK
+  Running 'groups.R'
+  Running 'masks.R'
+  Running 'nesting.R'
+  Running 'paths.R'
+  Running 'patterns.R'
+  Running 'reg.R'
+  Running 'testls.R'
+  comparing 'testls.Rout' to 'testls.Rout.save' ... OK
+  Running 'units.R'
+Running specific tests for package 'splines'
+  Running 'sparse-tst.R'
+  Running 'spline-tst.R'
+Running specific tests for package 'stats4'
+  Running 'confint.R'
+Running specific tests for package 'compiler'
+  Running 'assign.R'
+  Running 'basics.R'
+  Running 'const.R'
+  Running 'curexpr.R'
+  Running 'envir.R'
+  Running 'jit.R'
+  Running 'loop.R'
+  Running 'srcref.R'
+  Running 'switch.R'
+  Running 'vischk.R'
+Running specific tests for package 'parallel'
+  Running 'Master.R'
+  Running 'RSeed.R'
+
+
+Test suite result: PASS
+
