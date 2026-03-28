@@ -11,6 +11,11 @@
 
   Qualification Details
 
+- [Introduction to the rqualify
+  Package](https://medtronic-biostatistics.github.io/rqualify/articles/rqualify-cran.md):
+
+  Introduction to the rqualify Package.
+
 - [Introduction to
   rqualify](https://medtronic-biostatistics.github.io/rqualify/articles/rqualify.md):
 
