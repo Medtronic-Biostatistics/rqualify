@@ -9,6 +9,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+# TODO: need to clean-up some of the outputs
+
+
 # R Installation IQ/OQ
 
 This vignette is an overview of the `R-validation.Rmd` file, showing what code is executed when the file is rendered. This overview is for informational purposes and documents the internal structure of the `R-validation.Rmd` file. If any of the code blocks are updated, this is not considered a breaking change as the document will still render properly.
@@ -24,6 +27,9 @@ rqualify(path_save = tempdir())
 ```
 
 ## R-validation.Rmd Contents
+
+Below, shows example output of installation facts, installation qualification, and operational qualification. The installation facts and qualification results are generated at the time of the package build or site build, while the operational qualification results were generated on a Windows machine with R version 4.5.1.
+
 
 ```{r codeexec, echo=FALSE, message=FALSE}
 
@@ -74,12 +80,13 @@ Arch         <- gsub("_", " ", RVersionInfo$arch)
 Platform     <- gsub("_", " ", RVersionInfo$platform)
 ```
 
+~~~~~~~
 R Version: `r Version`
 
 Architecture: `r Arch`
 
 Platform: `r Platform`
-
+~~~~~~~
 
 ### Installation Qualification
 
@@ -89,7 +96,11 @@ The following is the output of `R.home()`, showing where R was installed on this
 r_home <- paste0(R.home(), sep="\n")
 ```
 
-`r r_home`
+~~~~~~~
+```{r echo=FALSE, results="asis"}
+cat(paste0(r_home, collapse = "\n"))
+```
+~~~~~~~
 
 ---
 
@@ -103,10 +114,16 @@ results0 <- try(system(paste(shQuote(file.path(R.home("bin"), "R")), "-e", shQuo
 if (class(results0) != "try-error"){
   results0 <- paste(results0, collapse = "\n")
   results0 <- gsub("> q\\(\\)", "", results0)
+} else{
+  results0 <- "Unable to execute R at the command line"
 }
 ```
 
-`r results0`
+~~~~~~~
+```{r echo=FALSE, results="asis"}
+cat(results0)
+```
+~~~~~~~
 
 ---
 
@@ -127,7 +144,11 @@ if(any(results_sysinfo_clean == "> ")){
 }
 ```
 
-`r results_sysinfo_clean`
+~~~~~~~
+```{r echo=FALSE, results="asis"}
+cat(paste0(results_sysinfo_clean, collapse = "\n"))
+```
+~~~~~~~
 
 ---
 
@@ -148,7 +169,11 @@ if(any(results_platform_clean == "> ")){
 }
 ```
 
-`r results_platform_clean`
+~~~~~~~
+```{r echo=FALSE, results="asis"}
+cat(paste0(results_platform_clean, collapse = "\n"))
+```
+~~~~~~~
 
 ---
 
@@ -168,7 +193,11 @@ if(any(results_rversion_clean == "> ")){
 }
 ```
 
-`r results_rversion_clean`
+~~~~~~~
+```{r echo=FALSE, results="asis"}
+cat(paste0(results_rversion_clean, collapse = "\n"))
+```
+~~~~~~~
 
 ---
 
@@ -188,7 +217,11 @@ if(any(results_machine_clean == "> ")){
 }
 ```
 
-`r results_machine_clean`
+~~~~~~~
+```{r echo=FALSE, results="asis"}
+cat(paste0(results_machine_clean, collapse = "\n"))
+```
+~~~~~~~
 
 ---
 
@@ -208,7 +241,11 @@ if(any(results_sessioninfo_clean == "> ")){
 }
 ```
 
-`r results_sessioninfo_clean`
+~~~~~~~
+```{r echo=FALSE, results="asis"}
+cat(paste0(results_sessioninfo_clean, collapse = "\n"))
+```
+~~~~~~~
 
 ---
 
@@ -227,7 +264,11 @@ if(any(results_libpath_clean == "> ")){
 }
 ```
 
-`r results_libpath_clean`
+~~~~~~~
+```{r echo=FALSE, results="asis"}
+cat(paste0(results_libpath_clean, collapse = "\n"))
+```
+~~~~~~~
 
 ---
 
@@ -250,7 +291,11 @@ if(pandoc::pandoc_available()){
 }
 ```
 
-`r results_pandoc_ver_clean`
+~~~~~~~
+```{r echo=FALSE, results="asis"}
+cat(paste0(results_pandoc_ver_clean, collapse = "\n"))
+```
+~~~~~~~
 
 ---
 
@@ -272,8 +317,13 @@ if(tinytex::is_tinytex()){
 }
 ```
 
-`r results_tinytex_ver_clean`
+~~~~~~~
+```{r echo=FALSE, results="asis"}
+cat(paste0(results_tinytex_ver_clean, collapse = "\n"))
+```
+~~~~~~~
 
+---
 
 ### Operational Qualification
 
@@ -317,9 +367,13 @@ results1 <- code_exec(code_block    = code_check1,
 
 ```
 
+~~~~~~~
 ```{r oq1read, echo=FALSE, results="asis"}
-readLines(system.file("qualify_r/example_success/CMDFile1Out.txt", package="rqualify"))
+cat(paste0(readLines(system.file("qualify_r/example_success/CMDFile1Out.txt", package="rqualify")), 
+           collapse = "\n"))
 ```
+~~~~~~~
+
 
 The final line of the above output displays the status of running the above tests. `PASS` indicates a successful running of the tests, a `FAIL` would indicate that an error was detected during the running of the tests.
 
@@ -350,9 +404,12 @@ results2 <- code_exec(code_block    = code_check2,
                       folder_output = "IQ-OQ-TestOutput")
 ```
 
+~~~~~~~
 ```{r oq2read, echo=FALSE, results="asis"}
-readLines(system.file("qualify_r/example_success/CMDFile2Out.txt", package="rqualify"))
+cat(paste0(readLines(system.file("qualify_r/example_success/CMDFile2Out.txt", package="rqualify")), 
+           collapse = "\n"))
 ```
+~~~~~~~
 
 The final line of the above output displays the status of running the above tests. `PASS` indicates a successful running of the tests, a `FAIL` would indicate that an error was detected during the running of the tests. 
 
@@ -383,9 +440,12 @@ results3 <- code_exec(code_block    = code_check3,
                       folder_output = "IQ-OQ-TestOutput")
 ```
 
+~~~~~~~
 ```{r oq3read, echo=FALSE, results="asis"}
-readLines(system.file("qualify_r/example_success/CMDFile3Out.txt", package="rqualify"))
+cat(paste0(readLines(system.file("qualify_r/example_success/CMDFile3Out.txt", package="rqualify")), 
+           collapse = "\n"))
 ```
+~~~~~~~
 
 The final line of the above output displays the status of running the above tests. `PASS` indicates a successful running of the tests, a `FAIL` would indicate that an error was detected during the running of the tests. 
 
@@ -416,9 +476,12 @@ results4 <- code_exec(code_block    = code_check4,
                       folder_output = "IQ-OQ-TestOutput")
 ```
 
+~~~~~~~
 ```{r oq4read, echo=FALSE, results="asis"}
-readLines(system.file("qualify_r/example_success/CMDFile4Out.txt", package="rqualify"))
+cat(paste0(readLines(system.file("qualify_r/example_success/CMDFile4Out.txt", package="rqualify")), 
+           collapse = "\n"))
 ```
+~~~~~~~
 
 The final line of the above output displays the status of running the above tests. `PASS` indicates a successful running of the tests, a `FAIL` would indicate that an error was detected during the running of the tests. 
 
@@ -449,9 +512,12 @@ results5 <- code_exec(code_block    = code_check5,
                       folder_output = "IQ-OQ-TestOutput")
 ```
 
+~~~~~~~
 ```{r oq5read, echo=FALSE, results="asis"}
-readLines(system.file("qualify_r/example_success/CMDFile5Out.txt", package="rqualify"))
+cat(paste0(readLines(system.file("qualify_r/example_success/CMDFile5Out.txt", package="rqualify")), 
+           collapse = "\n"))
 ```
+~~~~~~~
 
 The final line of the above output displays the status of running the above tests. `PASS` indicates a successful running of the tests, a `FAIL` would indicate that an error was detected during the running of the tests. 
 
@@ -482,9 +548,12 @@ results6 <- code_exec(code_block    = code_check6,
                       folder_output = "IQ-OQ-TestOutput")
 ```
 
+~~~~~~~
 ```{r oq6read, echo=FALSE, results="asis"}
-readLines(system.file("qualify_r/example_success/CMDFile6Out.txt", package="rqualify"))
+cat(paste0(readLines(system.file("qualify_r/example_success/CMDFile6Out.txt", package="rqualify")), 
+           collapse = "\n"))
 ```
+~~~~~~~
 
 The final line of the above output displays the status of running the above tests. `PASS` indicates a successful running of the tests, a `FAIL` would indicate that an error was detected during the running of the tests. 
 
@@ -515,13 +584,23 @@ results7 <- code_exec(code_block    = code_check7,
                       folder_output = "IQ-OQ-TestOutput")
 ```
 
+~~~~~~~
 ```{r oq7read, echo=FALSE, results="asis"}
-readLines(system.file("qualify_r/example_success/CMDFile7Out.txt", package="rqualify"))
+cat(paste0(readLines(system.file("qualify_r/example_success/CMDFile7Out.txt", package="rqualify")), 
+           collapse = "\n"))
 ```
+~~~~~~~
 
 The final line of the above output displays the status of running the above tests. `PASS` indicates a successful running of the tests, a `FAIL` would indicate that an error was detected during the running of the tests. 
 
 There may be some tests where the result of performing a `diff` on two files that were being compared demonstrate a content difference that may or may not be relevant and may be dependent upon locale settings. Any such differences displayed in the above output should be reviewed in detail to determine their relevance to the Operational Qualification of this R installation.
+
+
+### Summary of Findings
+
+The final page of the report include a table with the summary of findings from the above tests, including the overall status of the Installation Qualification and Operational Qualification of this R installation. The overall status is determined by the presence of any `FAIL` results in the above tests, which would indicate a failure in the qualification of this R installation.
+
+Please see <https://medtronic-biostatistics.github.io/rqualify/index.html> for the full documentation and an example of a successful report.
 
 
 ```{r codecleanup, echo=FALSE, message=FALSE}
