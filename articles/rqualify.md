@@ -24,9 +24,9 @@ The `rqualify` function performs the following steps:
 
 1.  Creates the folder tree `R-validation/IQ-OQ-TestOutput` at the
     specified `path_save`.
-2.  Installs tinytex and necessary LaTeX packages (if
+2.  Installs TinyTeX and necessary LaTeX packages (if
     `setup_tinytex=TRUE`).
-3.  Installs pandoc (if `setup_pandoc=TRUE`).
+3.  Installs Pandoc (if `setup_pandoc=TRUE`).
 4.  Copies `R-validation.Rmd` to the `R-validation` folder.
 5.  Executes the IQ-OQ by rendering `R-validation.Rmd` to
     `R-validation.tex`.
