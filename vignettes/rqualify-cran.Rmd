@@ -596,6 +596,13 @@ The final line of the above output displays the status of running the above test
 There may be some tests where the result of performing a `diff` on two files that were being compared demonstrate a content difference that may or may not be relevant and may be dependent upon locale settings. Any such differences displayed in the above output should be reviewed in detail to determine their relevance to the Operational Qualification of this R installation.
 
 
+### Summary of Findings
+
+The final page of the report include a table with the summary of findings from the above tests, including the overall status of the Installation Qualification and Operational Qualification of this R installation. The overall status is determined by the presence of any `FAIL` results in the above tests, which would indicate a failure in the qualification of this R installation.
+
+Please see <https://medtronic-biostatistics.github.io/rqualify/index.html> for the full documentation and an example of a successful report.
+
+
 ```{r codecleanup, echo=FALSE, message=FALSE}
 unlink(dir_temp)
 ```
