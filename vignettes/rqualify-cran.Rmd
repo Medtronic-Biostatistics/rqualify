@@ -9,9 +9,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# TODO: need to clean-up some of the outputs
-
-
 # R Installation IQ/OQ
 
 This vignette is an overview of the `R-validation.Rmd` file, showing what code is executed when the file is rendered. This overview is for informational purposes and documents the internal structure of the `R-validation.Rmd` file. If any of the code blocks are updated, this is not considered a breaking change as the document will still render properly.
