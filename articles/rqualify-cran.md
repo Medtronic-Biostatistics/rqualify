@@ -1,7 +1,5 @@
 # Introduction to the rqualify Package
 
-## TODO: need to clean-up some of the outputs
-
 ## R Installation IQ/OQ
 
 This vignette is an overview of the `R-validation.Rmd` file, showing
