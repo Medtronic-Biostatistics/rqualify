@@ -25,7 +25,7 @@ rqualify(path_save = tempdir())
 
 ## R-validation.Rmd Contents
 
-Below, shows example output of installation facts, installation qualification, and operational qualification. The installation facts and qualification results are generated at the time of the package build or site build, while the operational qualification results were generated on a Windows machine with R version 4.5.1.
+Below includes example output of installation facts, installation qualification, and operational qualification. The installation facts and qualification results are generated at the time of the package build or site build, while the operational qualification results were generated on a Windows machine with R version 4.5.1.
 
 
 ```{r codeexec, echo=FALSE, message=FALSE}
