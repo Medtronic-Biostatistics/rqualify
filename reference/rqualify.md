@@ -84,9 +84,9 @@ if (FALSE) { # tinytex::is_tinytex() && pandoc::pandoc_available()
 # \donttest{
 # Render the R-validation report, must have TinyTeX and Pandoc installed for 
 # this example, otherwise set setup_tinytex and setup_pandoc to TRUE.
-#rqualify(path_save     = tempdir(),
-#          setup_tinytex = FALSE,
-#          setup_pandoc  = FALSE)
+rqualify(path_save     = tempdir(),
+         setup_tinytex = FALSE,
+         setup_pandoc  = FALSE)
 # }
 DONTSHOW({
 unlink(file.path(tempdir(), "R-validation"), recursive=TRUE)

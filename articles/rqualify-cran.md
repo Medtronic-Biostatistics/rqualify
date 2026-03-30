@@ -22,7 +22,7 @@ rqualify(path_save = tempdir())
 
 ### R-validation.Rmd Contents
 
-Below, shows example output of installation facts, installation
+Below includes example output of installation facts, installation
 qualification, and operational qualification. The installation facts and
 qualification results are generated at the time of the package build or
 site build, while the operational qualification results were generated

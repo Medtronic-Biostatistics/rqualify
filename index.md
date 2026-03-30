@@ -6,8 +6,8 @@ You can install the package via CRAN:
 
     install.packages("rqualify")
 
-The package can currently be installed from this Github repository using
-the following:
+The package can also be installed from this Github repository using the
+following:
 
     # If needed install.packages("remotes")
     remotes::install_github("Medtronic-Biostatistics/rqualify")
