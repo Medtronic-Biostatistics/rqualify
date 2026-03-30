@@ -14,7 +14,7 @@ You can install the package via CRAN:
 install.packages("rqualify")
 ```
 
-The package can currently be installed from this Github repository using
+The package can also be installed from this Github repository using
 the following:
 
 ```         
