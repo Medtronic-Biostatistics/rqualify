@@ -20,12 +20,11 @@ library(rqualify)
 
 # Execute qualification using default arguments
 rqualify(path_save = tempdir())
-
 ```
 
 ## R-validation.Rmd Contents
 
-Below includes example output of installation facts, installation qualification, and operational qualification. The installation facts and qualification results are generated at the time of the package build or site build, while the operational qualification results were generated on a Windows machine with R version 4.5.1.
+Below includes example output of installation facts, installation qualification, and operational qualification. The installation facts and qualification results are generated at the time of the package build or site build, while the operational qualification results were generated on a Windows machine with R version 4.5.1. Here, the code blocks are shown for informational purposes, the actual PDF report does not include the code blocks, only the results of each executed code block.
 
 
 ```{r codeexec, echo=FALSE, message=FALSE}
@@ -65,7 +64,7 @@ dir_temp <- normalizePath(dir_temp, winslash="/")
 ```
 
 
-### Installation Facts
+### Installation Qualification
 
 First, some R installation facts are gathered and stored in variables. These variables are then used to populate the title page of the report with details about the R installation being qualified.
 
@@ -85,7 +84,7 @@ Architecture: `r Arch`
 Platform: `r Platform`
 ~~~~~~~
 
-### Installation Qualification
+---
 
 The following is the output of `R.home()`, showing where R was installed on this computer:
 
@@ -269,7 +268,7 @@ cat(paste0(results_libpath_clean, collapse = "\n"))
 
 ---
 
-The following is the output of `rmarkdown::pandoc_version()` listing the version of Pandoc used to render the report:
+The following is the output of `rmarkdown::pandoc_version()` listing the version of Pandoc used to render the report (note, if Pandoc is not installed, the output will indicate that Pandoc is not available):
 
 ```{r pandoc_ver}
 if(pandoc::pandoc_available()){
@@ -296,7 +295,7 @@ cat(paste0(results_pandoc_ver_clean, collapse = "\n"))
 
 ---
 
-The following is the output of `tinytex::tlmgr_version()` listing the version and installation path of TinyTex used to render the report to pdf:
+The following is the output of `tinytex::tlmgr_version()` listing the version and installation path of TinyTex used to render the report to pdf (note, if TinyTeX is not installed, the output will indicate that TinyTeX is not available):
 ```{r tinytex_ver}
 if(tinytex::is_tinytex()){
   results_tinytex_ver <- code_exec(code_block   = "tinytex::tlmgr_version()",
@@ -595,7 +594,7 @@ There may be some tests where the result of performing a `diff` on two files tha
 
 ### Summary of Findings
 
-The final page of the report include a table with the summary of findings from the above tests, including the overall status of the Installation Qualification and Operational Qualification of this R installation. The overall status is determined by the presence of any `FAIL` results in the above tests, which would indicate a failure in the qualification of this R installation.
+The final page of the report will include a table with the summary of findings from the above tests, including the overall status of the Installation Qualification and Operational Qualification of this R installation. The overall status is determined by the presence of any `FAIL` results in the above tests, which would indicate a failure in the qualification of this R installation.
 
 Please see <https://medtronic-biostatistics.github.io/rqualify/index.html> for the full documentation and an example of a successful report.
 
