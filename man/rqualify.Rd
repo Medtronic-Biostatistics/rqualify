@@ -14,27 +14,27 @@ rqualify(
 }
 \arguments{
 \item{path_save}{Character. Path to save the R-validation folder. Ensure
-a folder named `R-validation` does not already exist at this location.}
+a folder named R-validation does not already exist at this location.}
 
 \item{setup_tinytex}{Logical. If TRUE, sets up TinyTeX for LaTeX document
 generation. Note, this does not install the tinytex R package, but the TinyTeX 
 LaTeX bundle. It is a convenient wrapper for installing TinyTeX using 
-`tinytex::install_tinytex()`, and adding the TinyTeX location to the environment.
-The function installs the "TinyTeX" bundle and the additional package `grfext`,
+\code{tinytex::install_tinytex()}, and adding the TinyTeX location to the environment.
+The function installs the "TinyTeX" bundle and the additional package grfext,
 and sets the TinyTeX installation path on the system PATH.}
 
 \item{setup_pandoc}{Logical. If TRUE, sets up pandoc for document conversion.
 Note, this does not install the pandoc R package, but the Pandoc software. It
-is a convenient wrapper around `pandoc::pandoc_install()` and `pandoc::pandoc_activate()`, 
-which are called internally.}
+is a convenient wrapper around \code{pandoc::pandoc_install()} and `
+\code{pandoc::pandoc_activate()}, which are called internally.}
 
 \item{render_latex}{Logical. If TRUE, renders the generated LaTeX file to PDF using 
-`tinytex::pdflatex()`.}
+\code{tinytex::pdflatex()}.}
 
 \item{verbose}{Logical. If TRUE, prints progress messages to the console.}
 }
 \value{
-The path to the `R-validation` folder. The primary purpose of this 
+The path to the R-validation folder. The primary purpose of this 
   function is its side effects, rendering an RMarkdown document.
 }
 \description{
@@ -47,16 +47,16 @@ This function creates a folder named R-validation at the specified path, allows
 
 The validation process involves running a series of tests on the R installation and
 can be quite time consuming. The function will print progress messages to the 
-console if `verbose` is set to TRUE.
+console if \code{verbose} is set to TRUE.
 
 The following steps are carried out using default arguments:
 
 \enumerate{
-  \item Create the folder tree R-validation/IQ-OQ-TestOutput at path_save
+  \item Create the folder tree R-validation/IQ-OQ-TestOutput at \code{path_save}
   \item Install TinyTeX and necessary LaTeX packages
   \item Install Pandoc
-  \item Copy Rmd file to the R-validation folder
-  \item Execute the IQ-OQ by rendering the Rmd to LaTeX
+  \item Copy RMarkdown validation file to the R-validation folder
+  \item Execute the IQ-OQ by rendering the RMarkdown file to LaTeX
   \item Compile the LaTeX file to pdf
 }
 }
