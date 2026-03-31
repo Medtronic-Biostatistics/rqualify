@@ -101,9 +101,11 @@ for the full documentation. Here is a minimal usage example:</p>
 qualification, and operational qualification. The installation facts and
 qualification results are generated at the time of the package build or
 site build, while the operational qualification results were generated
-on a Windows machine with R version 4.5.1.</p>
+on a Windows machine with R version 4.5.1. Here, the code blocks are
+shown for informational purposes, the actual PDF report does not include
+the code blocks, only the results of each executed code block.</p>
 <div class="section level4">
-<h4 id="installation-facts">Installation Facts<a class="anchor" aria-label="anchor" href="#installation-facts"></a>
+<h4 id="installation-qualification">Installation Qualification<a class="anchor" aria-label="anchor" href="#installation-qualification"></a>
 </h4>
 <p>First, some R installation facts are gathered and stored in
 variables. These variables are then used to populate the title page of
@@ -119,10 +121,7 @@ the report with details about the R installation being qualified.</p>
 Architecture: x86 64
 
 Platform: x86 64-pc-linux-gnu</code></pre>
-</div>
-<div class="section level4">
-<h4 id="installation-qualification">Installation Qualification<a class="anchor" aria-label="anchor" href="#installation-qualification"></a>
-</h4>
+<hr>
 <p>The following is the output of <code><a href="https://rdrr.io/r/base/Rhome.html" class="external-link">R.home()</a></code>, showing where R
 was installed on this computer:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -415,7 +414,8 @@ package library location; may be more than one folder:</p>
 <hr>
 <p>The following is the output of
 <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/pandoc_available.html" class="external-link">rmarkdown::pandoc_version()</a></code> listing the version of Pandoc
-used to render the report:</p>
+used to render the report (note, if Pandoc is not installed, the output
+will indicate that Pandoc is not available):</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="fu">pandoc</span><span class="fu">::</span><span class="fu"><a href="https://cderv.github.io/pandoc/reference/pandoc_available.html" class="external-link">pandoc_available</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">results_pandoc_ver</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block   <span class="op">=</span> <span class="st">"rmarkdown::pandoc_version()"</span>,</span>
@@ -435,7 +435,8 @@ used to render the report:</p>
 <hr>
 <p>The following is the output of <code><a href="https://rdrr.io/pkg/tinytex/man/tlmgr.html" class="external-link">tinytex::tlmgr_version()</a></code>
 listing the version and installation path of TinyTex used to render the
-report to pdf:</p>
+report to pdf (note, if TinyTeX is not installed, the output will
+indicate that TinyTeX is not available):</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="fu">tinytex</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tinytex/man/is_tinytex.html" class="external-link">is_tinytex</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">results_tinytex_ver</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block   <span class="op">=</span> <span class="st">"tinytex::tlmgr_version()"</span>,</span>
@@ -1541,7 +1542,7 @@ Operational Qualification of this R installation.</p>
 <div class="section level4">
 <h4 id="summary-of-findings">Summary of Findings<a class="anchor" aria-label="anchor" href="#summary-of-findings"></a>
 </h4>
-<p>The final page of the report include a table with the summary of
+<p>The final page of the report will include a table with the summary of
 findings from the above tests, including the overall status of the
 Installation Qualification and Operational Qualification of this R
 installation. The overall status is determined by the presence of any

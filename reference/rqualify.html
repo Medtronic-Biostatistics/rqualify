@@ -61,28 +61,28 @@
 
 <dl><dt id="arg-path-save">path_save<a class="anchor" aria-label="anchor" href="#arg-path-save"></a></dt>
 <dd><p>Character. Path to save the R-validation folder. Ensure
-a folder named `R-validation` does not already exist at this location.</p></dd>
+a folder named R-validation does not already exist at this location.</p></dd>
 
 
 <dt id="arg-setup-tinytex">setup_tinytex<a class="anchor" aria-label="anchor" href="#arg-setup-tinytex"></a></dt>
 <dd><p>Logical. If TRUE, sets up TinyTeX for LaTeX document
 generation. Note, this does not install the tinytex R package, but the TinyTeX
 LaTeX bundle. It is a convenient wrapper for installing TinyTeX using
-`tinytex::install_tinytex()`, and adding the TinyTeX location to the environment.
-The function installs the "TinyTeX" bundle and the additional package `grfext`,
+<code><a href="https://rdrr.io/pkg/tinytex/man/install_tinytex.html" class="external-link">tinytex::install_tinytex()</a></code>, and adding the TinyTeX location to the environment.
+The function installs the "TinyTeX" bundle and the additional package grfext,
 and sets the TinyTeX installation path on the system PATH.</p></dd>
 
 
 <dt id="arg-setup-pandoc">setup_pandoc<a class="anchor" aria-label="anchor" href="#arg-setup-pandoc"></a></dt>
 <dd><p>Logical. If TRUE, sets up pandoc for document conversion.
 Note, this does not install the pandoc R package, but the Pandoc software. It
-is a convenient wrapper around `pandoc::pandoc_install()` and `pandoc::pandoc_activate()`,
-which are called internally.</p></dd>
+is a convenient wrapper around <code><a href="https://cderv.github.io/pandoc/reference/pandoc_install.html" class="external-link">pandoc::pandoc_install()</a></code> and `
+<code><a href="https://cderv.github.io/pandoc/reference/pandoc_activate.html" class="external-link">pandoc::pandoc_activate()</a></code>, which are called internally.</p></dd>
 
 
 <dt id="arg-render-latex">render_latex<a class="anchor" aria-label="anchor" href="#arg-render-latex"></a></dt>
 <dd><p>Logical. If TRUE, renders the generated LaTeX file to PDF using
-`tinytex::pdflatex()`.</p></dd>
+<code><a href="https://rdrr.io/pkg/tinytex/man/latexmk.html" class="external-link">tinytex::pdflatex()</a></code>.</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
@@ -91,7 +91,7 @@ which are called internally.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>The path to the `R-validation` folder. The primary purpose of this
+    <p>The path to the R-validation folder. The primary purpose of this
   function is its side effects, rendering an RMarkdown document.</p>
     </div>
     <div class="section level2">
@@ -101,13 +101,13 @@ which are called internally.</p></dd>
   compiles the LaTeX to PDF, and saves the output in the created folder.</p>
 <p>The validation process involves running a series of tests on the R installation and
 can be quite time consuming. The function will print progress messages to the
-console if `verbose` is set to TRUE.</p>
+console if <code>verbose</code> is set to TRUE.</p>
 <p>The following steps are carried out using default arguments:</p>
-<ol><li><p>Create the folder tree R-validation/IQ-OQ-TestOutput at path_save</p></li>
+<ol><li><p>Create the folder tree R-validation/IQ-OQ-TestOutput at <code>path_save</code></p></li>
 <li><p>Install TinyTeX and necessary LaTeX packages</p></li>
 <li><p>Install Pandoc</p></li>
-<li><p>Copy Rmd file to the R-validation folder</p></li>
-<li><p>Execute the IQ-OQ by rendering the Rmd to LaTeX</p></li>
+<li><p>Copy RMarkdown validation file to the R-validation folder</p></li>
+<li><p>Execute the IQ-OQ by rendering the RMarkdown file to LaTeX</p></li>
 <li><p>Compile the LaTeX file to pdf</p></li>
 </ol></div>
 

@@ -21,14 +21,34 @@ that an R environment is suitable for use in a regulated setting.
 
 ## R Software Qualification
 
-Once the `rqualify` package is installed, executing the validation
-script is as simple as running the function:
+Once the `rqualify` package is installed, there are a few ways to
+execute the validation process. For instance, you can install Pandoc and
+TinyTeX as follows:
+
+    library(rqualify)
+
+    # Install and activate Pandoc
+    pandoc_install()
+    pandoc_activate()
+
+    # Install the TinyTeX bundle plus the grfext package
+    install_tinytex(bundle="TinyTeX",
+                    force=TRUE,
+                    extra_packages="grfext")
+
+    rqualify(path_save     = tempdir(),
+             setup_tinytex = FALSE,
+             setup_pandoc  = FALSE)
+
+Alternately, a more convenient approach to execute the entire validation
+process can be used, where the Pandoc and TinyTeX installation process
+are wrapped inside the function:
 
     library(rqualify)
     rqualify(path_save = tempdir())
 
-Make sure the folder you specify does not already include a folder named
-`R-validation`. See
+In any case, ensure that the `path_save` location does not already
+include a folder named `R-validation`. See
 [`?rqualify`](https://medtronic-biostatistics.github.io/rqualify/reference/rqualify.md)
 for more info.
 

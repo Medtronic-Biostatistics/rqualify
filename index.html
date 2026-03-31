@@ -70,6 +70,7 @@
 </div>
 <!-- badges: start -->
 
+<!-- badges: end -->
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -87,10 +88,25 @@
 <div class="section level2">
 <h2 id="r-software-qualification">R Software Qualification<a class="anchor" aria-label="anchor" href="#r-software-qualification"></a>
 </h2>
-<p>Once the <code>rqualify</code> package is installed, executing the validation script is as simple as running the function:</p>
+<p>Once the <code>rqualify</code> package is installed, there are a few ways to execute the validation process. For instance, you can install Pandoc and TinyTeX as follows:</p>
+<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Medtronic-Biostatistics/rqualify" class="external-link">rqualify</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Install and activate Pandoc</span></span>
+<span><span class="fu">pandoc_install</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">pandoc_activate</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Install the TinyTeX bundle plus the grfext package</span></span>
+<span><span class="fu">install_tinytex</span><span class="op">(</span>bundle<span class="op">=</span><span class="st">"TinyTeX"</span>,</span>
+<span>                force<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>                extra_packages<span class="op">=</span><span class="st">"grfext"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/rqualify.html">rqualify</a></span><span class="op">(</span>path_save     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>         setup_tinytex <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>         setup_pandoc  <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre>
+<p>Alternately, a more convenient approach to execute the entire validation process can be used, where the Pandoc and TinyTeX installation process are wrapped inside the function:</p>
 <pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Medtronic-Biostatistics/rqualify" class="external-link">rqualify</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/rqualify.html">rqualify</a></span><span class="op">(</span>path_save <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre>
-<p>Make sure the folder you specify does not already include a folder named <code>R-validation</code>. See <code><a href="reference/rqualify.html">?rqualify</a></code> for more info.</p>
+<p>In any case, ensure that the <code>path_save</code> location does not already include a folder named <code>R-validation</code>. See <code><a href="reference/rqualify.html">?rqualify</a></code> for more info.</p>
 </div>
 <div class="section level2">
 <h2 id="special-thanks">Special Thanks<a class="anchor" aria-label="anchor" href="#special-thanks"></a>

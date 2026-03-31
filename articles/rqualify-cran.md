@@ -26,9 +26,11 @@ Below includes example output of installation facts, installation
 qualification, and operational qualification. The installation facts and
 qualification results are generated at the time of the package build or
 site build, while the operational qualification results were generated
-on a Windows machine with R version 4.5.1.
+on a Windows machine with R version 4.5.1. Here, the code blocks are
+shown for informational purposes, the actual PDF report does not include
+the code blocks, only the results of each executed code block.
 
-#### Installation Facts
+#### Installation Qualification
 
 First, some R installation facts are gathered and stored in variables.
 These variables are then used to populate the title page of the report
@@ -48,7 +50,7 @@ Platform     <- gsub("_", " ", RVersionInfo$platform)
 
     Platform: x86 64-pc-linux-gnu
 
-#### Installation Qualification
+------------------------------------------------------------------------
 
 The following is the output of
 [`R.home()`](https://rdrr.io/r/base/Rhome.html), showing where R was
@@ -385,7 +387,9 @@ if(any(results_libpath_clean == "> ")){
 
 The following is the output of
 [`rmarkdown::pandoc_version()`](https://pkgs.rstudio.com/rmarkdown/reference/pandoc_available.html)
-listing the version of Pandoc used to render the report:
+listing the version of Pandoc used to render the report (note, if Pandoc
+is not installed, the output will indicate that Pandoc is not
+available):
 
 ``` r
 if(pandoc::pandoc_available()){
@@ -411,7 +415,8 @@ if(pandoc::pandoc_available()){
 The following is the output of
 [`tinytex::tlmgr_version()`](https://rdrr.io/pkg/tinytex/man/tlmgr.html)
 listing the version and installation path of TinyTex used to render the
-report to pdf:
+report to pdf (note, if TinyTeX is not installed, the output will
+indicate that TinyTeX is not available):
 
 ``` r
 if(tinytex::is_tinytex()){
@@ -1539,7 +1544,7 @@ this R installation.
 
 #### Summary of Findings
 
-The final page of the report include a table with the summary of
+The final page of the report will include a table with the summary of
 findings from the above tests, including the overall status of the
 Installation Qualification and Operational Qualification of this R
 installation. The overall status is determined by the presence of any
