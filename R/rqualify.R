@@ -155,7 +155,7 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   Sys.setlocale("LC_TIME", "C")
   Sys.setenv(LANGUAGE = "en")
   
-  if(verbose) cat("\n=== Now generating RMarkdown ===")
+  if(verbose) cat("\n=== Now generating RMarkdown ===\n")
   
   render(input         = file.path(path_rvalidation, "R-validation.Rmd"), 
          output_format = "latex_document", 
@@ -167,12 +167,12 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   if(render_latex){
     path_tex <- file.path(path_rvalidation, "R-validation.tex")
     
-    if(verbose) cat("\n=== Now generating RMarkdown ===")
+    if(verbose) cat("=== Now generating RMarkdown ===")
     
     os <- setwd(path_rvalidation)
     pdflatex(path_tex)
     setwd(os)
-    if(verbose) cat("\n=== RMarkdown report complete===")
+    if(verbose) cat("\n=== RMarkdown report complete===\n")
   }
   
   
