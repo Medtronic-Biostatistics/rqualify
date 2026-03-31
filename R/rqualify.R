@@ -93,7 +93,7 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   # Set-up tinytex?
   #-----------------------------------------------------------------------------
   if(setup_tinytex){
-    if(verbose) cat("\n=== Now setting up tinytex ===")
+    if(verbose) cat("\n=== Now setting up tinytex ===\n")
     
     # Install the TinyTeX LaTeX bundle
     install_tinytex(bundle="TinyTeX",
@@ -128,7 +128,7 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   # Set-up pandoc?
   #-----------------------------------------------------------------------------
   if(setup_pandoc){
-    if(verbose) cat("\n=== Now setting up Pandoc ===")
+    if(verbose) cat("\n=== Now setting up Pandoc ===\n")
     
     pandoc_install()
     pandoc_activate()
@@ -167,7 +167,7 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   if(render_latex){
     path_tex <- file.path(path_rvalidation, "R-validation.tex")
     
-    if(verbose) cat("=== Now generating RMarkdown ===")
+    if(verbose) cat("\n=== Now generating RMarkdown ===\n")
     
     os <- setwd(path_rvalidation)
     pdflatex(path_tex)
