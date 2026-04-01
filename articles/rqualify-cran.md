@@ -16,8 +16,11 @@ full documentation. Here is a minimal usage example:
 ``` r
 library(rqualify)
 
-# Execute qualification using default arguments
-rqualify(path_save = tempdir())
+# Render the R-validation report, must have TinyTeX and Pandoc installed, 
+# otherwise set setup_tinytex and setup_pandoc to TRUE.
+rqualify(path_save    = tempdir(),
+        setup_tinytex = FALSE,
+        setup_pandoc  = FALSE)
 ```
 
 ### R-validation.Rmd Contents
