@@ -1,7 +1,7 @@
 Package: rqualify
 Type: Package
 Title: Qualification of R Software Installations
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(
     person("Donnie", "Musgrove",
       email = "donniemusgrove@gmail.com",
