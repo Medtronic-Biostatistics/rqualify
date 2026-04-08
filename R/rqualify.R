@@ -150,6 +150,16 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   fc <- file.copy(system.file(path_rmd, package='rqualify'),
                   path_rvalidation)
   
+  # Get current locale and language settings to reset after rendering
+  current_locale_collate <- Sys.getlocale("LC_COLLATE")
+  current_locale_time    <- Sys.getlocale("LC_TIME")
+  current_language       <- Sys.getenv("LANGUAGE")
+
+  # Reset on exit  
+  on.exit(Sys.setlocale("LC_COLLATE", current_locale_collate), add=TRUE)
+  on.exit(Sys.setlocale("LC_TIME", current_locale_time), add=TRUE)
+  on.exit(Sys.setenv("LANGUAGE"=current_language), add=TRUE)
+  
   # Set locale and language - required for core test
   Sys.setlocale("LC_COLLATE", "C")
   Sys.setlocale("LC_TIME", "C")
@@ -166,6 +176,10 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   #-----------------------------------------------------------------------------
   if(render_latex){
     path_tex <- file.path(path_rvalidation, "R-validation.tex")
+    
+    # Get working directory and force reset on exit/in case of error
+    oldwd <- getwd()
+    on.exit(setwd(oldwd), add=TRUE)
     
     if(verbose) cat("\n=== Now generating RMarkdown ===\n")
     
