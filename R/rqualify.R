@@ -155,7 +155,6 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   current_locale_time    <- Sys.getlocale("LC_TIME")
   current_language       <- Sys.getenv("LANGUAGE")
 
-  # Reset on exit  
   on.exit(Sys.setlocale("LC_COLLATE", current_locale_collate), add=TRUE)
   on.exit(Sys.setlocale("LC_TIME", current_locale_time), add=TRUE)
   on.exit(Sys.setenv("LANGUAGE"=current_language), add=TRUE)
