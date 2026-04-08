@@ -134,8 +134,11 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
     pandoc_activate()
   }
   
+  # If not, check that pandoc is installed and activate, otherwise stop with error
   if(!setup_pandoc){
-    if(!pandoc::pandoc_available()){
+    if(pandoc::pandoc_available()){
+      pandoc_activate()
+    } else{
       stop("Pandoc is not detected. Please set setup_pandoc to TRUE to install Pandoc.")
     }
   }
