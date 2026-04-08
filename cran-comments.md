@@ -4,6 +4,7 @@
 
 * This is a new release.
 * Addressed several initial submission CRAN comments as follows:
+* Added several on.exit calls to reset locale and env settings, and to reset the working directory. 
 * Replaced \dontrun with \donttest and added TinyTeX and Pandoc availability conditions on the function example.
 * Altered functions in examples/vignettes/tests to save output to tempdir().
 * Fixed verbose argument  so that messages to console can be easily suppressed.
