@@ -19,8 +19,8 @@ library(rqualify)
 # Render the R-validation report, must have TinyTeX and Pandoc installed, 
 # otherwise set setup_tinytex and setup_pandoc to TRUE.
 rqualify(path_save    = tempdir(),
-        setup_tinytex = FALSE,
-        setup_pandoc  = FALSE)
+         setup_tinytex = FALSE,
+         setup_pandoc  = FALSE)
 ```
 
 ### R-validation.Rmd Contents
@@ -120,22 +120,22 @@ if(any(results_sysinfo_clean == "> ")){
 }
 ```
 
-                                                 sysname 
-                                                 "Linux" 
-                                                 release 
-                                     "6.17.0-1008-azure" 
-                                                 version 
-    "#8~24.04.1-Ubuntu SMP Mon Jan 26 18:35:40 UTC 2026" 
-                                                nodename 
-                                         "runnervm727z3" 
-                                                 machine 
-                                                "x86_64" 
-                                                   login 
-                                               "unknown" 
-                                                    user 
-                                                "runner" 
-                                          effective_user 
-                                                "runner" 
+                                                  sysname 
+                                                  "Linux" 
+                                                  release 
+                                      "6.17.0-1010-azure" 
+                                                  version 
+    "#10~24.04.1-Ubuntu SMP Fri Mar  6 22:00:57 UTC 2026" 
+                                                 nodename 
+                                          "runnervm35a4x" 
+                                                  machine 
+                                                 "x86_64" 
+                                                    login 
+                                                "unknown" 
+                                                     user 
+                                                 "runner" 
+                                           effective_user 
+                                                 "runner" 
 
 ------------------------------------------------------------------------
 
