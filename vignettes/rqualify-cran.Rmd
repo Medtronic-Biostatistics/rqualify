@@ -21,8 +21,8 @@ library(rqualify)
 # Render the R-validation report, must have TinyTeX and Pandoc installed, 
 # otherwise set setup_tinytex and setup_pandoc to TRUE.
 rqualify(path_save    = tempdir(),
-        setup_tinytex = FALSE,
-        setup_pandoc  = FALSE)
+         setup_tinytex = FALSE,
+         setup_pandoc  = FALSE)
 ```
 
 ## R-validation.Rmd Contents
