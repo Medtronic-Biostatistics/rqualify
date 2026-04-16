@@ -16,7 +16,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/Medtronic-Biostatistics/rqualify/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/Medtronic-Biostatistics/rqualify/blob/v1.0.2/DESCRIPTION)
 
 Musgrove D, Hickey G, Schwartz M (2026). *rqualify: Qualification of R
 Software Installations*. R package version 1.0.2,
