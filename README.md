@@ -1,9 +1,7 @@
 # rqualify <a href="https://medtronic-biostatistics.github.io/rqualify/"><img src="man/figures/logo.png" alt="rqualify website" align="right" height="111"/></a>
 
 <!-- badges: start -->
-
-[![R-CMD-check](https://github.com/Medtronic-Biostatistics/rqualify/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Medtronic-Biostatistics/rqualify/actions/workflows/R-CMD-check.yaml) [![Codecov test coverage](https://codecov.io/gh/Medtronic-Biostatistics/rqualify/graph/badge.svg)](https://app.codecov.io/gh/Medtronic-Biostatistics/rqualify)
-
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version-last-release/rqualify)](https://cran.r-project.org/package=rqualify) [![R-CMD-check](https://github.com/Medtronic-Biostatistics/rqualify/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Medtronic-Biostatistics/rqualify/actions/workflows/R-CMD-check.yaml) [![Codecov test coverage](https://codecov.io/gh/Medtronic-Biostatistics/rqualify/graph/badge.svg)](https://app.codecov.io/gh/Medtronic-Biostatistics/rqualify) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1158231.svg)](https://doi.org/10.5281/zenodo.1158231)
 <!-- badges: end -->
 
 ## Installation
