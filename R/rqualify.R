@@ -19,10 +19,17 @@
 #'   \code{tinytex::pdflatex()}.
 #' 
 #' @param verbose Logical. If TRUE, prints progress messages to the console.
+#' @param engine Character. Engine to generate the PDF. Either \code{latex} or 
+#'   \code{quarto}
 #' 
-#' @details This function creates a folder named R-validation at the specified path, allows
-#'   users to conveniently install TinyTeX and Pandox, renders an RMarkdown file to LaTeX, 
-#'   compiles the LaTeX to PDF, and saves the output in the created folder.
+#' @details This function creates a folder named R-validation at the specified path, 
+#'   and generates a PDF report. Depending on the \code{engine} argument, the report
+#'   can be generated with LaTeX or with typst (via quarto). If \code{engine = "latex"}, 
+#'   it allows users to conveniently install TinyTeX and Pandox, render an RMarkdown 
+#'   file to LaTeX, compiles the LaTeX to PDF, and saves the output in the created 
+#'   folder. If \code{engine = "quarto"}, it instead uses quarto to render the report 
+#'   via typst. Quarto, pandoc, and typst are all part of the standard RStudio 
+#'   installation, therefore requiring no additional software installation.
 #' 
 #' The validation process involves running a series of tests on the R installation and
 #' can be quite time consuming. The function will print progress messages to the 
@@ -59,10 +66,12 @@
 #' @importFrom utils read.csv
 #' @importFrom pandoc pandoc_install pandoc_activate pandoc_available
 #' @importFrom tinytex install_tinytex tinytex_root tlmgr_version pdflatex is_tinytex
+#' @importFrom quarto quarto_render
 #'
 #' @export
 rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE, 
                      render_latex=TRUE,
+                     engine = c("latex", "quarto"),
                      verbose=TRUE){
   
   # Normalize folder path
@@ -88,76 +97,13 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   dc <- dir.create(path_rvalidation)
   dc <- dir.create(path_iqoqtestoutput)
   
-  
-  #-----------------------------------------------------------------------------
-  # Set-up tinytex?
-  #-----------------------------------------------------------------------------
-  if(setup_tinytex){
-    if(verbose) cat("\n=== Now setting up tinytex ===\n")
-    
-    # Install the TinyTeX LaTeX bundle
-    install_tinytex(bundle="TinyTeX",
-                    force=TRUE,
-                    extra_packages="grfext")
-    
-    # Force install packages if missing
-    options(tinytex.install_packages = TRUE)
-    
-    # Force TinyTex onto the path
-    path_TinyTeX <- tinytex_root()
-    
-    if(.Platform$OS.type == "windows"){
-      path_tt <- paste(file.path(path_TinyTeX, "bin", "win32"),
-                       file.path(path_TinyTeX, "bin", "windows"),
-                       sep=.Platform$path.sep)
-    } else{
-      path_tt <- file.path(path_TinyTeX, "bin", "x86_64-linux")
-    }
-    
-    Sys.setenv(PATH = paste(path_tt, Sys.getenv("PATH"), sep=.Platform$path.sep))
-  }
-  
-  if(!setup_tinytex){
-    if(!is_tinytex() && render_latex){
-      stop("TinyTeX is not not detected. Please set setup_tinytex to TRUE to install TinyTeX, or set render_latex to FALSE to skip rendering the LaTeX file to PDF.")
-    }
-  }
-  
-  
-  #-----------------------------------------------------------------------------
-  # Set-up pandoc?
-  #-----------------------------------------------------------------------------
-  if(setup_pandoc){
-    if(verbose) cat("\n=== Now setting up Pandoc ===\n")
-    
-    pandoc_install()
-    pandoc_activate()
-  }
-  
-  # If not, check that pandoc is installed and activate, otherwise stop with error
-  if(!setup_pandoc){
-    if(pandoc::pandoc_available()){
-      pandoc_activate()
-    } else{
-      stop("Pandoc is not detected. Please set setup_pandoc to TRUE to install Pandoc.")
-    }
-  }
-  
-
-  #-----------------------------------------------------------------------------
-  # Render Rmd to tex
-  #-----------------------------------------------------------------------------
-  # Copy Rmd file to 'path_rvalidation'
-  path_rmd <- file.path("qualify_r", "R-validation.Rmd")
-  
-  fc <- file.copy(system.file(path_rmd, package='rqualify'),
-                  path_rvalidation)
+  engine <- match.arg(engine)
   
   # Get current locale and language settings to reset after rendering
   current_locale_collate <- Sys.getlocale("LC_COLLATE")
   current_locale_time    <- Sys.getlocale("LC_TIME")
   current_language       <- Sys.getenv("LANGUAGE")
-
+  
   on.exit(Sys.setlocale("LC_COLLATE", current_locale_collate), add=TRUE)
   on.exit(Sys.setlocale("LC_TIME", current_locale_time), add=TRUE)
   on.exit(Sys.setenv("LANGUAGE"=current_language), add=TRUE)
@@ -167,29 +113,114 @@ rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE,
   Sys.setlocale("LC_TIME", "C")
   Sys.setenv(LANGUAGE = "en")
   
-  if(verbose) cat("\n=== Now generating RMarkdown ===\n")
-  
-  render(input         = file.path(path_rvalidation, "R-validation.Rmd"), 
-         output_format = "latex_document", 
-         quiet         = !verbose)
-  
-  #-----------------------------------------------------------------------------
-  # Render tex to pdf?
-  #-----------------------------------------------------------------------------
-  if(render_latex){
-    path_tex <- file.path(path_rvalidation, "R-validation.tex")
+  if(engine == "latex"){
+    #-----------------------------------------------------------------------------
+    # Set-up tinytex?
+    #-----------------------------------------------------------------------------
+    if(setup_tinytex){
+      if(verbose) cat("\n=== Now setting up tinytex ===\n")
+      
+      # Install the TinyTeX LaTeX bundle
+      install_tinytex(bundle="TinyTeX",
+                      force=TRUE,
+                      extra_packages="grfext")
+      
+      # Force install packages if missing
+      options(tinytex.install_packages = TRUE)
+      
+      # Force TinyTex onto the path
+      path_TinyTeX <- tinytex_root()
+      
+      if(.Platform$OS.type == "windows"){
+        path_tt <- paste(file.path(path_TinyTeX, "bin", "win32"),
+                         file.path(path_TinyTeX, "bin", "windows"),
+                         sep=.Platform$path.sep)
+      } else{
+        path_tt <- file.path(path_TinyTeX, "bin", "x86_64-linux")
+      }
+      
+      Sys.setenv(PATH = paste(path_tt, Sys.getenv("PATH"), sep=.Platform$path.sep))
+    }
     
-    # Get working directory and force reset on exit/in case of error
-    oldwd <- getwd()
-    on.exit(setwd(oldwd), add=TRUE)
+    if(!setup_tinytex){
+      if(!is_tinytex() && render_latex){
+        stop("TinyTeX is not not detected. Please set setup_tinytex to TRUE to install TinyTeX, or set render_latex to FALSE to skip rendering the LaTeX file to PDF.")
+      }
+    }
+    
+    
+    #-----------------------------------------------------------------------------
+    # Set-up pandoc?
+    #-----------------------------------------------------------------------------
+    if(setup_pandoc){
+      if(verbose) cat("\n=== Now setting up Pandoc ===\n")
+      
+      pandoc_install()
+      pandoc_activate()
+    }
+    
+    # If not, check that pandoc is installed and activate, otherwise stop with error
+    if(!setup_pandoc){
+      if(pandoc::pandoc_available()){
+        pandoc_activate()
+      } else{
+        stop("Pandoc is not detected. Please set setup_pandoc to TRUE to install Pandoc.")
+      }
+    }
+    
+  
+    #-----------------------------------------------------------------------------
+    # Render Rmd to tex
+    #-----------------------------------------------------------------------------
+    # Copy Rmd file to 'path_rvalidation'
+    path_rmd <- file.path("qualify_r", "R-validation.Rmd")
+    
+    fc <- file.copy(system.file(path_rmd, package='rqualify'),
+                    path_rvalidation)
     
     if(verbose) cat("\n=== Now generating RMarkdown ===\n")
     
-    os <- setwd(path_rvalidation)
-    pdflatex(path_tex)
-    setwd(os)
-    if(verbose) cat("\n=== RMarkdown report complete===\n")
+    render(input         = file.path(path_rvalidation, "R-validation.Rmd"), 
+           output_format = "latex_document", 
+           quiet         = !verbose)
+    
+    #-----------------------------------------------------------------------------
+    # Render tex to pdf?
+    #-----------------------------------------------------------------------------
+    if(render_latex){
+      path_tex <- file.path(path_rvalidation, "R-validation.tex")
+      
+      # Get working directory and force reset on exit/in case of error
+      oldwd <- getwd()
+      on.exit(setwd(oldwd), add=TRUE)
+      
+      if(verbose) cat("\n=== Now generating RMarkdown ===\n")
+      
+      os <- setwd(path_rvalidation)
+      pdflatex(path_tex)
+      setwd(os)
+      if(verbose) cat("\n=== RMarkdown report complete===\n")
+    }
   }
+  if(engine == "quarto"){
+    #-----------------------------------------------------------------------------
+    # Render qmd to pdf
+    #-----------------------------------------------------------------------------
+    # Copy Rmd file to 'path_rvalidation'
+    pkg_qmd <- file.path("qualify_r", "R-validation.qmd")
+    path_qmd <- file.path(path_rvalidation, "R-validation.qmd")
+    
+    fc <- file.copy(system.file(pkg_qmd, package='rqualify'),
+                    path_rvalidation)
+    
+    if(verbose) cat("\n=== Now generating PDF ===\n")
+    print(path_qmd)
+    
+    quarto_render(input  = path_qmd, quiet  = !verbose)
+  }
+  
+  
+  
   
   
   #-----------------------------------------------------------------------------
