@@ -14,6 +14,7 @@ Please see
 full documentation. Here is a minimal usage example:
 
 ``` r
+
 library(rqualify)
 
 # Render the R-validation report, must have TinyTeX and Pandoc installed, 
@@ -40,6 +41,7 @@ These variables are then used to populate the title page of the report
 with details about the R installation being qualified.
 
 ``` r
+
 # Get R installation facts
 RVersionInfo <- R.Version()
 Version      <- RVersionInfo$version.string
@@ -47,7 +49,7 @@ Arch         <- gsub("_", " ", RVersionInfo$arch)
 Platform     <- gsub("_", " ", RVersionInfo$platform)
 ```
 
-    R Version: R version 4.5.3 (2026-03-11)
+    R Version: R version 4.6.0 (2026-04-24)
 
     Architecture: x86 64
 
@@ -60,10 +62,11 @@ The following is the output of
 installed on this computer:
 
 ``` r
+
 r_home <- paste0(R.home(), sep="\n")
 ```
 
-    /opt/R/4.5.3/lib/R
+    /opt/R/4.6.0/lib/R
 
 ------------------------------------------------------------------------
 
@@ -72,6 +75,7 @@ welcome banner as displayed from a default R console (terminal) to show
 the R console correctly running and then exiting:
 
 ``` r
+
 # Output the R startup banner
 results0 <- try(system(paste(shQuote(file.path(R.home("bin"), "R")), "-e", shQuote("q()")), intern = TRUE))
 
@@ -83,7 +87,8 @@ if (class(results0) != "try-error"){
 }
 ```
 
-    R version 4.5.3 (2026-03-11) -- "Reassured Reassurer"
+
+    R version 4.6.0 (2026-04-24) -- "Because it was There"
     Copyright (C) 2026 The R Foundation for Statistical Computing
     Platform: x86_64-pc-linux-gnu
 
@@ -107,6 +112,7 @@ details about the current system upon which R is running and user
 information:
 
 ``` r
+
 # Run Sys.info() at the command line
 results_sysinfo <- code_exec(code_block    = "Sys.info()",
                              file_prefix   = "sysinfo",
@@ -123,11 +129,11 @@ if(any(results_sysinfo_clean == "> ")){
                                                   sysname 
                                                   "Linux" 
                                                   release 
-                                      "6.17.0-1010-azure" 
+                                      "6.17.0-1015-azure" 
                                                   version 
-    "#10~24.04.1-Ubuntu SMP Fri Mar  6 22:00:57 UTC 2026" 
+    "#15~24.04.1-Ubuntu SMP Wed May  6 22:37:49 UTC 2026" 
                                                  nodename 
-                                          "runnervm35a4x" 
+                                          "runnervm3jyl0" 
                                                   machine 
                                                  "x86_64" 
                                                     login 
@@ -143,6 +149,7 @@ The following is the output of `.Platform`, defining some details of the
 platform upon which R was built (compiled):
 
 ``` r
+
 # Run .Platform at the command line
 results_platform <- code_exec(code_block    = ".Platform",
                               file_prefix   = "platform",
@@ -186,6 +193,7 @@ The following is the output of `R.version`, defining detailed
 information on the currently running version of R:
 
 ``` r
+
 # Run R.version at the command line
 results_rversion <- code_exec(code_block    = "R.version",
                               file_prefix   = "rversion",
@@ -206,14 +214,14 @@ if(any(results_rversion_clean == "> ")){
     system         x86_64, linux-gnu           
     status                                     
     major          4                           
-    minor          5.3                         
+    minor          6.0                         
     year           2026                        
-    month          03                          
-    day            11                          
-    svn rev        89597                       
+    month          04                          
+    day            24                          
+    svn rev        89956                       
     language       R                           
-    version.string R version 4.5.3 (2026-03-11)
-    nickname       Reassured Reassurer         
+    version.string R version 4.6.0 (2026-04-24)
+    nickname       Because it was There        
 
 ------------------------------------------------------------------------
 
@@ -221,6 +229,7 @@ The following is the output of `.Machine`, defining the numerical
 characteristics of the computer upon which R is running:
 
 ``` r
+
 # Run .Machine at the command line
 results_machine <- code_exec(code_block    = ".Machine",
                              file_prefix   = "machine",
@@ -328,6 +337,7 @@ The following is the output of
 current R version, locale information and attached packages:
 
 ``` r
+
 # Run sessionInfo() at the command line
 results_sessioninfo <- code_exec(code_block   = "sessionInfo()",
                                  file_prefix  = "sessioninfo",
@@ -341,7 +351,7 @@ if(any(results_sessioninfo_clean == "> ")){
 }
 ```
 
-    R version 4.5.3 (2026-03-11)
+    R version 4.6.0 (2026-04-24)
     Platform: x86_64-pc-linux-gnu
     Running under: Ubuntu 24.04.4 LTS
 
@@ -362,7 +372,7 @@ if(any(results_sessioninfo_clean == "> ")){
     [1] stats     graphics  grDevices utils     datasets  methods   base     
 
     loaded via a namespace (and not attached):
-    [1] compiler_4.5.3
+    [1] compiler_4.6.0
 
 ------------------------------------------------------------------------
 
@@ -371,6 +381,7 @@ The following is the output of
 package library location; may be more than one folder:
 
 ``` r
+
 results_libpath <- code_exec(code_block   = ".libPaths()",
                              file_prefix  = "libpaths",
                              folder_output = dir_temp)
@@ -383,8 +394,8 @@ if(any(results_libpath_clean == "> ")){
 }
 ```
 
-    [1] "/home/runner/work/_temp/Library" "/opt/R/4.5.3/lib/R/site-library"
-    [3] "/opt/R/4.5.3/lib/R/library"     
+    [1] "/home/runner/work/_temp/Library" "/opt/R/4.6.0/lib/R/site-library"
+    [3] "/opt/R/4.6.0/lib/R/library"     
 
 ------------------------------------------------------------------------
 
@@ -395,6 +406,7 @@ is not installed, the output will indicate that Pandoc is not
 available):
 
 ``` r
+
 if(pandoc::pandoc_available()){
   results_pandoc_ver <- code_exec(code_block   = "rmarkdown::pandoc_version()",
                                   file_prefix  = "pandoc_ver",
@@ -411,7 +423,7 @@ if(pandoc::pandoc_available()){
 }
 ```
 
-    [1] ‘3.1.11’
+    [1] ‘3.8.3’
 
 ------------------------------------------------------------------------
 
@@ -422,6 +434,7 @@ report to pdf (note, if TinyTeX is not installed, the output will
 indicate that TinyTeX is not available):
 
 ``` r
+
 if(tinytex::is_tinytex()){
   results_tinytex_ver <- code_exec(code_block   = "tinytex::tlmgr_version()",
                                    file_prefix  = "tinytex_ver",
@@ -451,6 +464,7 @@ a series of core system-wide operational tests of the R installation,
 including various regression tests:
 
 ``` r
+
 # Copy system tests to IQ-OQ-TestOutput/tests
 r_test_path <- file.path(R.home(), "tests")
 fc          <- file.copy(r_test_path, "IQ-OQ-TestOutput", recursive=TRUE)
@@ -482,6 +496,7 @@ results1 <- code_exec(code_block    = code_check1,
                       file_prefix   = "CMDFile1",
                       folder_output = "IQ-OQ-TestOutput")
 ```
+
 
     R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
     Copyright (C) 2025 The R Foundation for Statistical Computing
@@ -597,6 +612,7 @@ which runs a series of operational tests of the R Base package code
 examples:
 
 ``` r
+
 code_check2 <- '
 options(echo = FALSE)
 options(useFancyQuotes = FALSE)
@@ -614,6 +630,7 @@ results2 <- code_exec(code_block    = code_check2,
                       file_prefix   = "CMDFile2",
                       folder_output = "IQ-OQ-TestOutput")
 ```
+
 
     R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
     Copyright (C) 2025 The R Foundation for Statistical Computing
@@ -681,6 +698,7 @@ which runs a series of operational tests of the R Base package vignette
 code examples:
 
 ``` r
+
 code_check3 <- '
 options(echo = FALSE)
 options(useFancyQuotes = FALSE)
@@ -698,6 +716,7 @@ results3 <- code_exec(code_block    = code_check3,
                       file_prefix   = "CMDFile3",
                       folder_output = "IQ-OQ-TestOutput")
 ```
+
 
     R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
     Copyright (C) 2025 The R Foundation for Statistical Computing
@@ -763,6 +782,7 @@ which runs a series of operational tests of the R Recommended package
 code examples:
 
 ``` r
+
 code_check4 <- '
 options(echo = FALSE)
 options(useFancyQuotes = FALSE)
@@ -780,6 +800,7 @@ results4 <- code_exec(code_block    = code_check4,
                       file_prefix   = "CMDFile4",
                       folder_output = "IQ-OQ-TestOutput")
 ```
+
 
     R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
     Copyright (C) 2025 The R Foundation for Statistical Computing
@@ -845,6 +866,7 @@ which runs a series of operational tests of the R Recommended package
 vignette code examples:
 
 ``` r
+
 code_check5 <- '
 options(echo = FALSE)
 options(useFancyQuotes = FALSE)
@@ -862,6 +884,7 @@ results5 <- code_exec(code_block    = code_check5,
                       file_prefix   = "CMDFile5",
                       folder_output = "IQ-OQ-TestOutput")
 ```
+
 
     R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
     Copyright (C) 2025 The R Foundation for Statistical Computing
@@ -934,6 +957,7 @@ which runs a series of operational tests of the R Base package code
 tests:
 
 ``` r
+
 code_check6 <- '
 options(echo = FALSE)
 options(useFancyQuotes = FALSE)
@@ -951,6 +975,7 @@ results6 <- code_exec(code_block    = code_check6,
                       file_prefix   = "CMDFile6",
                       folder_output = "IQ-OQ-TestOutput")
 ```
+
 
     R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
     Copyright (C) 2025 The R Foundation for Statistical Computing
@@ -1107,6 +1132,7 @@ which runs a series of operational tests of the R Recommended package
 code tests:
 
 ``` r
+
 code_check7 <- '
 options(echo = FALSE)
 options(useFancyQuotes = FALSE)
@@ -1124,6 +1150,7 @@ results7 <- code_exec(code_block    = code_check7,
                       file_prefix   = "CMDFile7",
                       folder_output = "IQ-OQ-TestOutput")
 ```
+
 
     R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
     Copyright (C) 2025 The R Foundation for Statistical Computing

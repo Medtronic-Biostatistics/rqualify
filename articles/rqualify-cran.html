@@ -12,8 +12,8 @@
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to the rqualify Package">
 <meta name="description" content="Introduction to the rqualify Package.
@@ -119,7 +119,7 @@ the report with details about the R installation being qualified.</p>
 <span><span class="va">Version</span>      <span class="op">&lt;-</span> <span class="va">RVersionInfo</span><span class="op">$</span><span class="va">version.string</span></span>
 <span><span class="va">Arch</span>         <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"_"</span>, <span class="st">" "</span>, <span class="va">RVersionInfo</span><span class="op">$</span><span class="va">arch</span><span class="op">)</span></span>
 <span><span class="va">Platform</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"_"</span>, <span class="st">" "</span>, <span class="va">RVersionInfo</span><span class="op">$</span><span class="va">platform</span><span class="op">)</span></span></code></pre></div>
-<pre><code>R Version: R version 4.5.3 (2026-03-11)
+<pre><code>R Version: R version 4.6.0 (2026-04-24)
 
 Architecture: x86 64
 
@@ -129,7 +129,7 @@ Platform: x86 64-pc-linux-gnu</code></pre>
 was installed on this computer:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">r_home</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Rhome.html" class="external-link">R.home</a></span><span class="op">(</span><span class="op">)</span>, sep<span class="op">=</span><span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
-<pre><code>/opt/R/4.5.3/lib/R</code></pre>
+<pre><code>/opt/R/4.6.0/lib/R</code></pre>
 <hr>
 <p>The following is the output of <code>system("R -e 'q()'")</code>,
 presenting the R welcome banner as displayed from a default R console
@@ -145,7 +145,7 @@ presenting the R welcome banner as displayed from a default R console
 <span>  <span class="va">results0</span> <span class="op">&lt;-</span> <span class="st">"Unable to execute R at the command line"</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code>
-R version 4.5.3 (2026-03-11) -- "Reassured Reassurer"
+R version 4.6.0 (2026-04-24) -- "Because it was There"
 Copyright (C) 2026 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu
 
@@ -179,11 +179,11 @@ information:</p>
 <pre><code><span>                                              <span class="va">sysname</span> </span>
 <span>                                              <span class="st">"Linux"</span> </span>
 <span>                                              <span class="va">release</span> </span>
-<span>                                  <span class="st">"6.17.0-1010-azure"</span> </span>
+<span>                                  <span class="st">"6.17.0-1015-azure"</span> </span>
 <span>                                              <span class="va">version</span> </span>
-<span><span class="st">"#10~24.04.1-Ubuntu SMP Fri Mar  6 22:00:57 UTC 2026"</span> </span>
+<span><span class="st">"#15~24.04.1-Ubuntu SMP Wed May  6 22:37:49 UTC 2026"</span> </span>
 <span>                                             <span class="va">nodename</span> </span>
-<span>                                      <span class="st">"runnervm35a4x"</span> </span>
+<span>                                      <span class="st">"runnervm3jyl0"</span> </span>
 <span>                                              <span class="va">machine</span> </span>
 <span>                                             <span class="st">"x86_64"</span> </span>
 <span>                                                <span class="va">login</span> </span>
@@ -252,14 +252,14 @@ os             linux-gnu
 system         x86_64, linux-gnu           
 status                                     
 major          4                           
-minor          5.3                         
+minor          6.0                         
 year           2026                        
-month          03                          
-day            11                          
-svn rev        89597                       
+month          04                          
+day            24                          
+svn rev        89956                       
 language       R                           
-version.string R version 4.5.3 (2026-03-11)
-nickname       Reassured Reassurer         </code></pre>
+version.string R version 4.6.0 (2026-04-24)
+nickname       Because it was There        </code></pre>
 <hr>
 <p>The following is the output of <code>.Machine</code>, defining the
 numerical characteristics of the computer upon which R is running:</p>
@@ -376,7 +376,7 @@ current R version, locale information and attached packages:</p>
 <span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">results_sessioninfo_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">results_sessioninfo_clean</span> <span class="op">&lt;-</span> <span class="va">results_sessioninfo_clean</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">results_sessioninfo_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<pre><code>R version 4.5.3 (2026-03-11)
+<pre><code>R version 4.6.0 (2026-04-24)
 Platform: x86_64-pc-linux-gnu
 Running under: Ubuntu 24.04.4 LTS
 
@@ -397,7 +397,7 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 loaded via a namespace (and not attached):
-[1] compiler_4.5.3</code></pre>
+[1] compiler_4.6.0</code></pre>
 <hr>
 <p>The following is the output of <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code>, the current
 package library location; may be more than one folder:</p>
@@ -412,8 +412,8 @@ package library location; may be more than one folder:</p>
 <span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">results_libpath_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">results_libpath_clean</span> <span class="op">&lt;-</span> <span class="va">results_libpath_clean</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">results_libpath_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<pre><code>[1] "/home/runner/work/_temp/Library" "/opt/R/4.5.3/lib/R/site-library"
-[3] "/opt/R/4.5.3/lib/R/library"     </code></pre>
+<pre><code>[1] "/home/runner/work/_temp/Library" "/opt/R/4.6.0/lib/R/site-library"
+[3] "/opt/R/4.6.0/lib/R/library"     </code></pre>
 <hr>
 <p>The following is the output of
 <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/pandoc_available.html" class="external-link">rmarkdown::pandoc_version()</a></code> listing the version of Pandoc
@@ -434,7 +434,7 @@ will indicate that Pandoc is not available):</p>
 <span><span class="op">}</span> <span class="kw">else</span><span class="op">{</span></span>
 <span>  <span class="va">results_pandoc_ver_clean</span> <span class="op">&lt;-</span> <span class="st">"Pandoc not available"</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<pre><code>[1] ‘3.1.11’</code></pre>
+<pre><code>[1] ‘3.8.3’</code></pre>
 <hr>
 <p>The following is the output of <code><a href="https://rdrr.io/pkg/tinytex/man/tlmgr.html" class="external-link">tinytex::tlmgr_version()</a></code>
 listing the version and installation path of TinyTex used to render the

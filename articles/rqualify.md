@@ -9,6 +9,7 @@ Once the `rqualify` package is installed, executing the validation
 script is as simple as running the function:
 
 ``` r
+
 library(rqualify)
 rqualify(path_save = tempdir())
 ```
