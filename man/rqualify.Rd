@@ -42,7 +42,7 @@ Run IQ-OQ on an installation of R software
 }
 \details{
 This function creates a folder named R-validation at the specified path, allows
-  users to conveniently install TinyTeX and Pandox, renders an RMarkdown file to LaTeX, 
+  users to conveniently install TinyTeX and Pandoc, renders an RMarkdown file to LaTeX, 
   compiles the LaTeX to PDF, and saves the output in the created folder.
 
 The validation process involves running a series of tests on the R installation and
@@ -61,7 +61,7 @@ The following steps are carried out using default arguments:
 }
 }
 \examples{
-\dontshow{if (tinytex::is_tinytex() && pandoc::pandoc_available()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (tinytex::is_tinytex() && pandoc::pandoc_available()) withAutoprint(\{ # examplesIf}
 \donttest{
 # Render the R-validation report, must have TinyTeX and Pandoc installed for 
 # this example, otherwise set setup_tinytex and setup_pandoc to TRUE.
