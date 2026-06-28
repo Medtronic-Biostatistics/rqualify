@@ -51,6 +51,6 @@ test_that("setup_pandoc_env(FALSE) errors when Pandoc is unavailable", {
 
   expect_error(
     setup_pandoc_env(setup_pandoc = FALSE, verbose = FALSE),
-    "Pandoc is not detected"
+    class = "rqualify_pandoc_missing"
   )
 })

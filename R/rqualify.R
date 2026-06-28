@@ -68,8 +68,17 @@ rqualify <- function(path_save,
                      render_latex = TRUE,
                      verbose = TRUE) {
   if (missing(path_save)) {
-    stop("`path_save` is required.")
+    rqualify_stop(
+      "rqualify_missing_arg",
+      "`path_save` is required."
+    )
   }
+
+  check_string(path_save, "path_save")
+  check_flag(setup_tinytex, "setup_tinytex")
+  check_flag(setup_pandoc, "setup_pandoc")
+  check_flag(render_latex, "render_latex")
+  check_flag(verbose, "verbose")
 
   paths <- setup_validation_dirs(path_save)
 
@@ -85,4 +94,28 @@ rqualify <- function(path_save,
   check_validation_results(paths$path_rvalidation)
 
   paths$path_rvalidation
+}
+
+#' @keywords internal
+#' @noRd
+check_string <- function(x, name) {
+  if (!is.character(x) || length(x) != 1L || is.na(x) || !nzchar(x)) {
+    rqualify_stop(
+      "rqualify_bad_arg",
+      sprintf("`%s` must be a single non-empty string.", name),
+      arg = name, value = x
+    )
+  }
+}
+
+#' @keywords internal
+#' @noRd
+check_flag <- function(x, name) {
+  if (!is.logical(x) || length(x) != 1L || is.na(x)) {
+    rqualify_stop(
+      "rqualify_bad_arg",
+      sprintf("`%s` must be a single TRUE or FALSE.", name),
+      arg = name, value = x
+    )
+  }
 }

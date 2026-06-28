@@ -1,5 +1,36 @@
 # rqualify 1.0.4
 
+## API hardening
+
+* `rqualify()` now validates its arguments before doing any work:
+  `path_save` must be a single non-empty string, and `setup_tinytex`,
+  `setup_pandoc`, `render_latex`, and `verbose` must each be a single
+  `TRUE` or `FALSE` (not `NA`, not coercible).
+* All `stop()` and `warning()` calls now signal subclassed conditions so
+  that callers can catch specific failures programmatically. Every
+  condition carries the class hierarchy
+  `c(subclass, "rqualify_condition", "<error|warning>", "condition")`.
+  The defined subclasses are:
+  * `rqualify_missing_arg` - `path_save` not supplied
+  * `rqualify_bad_arg` - argument failed a type/length check
+  * `rqualify_no_tests_folder` - R installation lacks `tests/`
+  * `rqualify_dir_exists` - `R-validation` folder already present
+  * `rqualify_dir_create_failed` - `dir.create()` returned `FALSE`
+  * `rqualify_tinytex_missing` - TinyTeX not detected and
+    `setup_tinytex = FALSE`
+  * `rqualify_tinytex_incomplete` - no `bin/` subdirectory under the
+    TinyTeX root
+  * `rqualify_pandoc_missing` - Pandoc not detected and
+    `setup_pandoc = FALSE`
+  * `rqualify_summary_missing` (warning) - `test_summary.csv` not
+    written by the validation render
+  * `rqualify_validation_failed` (warning) - one or more rows in
+    `test_summary.csv` are `"FAIL"`
+* `setup_validation_dirs()` now removes the outer `R-validation` folder
+  if creating the inner `IQ-OQ-TestOutput` folder fails, so a failed
+  call no longer leaves behind a partial tree that would trip the
+  "already exists" guard on a retry.
+
 ## Bug fixes
 
 * `setup_tinytex_env()` no longer assumes the TinyTeX `bin/` subdirectory
@@ -69,6 +100,13 @@
   `check_validation_results()` warns (FAIL summaries or missing summary
   files).
 * Added `withr` to `Suggests` to support these tests.
+* Added tests for the new classed-condition machinery
+  (`rqualify_stop`, `rqualify_warn`, and the `check_string` /
+  `check_flag` argument validators), input-validation tests for
+  `rqualify()` that confirm guard errors fire before any helper is
+  called, and a chmod-based test for the partial-tree-cleanup behavior
+  of `setup_validation_dirs()`. Existing error/warning tests were
+  updated to assert on condition subclass rather than message text.
 
 ## Code style & CI
 

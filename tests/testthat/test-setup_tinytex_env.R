@@ -57,7 +57,7 @@ test_that("setup_tinytex_env(TRUE) errors when TinyTeX bin/ is empty", {
       render_latex = TRUE,
       verbose = FALSE
     ),
-    "Could not locate a bin/ subdirectory"
+    class = "rqualify_tinytex_incomplete"
   )
 })
 
@@ -74,7 +74,7 @@ test_that("setup_tinytex_env(FALSE) errors when TinyTeX absent and render needed
       render_latex = TRUE,
       verbose = FALSE
     ),
-    "TinyTeX is not detected"
+    class = "rqualify_tinytex_missing"
   )
 })
 

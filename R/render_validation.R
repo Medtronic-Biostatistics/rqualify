@@ -25,6 +25,10 @@ render_validation <- function(path_rvalidation,
                               render_latex,
                               verbose,
                               on_exit_frame = parent.frame()) {
+  # `on_exit_frame` defaults to the caller's frame so that locale, language,
+  # and working-directory restoration handlers persist for the lifetime of
+  # the calling function rather than firing when render_validation() itself
+  # returns. Pass an explicit environment to override (mainly for tests).
   path_rmd <- file.path("qualify_r", "R-validation.Rmd")
   file.copy(
     system.file(path_rmd, package = "rqualify"),

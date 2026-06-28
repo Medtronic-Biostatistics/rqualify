@@ -22,7 +22,10 @@ setup_pandoc_env <- function(setup_pandoc, verbose) {
   if (pandoc_available()) {
     pandoc_activate()
   } else {
-    stop("Pandoc is not detected. Please set setup_pandoc to TRUE to install Pandoc.")
+    rqualify_stop(
+      "rqualify_pandoc_missing",
+      "Pandoc is not detected. Please set setup_pandoc to TRUE to install Pandoc."
+    )
   }
 
   invisible(NULL)

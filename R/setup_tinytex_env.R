@@ -38,9 +38,13 @@ setup_tinytex_env <- function(setup_tinytex, render_latex, verbose) {
     # macOS and aarch64-linux as well as Windows and x86_64-linux.
     bin_subdirs <- list.dirs(bin_root, recursive = FALSE, full.names = TRUE)
     if (length(bin_subdirs) == 0) {
-      stop(
-        "Could not locate a bin/ subdirectory under the TinyTeX root (",
-        bin_root, "). TinyTeX installation may be incomplete."
+      rqualify_stop(
+        "rqualify_tinytex_incomplete",
+        paste0(
+          "Could not locate a bin/ subdirectory under the TinyTeX root (",
+          bin_root, "). TinyTeX installation may be incomplete."
+        ),
+        path = bin_root
       )
     }
 
@@ -53,10 +57,13 @@ setup_tinytex_env <- function(setup_tinytex, render_latex, verbose) {
   }
 
   if (!is_tinytex() && render_latex) {
-    stop(
-      "TinyTeX is not detected. Please set setup_tinytex to TRUE to install ",
-      "TinyTeX, or set render_latex to FALSE to skip rendering the LaTeX ",
-      "file to PDF."
+    rqualify_stop(
+      "rqualify_tinytex_missing",
+      paste0(
+        "TinyTeX is not detected. Please set setup_tinytex to TRUE to install ",
+        "TinyTeX, or set render_latex to FALSE to skip rendering the LaTeX ",
+        "file to PDF."
+      )
     )
   }
 

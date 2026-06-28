@@ -226,3 +226,54 @@ test_that("rqualify() still returns the R-validation path when summary file is m
   )
   expect_identical(result, fake_paths$path_rvalidation)
 })
+
+test_that("rqualify() rejects non-string path_save", {
+  expect_error(rqualify(path_save = 1L), class = "rqualify_bad_arg")
+  expect_error(rqualify(path_save = c("a", "b")), class = "rqualify_bad_arg")
+  expect_error(rqualify(path_save = NA_character_), class = "rqualify_bad_arg")
+  expect_error(rqualify(path_save = ""), class = "rqualify_bad_arg")
+})
+
+test_that("rqualify() rejects non-logical setup_* / render_latex / verbose", {
+  expect_error(
+    rqualify(path_save = "/tmp", setup_tinytex = "yes"),
+    class = "rqualify_bad_arg"
+  )
+  expect_error(
+    rqualify(path_save = "/tmp", setup_pandoc = 1),
+    class = "rqualify_bad_arg"
+  )
+  expect_error(
+    rqualify(path_save = "/tmp", render_latex = NA),
+    class = "rqualify_bad_arg"
+  )
+  expect_error(
+    rqualify(path_save = "/tmp", verbose = c(TRUE, FALSE)),
+    class = "rqualify_bad_arg"
+  )
+})
+
+test_that("rqualify() validates arguments before calling any helper", {
+  called <- character()
+  fail_if_called <- function(...) {
+    called <<- c(called, "called")
+    stop("should not be called")
+  }
+  local_mocked_bindings(
+    setup_validation_dirs    = fail_if_called,
+    setup_tinytex_env        = fail_if_called,
+    setup_pandoc_env         = fail_if_called,
+    render_validation        = fail_if_called,
+    check_validation_results = fail_if_called
+  )
+
+  expect_error(
+    rqualify(path_save = "/tmp", verbose = "loud"),
+    class = "rqualify_bad_arg"
+  )
+  expect_length(called, 0)
+})
+
+test_that("rqualify() signals classed error when path_save is missing", {
+  expect_error(rqualify(), class = "rqualify_missing_arg")
+})

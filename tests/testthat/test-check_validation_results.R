@@ -44,7 +44,7 @@ test_that("warns and returns 'fail' when any test_results entry is FAIL", {
 
   expect_warning(
     res <- check_validation_results(path_rvalidation),
-    "R-validation failed"
+    class = "rqualify_validation_failed"
   )
   expect_identical(res, "fail")
 })
@@ -62,7 +62,7 @@ test_that("warns and returns 'fail' when any system_results entry is FAIL", {
 
   expect_warning(
     res <- check_validation_results(path_rvalidation),
-    "R-validation failed"
+    class = "rqualify_validation_failed"
   )
   expect_identical(res, "fail")
 })
@@ -73,7 +73,7 @@ test_that("warns and returns 'missing' when test_summary.csv is absent", {
 
   expect_warning(
     res <- check_validation_results(path_rvalidation),
-    "not found"
+    class = "rqualify_summary_missing"
   )
   expect_identical(res, "missing")
 })

@@ -16,9 +16,13 @@ check_validation_results <- function(path_rvalidation) {
   path_results <- file.path(path_rvalidation, "IQ-OQ-TestOutput", "test_summary.csv")
 
   if (!file.exists(path_results)) {
-    warning(
-      "Test summary file not found. ",
-      "Please check the output files in the 'R-validation' folder."
+    rqualify_warn(
+      "rqualify_summary_missing",
+      paste0(
+        "Test summary file not found. ",
+        "Please check the output files in the 'R-validation' folder."
+      ),
+      path = path_results
     )
     return(invisible("missing"))
   }
@@ -29,7 +33,11 @@ check_validation_results <- function(path_rvalidation) {
     any(summ_results$test_results %in% "FAIL")
 
   if (failed) {
-    warning("R-validation failed. Please check the output files in the 'R-validation' folder.")
+    rqualify_warn(
+      "rqualify_validation_failed",
+      "R-validation failed. Please check the output files in the 'R-validation' folder.",
+      path = path_results
+    )
     return(invisible("fail"))
   }
 
