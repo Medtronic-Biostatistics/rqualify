@@ -207,7 +207,10 @@ test_that("rqualify() still returns the R-validation path when summary file is m
     setup_pandoc_env = function(...) invisible(NULL),
     render_validation = function(...) invisible(NULL),
     check_validation_results = function(path_rvalidation) {
-      warning("Test summary file not found. Please check the output files in the 'R-validation' folder.")
+      warning(
+        "Test summary file not found. ",
+        "Please check the output files in the 'R-validation' folder."
+      )
       invisible("missing")
     }
   )

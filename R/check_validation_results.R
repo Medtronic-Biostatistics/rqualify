@@ -16,7 +16,10 @@ check_validation_results <- function(path_rvalidation) {
   path_results <- file.path(path_rvalidation, "IQ-OQ-TestOutput", "test_summary.csv")
 
   if (!file.exists(path_results)) {
-    warning("Test summary file not found. Please check the output files in the 'R-validation' folder.")
+    warning(
+      "Test summary file not found. ",
+      "Please check the output files in the 'R-validation' folder."
+    )
     return(invisible("missing"))
   }
 
