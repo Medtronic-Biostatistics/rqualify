@@ -15,19 +15,16 @@
 #' @param message  Character. Condition message.
 #' @param ...      Additional named fields stored on the condition.
 #'
-#' @keywords internal
 #' @noRd
 rqualify_stop <- function(subclass, message, ...) {
   stop(rqualify_condition(subclass, "error", message, ...))
 }
 
-#' @keywords internal
 #' @noRd
 rqualify_warn <- function(subclass, message, ...) {
   warning(rqualify_condition(subclass, "warning", message, ...))
 }
 
-#' @keywords internal
 #' @noRd
 rqualify_condition <- function(subclass, kind, message, ...) {
   structure(

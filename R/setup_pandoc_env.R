@@ -9,7 +9,6 @@
 #'
 #' @return Invisibly, `NULL`. Called for side effects.
 #'
-#' @keywords internal
 #' @noRd
 setup_pandoc_env <- function(setup_pandoc, verbose) {
   if (setup_pandoc) {

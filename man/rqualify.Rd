@@ -53,11 +53,12 @@ The following steps are carried out using default arguments:
 
 \enumerate{
   \item Create the folder tree R-validation/IQ-OQ-TestOutput at \code{path_save}
-  \item Install TinyTeX and necessary LaTeX packages
-  \item Install Pandoc
+  \item Install TinyTeX and necessary LaTeX packages (only if
+    \code{setup_tinytex = TRUE})
+  \item Install Pandoc (only if \code{setup_pandoc = TRUE})
   \item Copy RMarkdown validation file to the R-validation folder
   \item Execute the IQ-OQ by rendering the RMarkdown file to LaTeX
-  \item Compile the LaTeX file to pdf
+  \item Compile the LaTeX file to pdf (only if \code{render_latex = TRUE})
 }
 }
 \examples{

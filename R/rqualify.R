@@ -32,11 +32,12 @@
 #'
 #' \enumerate{
 #'   \item Create the folder tree R-validation/IQ-OQ-TestOutput at \code{path_save}
-#'   \item Install TinyTeX and necessary LaTeX packages
-#'   \item Install Pandoc
+#'   \item Install TinyTeX and necessary LaTeX packages (only if
+#'     \code{setup_tinytex = TRUE})
+#'   \item Install Pandoc (only if \code{setup_pandoc = TRUE})
 #'   \item Copy RMarkdown validation file to the R-validation folder
 #'   \item Execute the IQ-OQ by rendering the RMarkdown file to LaTeX
-#'   \item Compile the LaTeX file to pdf
+#'   \item Compile the LaTeX file to pdf (only if \code{render_latex = TRUE})
 #' }
 #'
 #' @return The path to the R-validation folder. The primary purpose of this
@@ -96,7 +97,6 @@ rqualify <- function(path_save,
   paths$path_rvalidation
 }
 
-#' @keywords internal
 #' @noRd
 check_string <- function(x, name) {
   if (!is.character(x) || length(x) != 1L || is.na(x) || !nzchar(x)) {
@@ -108,7 +108,6 @@ check_string <- function(x, name) {
   }
 }
 
-#' @keywords internal
 #' @noRd
 check_flag <- function(x, name) {
   if (!is.logical(x) || length(x) != 1L || is.na(x)) {

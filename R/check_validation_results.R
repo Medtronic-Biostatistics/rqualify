@@ -10,17 +10,21 @@
 #'   the outcome. The function is primarily called for its warning side
 #'   effects.
 #'
-#' @keywords internal
 #' @noRd
 check_validation_results <- function(path_rvalidation) {
-  path_results <- file.path(path_rvalidation, "IQ-OQ-TestOutput", "test_summary.csv")
+  path_results <- file.path(
+    path_rvalidation,
+    rqualify_paths$testoutput_dir,
+    rqualify_paths$summary_file
+  )
 
   if (!file.exists(path_results)) {
     rqualify_warn(
       "rqualify_summary_missing",
       paste0(
         "Test summary file not found. ",
-        "Please check the output files in the 'R-validation' folder."
+        "Please check the output files in the '",
+        rqualify_paths$rvalidation_dir, "' folder."
       ),
       path = path_results
     )
@@ -35,7 +39,10 @@ check_validation_results <- function(path_rvalidation) {
   if (failed) {
     rqualify_warn(
       "rqualify_validation_failed",
-      "R-validation failed. Please check the output files in the 'R-validation' folder.",
+      paste0(
+        "R-validation failed. Please check the output files in the '",
+        rqualify_paths$rvalidation_dir, "' folder."
+      ),
       path = path_results
     )
     return(invisible("fail"))

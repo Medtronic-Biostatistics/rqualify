@@ -15,7 +15,6 @@
 #' @return Invisibly, `NULL`. Called for side effects (installation, PATH
 #'   mutation, option setting).
 #'
-#' @keywords internal
 #' @noRd
 setup_tinytex_env <- function(setup_tinytex, render_latex, verbose) {
   if (setup_tinytex) {
@@ -27,6 +26,10 @@ setup_tinytex_env <- function(setup_tinytex, render_latex, verbose) {
       extra_packages = "grfext"
     )
 
+    # This option is left set after rqualify() returns so that any
+    # subsequent LaTeX rendering in the same session (including the one
+    # done inside this rqualify() call) can auto-install missing CTAN
+    # packages on demand.
     options(tinytex.install_packages = TRUE)
 
     path_TinyTeX <- tinytex_root()

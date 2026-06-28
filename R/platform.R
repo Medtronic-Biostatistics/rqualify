@@ -7,7 +7,6 @@
 #' @return `os_type()` returns `"windows"` or `"unix"`; `path_sep()`
 #'   returns the platform path separator (`";"` on Windows, `":"` elsewhere).
 #'
-#' @keywords internal
 #' @noRd
 os_type <- function() {
   .Platform$OS.type
@@ -21,7 +20,6 @@ path_sep <- function() {
 
 #' Thin wrapper around `base::dir.exists()` for mockability in tests.
 #'
-#' @keywords internal
 #' @noRd
 dir_exists <- function(paths) {
   dir.exists(paths)

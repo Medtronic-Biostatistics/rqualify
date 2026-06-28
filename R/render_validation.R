@@ -19,7 +19,6 @@
 #'
 #' @return Invisibly, the path to the rendered `R-validation.Rmd`.
 #'
-#' @keywords internal
 #' @noRd
 render_validation <- function(path_rvalidation,
                               render_latex,
@@ -29,7 +28,7 @@ render_validation <- function(path_rvalidation,
   # and working-directory restoration handlers persist for the lifetime of
   # the calling function rather than firing when render_validation() itself
   # returns. Pass an explicit environment to override (mainly for tests).
-  path_rmd <- file.path("qualify_r", "R-validation.Rmd")
+  path_rmd <- file.path(rqualify_paths$rmd_subdir, rqualify_paths$rmd_file)
   file.copy(
     system.file(path_rmd, package = "rqualify"),
     path_rvalidation
@@ -58,7 +57,7 @@ render_validation <- function(path_rvalidation,
 
   if (verbose) cat("\n=== Now generating RMarkdown ===\n")
 
-  input_rmd <- file.path(path_rvalidation, "R-validation.Rmd")
+  input_rmd <- file.path(path_rvalidation, rqualify_paths$rmd_file)
   render(
     input         = input_rmd,
     output_format = "latex_document",
@@ -66,7 +65,7 @@ render_validation <- function(path_rvalidation,
   )
 
   if (render_latex) {
-    path_tex <- file.path(path_rvalidation, "R-validation.tex")
+    path_tex <- file.path(path_rvalidation, rqualify_paths$tex_file)
 
     oldwd <- getwd()
     register_on_exit(bquote(setwd(.(oldwd))), on_exit_frame)
@@ -81,16 +80,4 @@ render_validation <- function(path_rvalidation,
   }
 
   invisible(input_rmd)
-}
-
-#' Register an expression on a target frame's `on.exit` stack
-#'
-#' @keywords internal
-#' @noRd
-register_on_exit <- function(expr, frame) {
-  do.call(
-    "on.exit",
-    list(expr, add = TRUE),
-    envir = frame
-  )
 }

@@ -21,7 +21,6 @@
 #' @return A named list with elements `path_save`, `path_rvalidation`, and
 #'   `path_iqoqtestoutput` (all normalized absolute paths).
 #'
-#' @keywords internal
 #' @noRd
 setup_validation_dirs <- function(path_save) {
   if (missing(path_save)) {
@@ -47,13 +46,16 @@ setup_validation_dirs <- function(path_save) {
     )
   }
 
-  path_rvalidation <- file.path(path_save, "R-validation")
-  path_iqoqtestoutput <- file.path(path_rvalidation, "IQ-OQ-TestOutput")
+  path_rvalidation <- file.path(path_save, rqualify_paths$rvalidation_dir)
+  path_iqoqtestoutput <- file.path(path_rvalidation, rqualify_paths$testoutput_dir)
 
   if (dir_exists(path_rvalidation)) {
     rqualify_stop(
       "rqualify_dir_exists",
-      "Folder 'R-validation' already exists at the specified path. Rename or remove.",
+      paste0(
+        "Folder '", rqualify_paths$rvalidation_dir,
+        "' already exists at the specified path. Rename or remove."
+      ),
       path = path_rvalidation
     )
   }
