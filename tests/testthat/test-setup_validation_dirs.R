@@ -1,4 +1,20 @@
+# Several tests below call setup_validation_dirs() with a real path and so
+# would hit the `R.home()/tests` precondition. On CRAN-style CI runners R is
+# often installed without its test suite, so that folder may be absent and
+# the precondition would fire first. Stub dir_exists() to report the tests
+# folder as present, delegating to the real dir.exists() for everything else.
+local_allow_tests_folder <- function(env = parent.frame()) {
+  r_tests <- file.path(R.home(), "tests")
+  testthat::local_mocked_bindings(
+    dir_exists = function(paths) {
+      if (identical(paths, r_tests)) TRUE else base::dir.exists(paths)
+    },
+    .env = env
+  )
+}
+
 test_that("creates R-validation and IQ-OQ-TestOutput folders and returns paths", {
+  local_allow_tests_folder()
   tmp <- withr::local_tempdir()
 
   paths <- setup_validation_dirs(tmp)
@@ -16,6 +32,7 @@ test_that("creates R-validation and IQ-OQ-TestOutput folders and returns paths",
 })
 
 test_that("normalizes path_save using forward slashes", {
+  local_allow_tests_folder()
   tmp <- withr::local_tempdir()
 
   paths <- setup_validation_dirs(tmp)
@@ -28,6 +45,7 @@ test_that("errors when path_save is missing", {
 })
 
 test_that("errors when an R-validation folder already exists", {
+  local_allow_tests_folder()
   tmp <- withr::local_tempdir()
   dir.create(file.path(tmp, "R-validation"))
 
@@ -54,16 +72,12 @@ test_that("errors when the R installation lacks a 'tests' folder", {
 })
 
 test_that("removes the outer R-validation folder when the inner dir.create fails", {
-  # On Unix, chmod 0555 on the parent makes it read+execute only, so
-  # dir.create(parent/R-validation/IQ-OQ-TestOutput) cannot succeed
-  # after the outer dir.create has run (because the outer was created
-  # before chmod). We approximate this by chmod'ing path_save itself to
-  # 0555 after the outer dir is created, but that requires intercepting
-  # setup_validation_dirs() midway, which we can't do cleanly. Instead,
-  # use a parent whose permissions block creation of the inner path:
-  # make path_save read-only so both dir.create calls fail, then assert
-  # we still get a classed error and that no folder was created.
+  # On Unix, chmod 0555 on the parent makes it read+execute only, so the
+  # dir.create() calls inside setup_validation_dirs() cannot succeed. We assert
+  # that we still get a classed rqualify_dir_create_failed error and that no
+  # R-validation folder is left behind.
   skip_on_os("windows")
+  local_allow_tests_folder()
 
   tmp <- withr::local_tempdir()
   locked <- file.path(tmp, "locked")
