@@ -12,7 +12,7 @@
 #'
 #' @param setup_pandoc Logical. If TRUE, sets up pandoc for document conversion.
 #'  Note, this does not install the pandoc R package, but the Pandoc software. It
-#'  is a convenient wrapper around \code{pandoc::pandoc_install()} and `
+#'  is a convenient wrapper around \code{pandoc::pandoc_install()} and
 #'  \code{pandoc::pandoc_activate()}, which are called internally.
 #'
 #' @param render_latex Logical. If TRUE, renders the generated LaTeX file to PDF using
@@ -56,11 +56,10 @@
 #' unlink(file.path(tempdir(), "R-validation"), recursive = TRUE)
 #' }
 #'
-#' @importFrom rmarkdown render pandoc_version
-#' @importFrom tools file_path_sans_ext
+#' @importFrom rmarkdown render
 #' @importFrom utils read.csv
 #' @importFrom pandoc pandoc_install pandoc_activate pandoc_available
-#' @importFrom tinytex install_tinytex tinytex_root tlmgr_version pdflatex is_tinytex
+#' @importFrom tinytex install_tinytex tinytex_root pdflatex is_tinytex
 #'
 #' @export
 rqualify <- function(path_save,

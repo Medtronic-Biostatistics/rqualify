@@ -1,6 +1,15 @@
-test_that("setup_tinytex_env(TRUE) installs TinyTeX and prepends bin to PATH", {
+make_fake_tinytex <- function(parent, subdirs) {
+  bin <- file.path(parent, "bin")
+  dir.create(bin, recursive = TRUE)
+  for (sd in subdirs) dir.create(file.path(bin, sd))
+  parent
+}
+
+test_that("setup_tinytex_env(TRUE) prepends the detected bin subdir to PATH", {
   withr::local_envvar(PATH = "/usr/bin")
   withr::local_options(tinytex.install_packages = NULL)
+
+  fake_root <- make_fake_tinytex(withr::local_tempdir(), "x86_64-linux")
 
   calls <- list(install_tinytex = 0L, tinytex_root = 0L)
 
@@ -11,7 +20,7 @@ test_that("setup_tinytex_env(TRUE) installs TinyTeX and prepends bin to PATH", {
     },
     tinytex_root = function(...) {
       calls$tinytex_root <<- calls$tinytex_root + 1L
-      "/fake/TinyTeX"
+      fake_root
     },
     is_tinytex = function() TRUE
   )
@@ -27,7 +36,29 @@ test_that("setup_tinytex_env(TRUE) installs TinyTeX and prepends bin to PATH", {
   expect_equal(calls$install_tinytex, 1L)
   expect_equal(calls$tinytex_root, 1L)
   expect_true(isTRUE(getOption("tinytex.install_packages")))
-  expect_true(startsWith(Sys.getenv("PATH"), "/fake/TinyTeX"))
+  expect_true(startsWith(Sys.getenv("PATH"), file.path(fake_root, "bin")))
+})
+
+test_that("setup_tinytex_env(TRUE) errors when TinyTeX bin/ is empty", {
+  withr::local_envvar(PATH = "/usr/bin")
+
+  fake_root <- withr::local_tempdir()
+  dir.create(file.path(fake_root, "bin"))
+
+  local_mocked_bindings(
+    install_tinytex = function(...) invisible(NULL),
+    tinytex_root    = function(...) fake_root,
+    is_tinytex      = function() TRUE
+  )
+
+  expect_error(
+    setup_tinytex_env(
+      setup_tinytex = TRUE,
+      render_latex = TRUE,
+      verbose = FALSE
+    ),
+    "Could not locate a bin/ subdirectory"
+  )
 })
 
 test_that("setup_tinytex_env(FALSE) errors when TinyTeX absent and render needed", {
@@ -79,14 +110,15 @@ test_that("setup_tinytex_env(FALSE) succeeds when TinyTeX is already present", {
   )
 })
 
-test_that("setup_tinytex_env(TRUE) builds a Windows-shaped PATH on Windows", {
+test_that("setup_tinytex_env(TRUE) prepends both win32 and windows subdirs when present", {
   withr::local_envvar(PATH = "C:\\Windows\\System32")
+
+  fake_root <- make_fake_tinytex(withr::local_tempdir(), c("win32", "windows"))
 
   local_mocked_bindings(
     install_tinytex = function(...) invisible(NULL),
-    tinytex_root    = function(...) "C:/TinyTeX",
+    tinytex_root    = function(...) fake_root,
     is_tinytex      = function() TRUE,
-    os_type         = function() "windows",
     path_sep        = function() ";"
   )
 
@@ -97,24 +129,20 @@ test_that("setup_tinytex_env(TRUE) builds a Windows-shaped PATH on Windows", {
   )
 
   new_path <- Sys.getenv("PATH")
-
-  # Both Windows bin variants are prepended, semicolon-separated, ahead of
-  # the original PATH.
-  expect_match(
-    new_path,
-    "^C:/TinyTeX/bin/win32;C:/TinyTeX/bin/windows;C:\\\\Windows\\\\System32$"
-  )
+  expect_match(new_path, "/bin/win32;", fixed = TRUE)
+  expect_match(new_path, "/bin/windows;", fixed = TRUE)
+  expect_match(new_path, "C:\\\\Windows\\\\System32$")
 })
 
-test_that("setup_tinytex_env(TRUE) builds a Linux-shaped PATH on non-Windows", {
+test_that("setup_tinytex_env(TRUE) handles macOS-style bin subdir", {
   withr::local_envvar(PATH = "/usr/bin")
+
+  fake_root <- make_fake_tinytex(withr::local_tempdir(), "universal-darwin")
 
   local_mocked_bindings(
     install_tinytex = function(...) invisible(NULL),
-    tinytex_root    = function(...) "/opt/TinyTeX",
-    is_tinytex      = function() TRUE,
-    os_type         = function() "unix",
-    path_sep        = function() ":"
+    tinytex_root    = function(...) fake_root,
+    is_tinytex      = function() TRUE
   )
 
   setup_tinytex_env(
@@ -123,8 +151,8 @@ test_that("setup_tinytex_env(TRUE) builds a Linux-shaped PATH on non-Windows", {
     verbose = FALSE
   )
 
-  expect_identical(
+  expect_true(startsWith(
     Sys.getenv("PATH"),
-    "/opt/TinyTeX/bin/x86_64-linux:/usr/bin"
-  )
+    file.path(fake_root, "bin", "universal-darwin")
+  ))
 })

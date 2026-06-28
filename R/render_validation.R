@@ -67,13 +67,13 @@ render_validation <- function(path_rvalidation,
     oldwd <- getwd()
     register_on_exit(bquote(setwd(.(oldwd))), on_exit_frame)
 
-    if (verbose) cat("\n=== Now generating RMarkdown ===\n")
+    if (verbose) cat("\n=== Now compiling LaTeX to PDF ===\n")
 
     setwd(path_rvalidation)
     pdflatex(path_tex)
     setwd(oldwd)
 
-    if (verbose) cat("\n=== RMarkdown report complete===\n")
+    if (verbose) cat("\n=== RMarkdown report complete ===\n")
   }
 
   invisible(input_rmd)

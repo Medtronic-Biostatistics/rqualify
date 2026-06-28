@@ -1,5 +1,19 @@
 # rqualify 1.0.4
 
+## Bug fixes
+
+* `setup_tinytex_env()` no longer assumes the TinyTeX `bin/` subdirectory
+  is named `x86_64-linux` on every non-Windows platform. The subdirectory
+  is now detected by listing `bin/`, which fixes `PATH` wiring on macOS
+  (including Apple Silicon) and on `aarch64-linux`. A clearer error is
+  raised if no `bin/` subdirectory is found.
+* Fixed a duplicated `"Now generating RMarkdown"` banner printed by
+  `rqualify(verbose = TRUE)` before LaTeX compilation; it now reads
+  `"Now compiling LaTeX to PDF"`.
+* Fixed a stray dangling backtick in the `@param setup_pandoc`
+  documentation that rendered oddly on the help page and the package
+  website.
+
 ## Major changes
 
 * None. The public API is unchanged: `rqualify()` retains its signature,
@@ -24,9 +38,16 @@
   * `check_validation_results()` — reads `test_summary.csv`, warns on
     failures or missing files, and returns a `"ok"` / `"fail"` /
     `"missing"` status code for testability.
-* Introduced thin `os_type()` / `path_sep()` wrappers around `.Platform`
-  so OS-specific branches can be exercised in tests via
+* Introduced thin `os_type()` / `path_sep()` / `dir_exists()` wrappers
+  around `.Platform` and `dir.exists()` so OS-specific and base-function
+  branches can be exercised in tests via
   `testthat::local_mocked_bindings()`.
+* Removed unused `@importFrom` entries
+  (`tools::file_path_sans_ext`, `rmarkdown::pandoc_version`,
+  `tinytex::tlmgr_version`) so the package namespace only imports symbols
+  it actually uses.
+* Removed `LazyData: true` from `DESCRIPTION` since the package exports
+  no datasets; `R CMD build` was already stripping it.
 * Fixed a typo in the `@details` documentation ("Pandox" -> "Pandoc").
 
 ## Test scaffolding
@@ -34,8 +55,10 @@
 * Added pure tests for `setup_validation_dirs()` and
   `check_validation_results()`.
 * Added `local_mocked_bindings()`-based tests for `setup_tinytex_env()`
-  and `setup_pandoc_env()`, including platform-mocked tests that cover
-  the Windows and non-Windows `PATH` shapes.
+  (including filesystem-based tests that cover the Windows
+  `win32`+`windows`, Linux `x86_64-linux`, and macOS `universal-darwin`
+  `bin/` layouts, plus the new incomplete-install error path) and
+  `setup_pandoc_env()`.
 * Added mocked tests for `render_validation()` that stub
   `rmarkdown::render()` and `tinytex::pdflatex()` and assert that the
   locale, language, and working-directory `on.exit` handlers fire on the
@@ -63,150 +86,9 @@
 
 ## Other
 
-* Added `^\.posit# rqualify 1.0.4
-
-## Major changes
-
-* None. The public API is unchanged: `rqualify()` retains its signature,
-  return value, and side effects.
-
-## Internal changes
-
-* Refactored `rqualify()` into focused, independently testable internal
-  helpers:
-  * `setup_validation_dirs()` — path normalization, R `tests/` precondition
-    check, and creation of the `R-validation/IQ-OQ-TestOutput` tree.
-  * `setup_tinytex_env()` — TinyTeX installation and `PATH` wiring, or a
-    precondition check when `setup_tinytex = FALSE`.
-  * `setup_pandoc_env()` — Pandoc installation and activation, or a
-    precondition check when `setup_pandoc = FALSE`.
-  * `render_validation()` — Rmd copy, locale/language management, render
-    to LaTeX, and optional `pdflatex()` compilation. The `on.exit()`
-    handlers that restore locale, `LANGUAGE`, and the working directory
-    are now attached to the caller's frame (via a small
-    `register_on_exit()` utility), preserving the original lifetime of
-    those restorations.
-  * `check_validation_results()` — reads `test_summary.csv`, warns on
-    failures or missing files, and returns a `"ok"` / `"fail"` /
-    `"missing"` status code for testability.
-* Introduced thin `os_type()` / `path_sep()` wrappers around `.Platform`
-  so OS-specific branches can be exercised in tests via
-  `testthat::local_mocked_bindings()`.
-* Fixed a typo in the `@details` documentation ("Pandox" -> "Pandoc").
-
-## Test scaffolding
-
-* Added pure tests for `setup_validation_dirs()` and
-  `check_validation_results()`.
-* Added `local_mocked_bindings()`-based tests for `setup_tinytex_env()`
-  and `setup_pandoc_env()`, including platform-mocked tests that cover
-  the Windows and non-Windows `PATH` shapes.
-* Added mocked tests for `render_validation()` that stub
-  `rmarkdown::render()` and `tinytex::pdflatex()` and assert that the
-  locale, language, and working-directory `on.exit` handlers fire on the
-  caller's frame rather than when `render_validation()` itself returns.
-* Added orchestration tests for `rqualify()` that verify the helper call
-  order, argument propagation, the missing-`path_save` guard, and that
-  the `R-validation` path is still returned when
-  `check_validation_results()` warns (FAIL summaries or missing summary
-  files).
- to `.Rbuildignore` to exclude Positron session
+* Added `^\.posit$` to `.Rbuildignore` to exclude Positron session
   artifacts from the package build.
-* Added `^STYLE\.md# rqualify 1.0.4
-
-## Major changes
-
-* None. The public API is unchanged: `rqualify()` retains its signature,
-  return value, and side effects.
-
-## Internal changes
-
-* Refactored `rqualify()` into focused, independently testable internal
-  helpers:
-  * `setup_validation_dirs()` — path normalization, R `tests/` precondition
-    check, and creation of the `R-validation/IQ-OQ-TestOutput` tree.
-  * `setup_tinytex_env()` — TinyTeX installation and `PATH` wiring, or a
-    precondition check when `setup_tinytex = FALSE`.
-  * `setup_pandoc_env()` — Pandoc installation and activation, or a
-    precondition check when `setup_pandoc = FALSE`.
-  * `render_validation()` — Rmd copy, locale/language management, render
-    to LaTeX, and optional `pdflatex()` compilation. The `on.exit()`
-    handlers that restore locale, `LANGUAGE`, and the working directory
-    are now attached to the caller's frame (via a small
-    `register_on_exit()` utility), preserving the original lifetime of
-    those restorations.
-  * `check_validation_results()` — reads `test_summary.csv`, warns on
-    failures or missing files, and returns a `"ok"` / `"fail"` /
-    `"missing"` status code for testability.
-* Introduced thin `os_type()` / `path_sep()` wrappers around `.Platform`
-  so OS-specific branches can be exercised in tests via
-  `testthat::local_mocked_bindings()`.
-* Fixed a typo in the `@details` documentation ("Pandox" -> "Pandoc").
-
-## Test scaffolding
-
-* Added pure tests for `setup_validation_dirs()` and
-  `check_validation_results()`.
-* Added `local_mocked_bindings()`-based tests for `setup_tinytex_env()`
-  and `setup_pandoc_env()`, including platform-mocked tests that cover
-  the Windows and non-Windows `PATH` shapes.
-* Added mocked tests for `render_validation()` that stub
-  `rmarkdown::render()` and `tinytex::pdflatex()` and assert that the
-  locale, language, and working-directory `on.exit` handlers fire on the
-  caller's frame rather than when `render_validation()` itself returns.
-* Added orchestration tests for `rqualify()` that verify the helper call
-  order, argument propagation, the missing-`path_save` guard, and that
-  the `R-validation` path is still returned when
-  `check_validation_results()` warns (FAIL summaries or missing summary
-  files).
- and `^\.lintr# rqualify 1.0.4
-
-## Major changes
-
-* None. The public API is unchanged: `rqualify()` retains its signature,
-  return value, and side effects.
-
-## Internal changes
-
-* Refactored `rqualify()` into focused, independently testable internal
-  helpers:
-  * `setup_validation_dirs()` — path normalization, R `tests/` precondition
-    check, and creation of the `R-validation/IQ-OQ-TestOutput` tree.
-  * `setup_tinytex_env()` — TinyTeX installation and `PATH` wiring, or a
-    precondition check when `setup_tinytex = FALSE`.
-  * `setup_pandoc_env()` — Pandoc installation and activation, or a
-    precondition check when `setup_pandoc = FALSE`.
-  * `render_validation()` — Rmd copy, locale/language management, render
-    to LaTeX, and optional `pdflatex()` compilation. The `on.exit()`
-    handlers that restore locale, `LANGUAGE`, and the working directory
-    are now attached to the caller's frame (via a small
-    `register_on_exit()` utility), preserving the original lifetime of
-    those restorations.
-  * `check_validation_results()` — reads `test_summary.csv`, warns on
-    failures or missing files, and returns a `"ok"` / `"fail"` /
-    `"missing"` status code for testability.
-* Introduced thin `os_type()` / `path_sep()` wrappers around `.Platform`
-  so OS-specific branches can be exercised in tests via
-  `testthat::local_mocked_bindings()`.
-* Fixed a typo in the `@details` documentation ("Pandox" -> "Pandoc").
-
-## Test scaffolding
-
-* Added pure tests for `setup_validation_dirs()` and
-  `check_validation_results()`.
-* Added `local_mocked_bindings()`-based tests for `setup_tinytex_env()`
-  and `setup_pandoc_env()`, including platform-mocked tests that cover
-  the Windows and non-Windows `PATH` shapes.
-* Added mocked tests for `render_validation()` that stub
-  `rmarkdown::render()` and `tinytex::pdflatex()` and assert that the
-  locale, language, and working-directory `on.exit` handlers fire on the
-  caller's frame rather than when `render_validation()` itself returns.
-* Added orchestration tests for `rqualify()` that verify the helper call
-  order, argument propagation, the missing-`path_save` guard, and that
-  the `R-validation` path is still returned when
-  `check_validation_results()` warns (FAIL summaries or missing summary
-  files).
- to `.Rbuildignore` so the
+* Added `^STYLE\.md$` and `^\.lintr$` to `.Rbuildignore` so the
   contributor-facing style files are not shipped in the installed
   package.
 * Bumped `RoxygenNote` to 7.3.3.
@@ -239,4 +121,3 @@
 ## Major changes
 
 * Initial release for CRAN.
-

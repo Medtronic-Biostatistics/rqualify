@@ -25,7 +25,7 @@ and sets the TinyTeX installation path on the system PATH.}
 
 \item{setup_pandoc}{Logical. If TRUE, sets up pandoc for document conversion.
 Note, this does not install the pandoc R package, but the Pandoc software. It
-is a convenient wrapper around \code{pandoc::pandoc_install()} and `
+is a convenient wrapper around \code{pandoc::pandoc_install()} and
 \code{pandoc::pandoc_activate()}, which are called internally.}
 
 \item{render_latex}{Logical. If TRUE, renders the generated LaTeX file to PDF using

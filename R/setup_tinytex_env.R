@@ -30,16 +30,23 @@ setup_tinytex_env <- function(setup_tinytex, render_latex, verbose) {
     options(tinytex.install_packages = TRUE)
 
     path_TinyTeX <- tinytex_root()
+    bin_root <- file.path(path_TinyTeX, "bin")
 
-    if (os_type() == "windows") {
-      path_tt <- paste(
-        file.path(path_TinyTeX, "bin", "win32"),
-        file.path(path_TinyTeX, "bin", "windows"),
-        sep = path_sep()
+    # tinytex::install_tinytex() lays down exactly one OS-specific subdir
+    # under bin/ (e.g. windows, win32, x86_64-linux, aarch64-linux,
+    # universal-darwin). Detect it rather than hardcoding, so this works on
+    # macOS and aarch64-linux as well as Windows and x86_64-linux.
+    bin_subdirs <- list.dirs(bin_root, recursive = FALSE, full.names = TRUE)
+    if (length(bin_subdirs) == 0) {
+      stop(
+        "Could not locate a bin/ subdirectory under the TinyTeX root (",
+        bin_root, "). TinyTeX installation may be incomplete."
       )
-    } else {
-      path_tt <- file.path(path_TinyTeX, "bin", "x86_64-linux")
     }
+
+    # On Windows, recent TinyTeX layouts include both win32 and windows; on
+    # other platforms there is a single subdirectory.
+    path_tt <- paste(bin_subdirs, collapse = path_sep())
 
     Sys.setenv(PATH = paste(path_tt, Sys.getenv("PATH"), sep = path_sep()))
     return(invisible(NULL))
