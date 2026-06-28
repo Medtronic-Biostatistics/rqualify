@@ -20,7 +20,7 @@ test_that("returns 'ok' silently when all results pass", {
     tmp,
     data.frame(
       system_results = c("PASS", "PASS"),
-      test_results   = c("PASS", "PASS"),
+      test_results = c("PASS", "PASS"),
       stringsAsFactors = FALSE
     )
   )
@@ -37,7 +37,7 @@ test_that("warns and returns 'fail' when any test_results entry is FAIL", {
     tmp,
     data.frame(
       system_results = c("PASS", "PASS"),
-      test_results   = c("PASS", "FAIL"),
+      test_results = c("PASS", "FAIL"),
       stringsAsFactors = FALSE
     )
   )
@@ -55,7 +55,7 @@ test_that("warns and returns 'fail' when any system_results entry is FAIL", {
     tmp,
     data.frame(
       system_results = c("PASS", "FAIL"),
-      test_results   = c("PASS", "PASS"),
+      test_results = c("PASS", "PASS"),
       stringsAsFactors = FALSE
     )
   )
@@ -69,7 +69,7 @@ test_that("warns and returns 'fail' when any system_results entry is FAIL", {
 
 test_that("warns and returns 'missing' when test_summary.csv is absent", {
   tmp <- withr::local_tempdir()
-  path_rvalidation <- make_validation_tree(tmp)  # no summary written
+  path_rvalidation <- make_validation_tree(tmp) # no summary written
 
   expect_warning(
     res <- check_validation_results(path_rvalidation),

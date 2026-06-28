@@ -17,9 +17,11 @@ test_that("setup_tinytex_env(TRUE) installs TinyTeX and prepends bin to PATH", {
   )
 
   expect_invisible(
-    setup_tinytex_env(setup_tinytex = TRUE,
-                      render_latex  = TRUE,
-                      verbose       = FALSE)
+    setup_tinytex_env(
+      setup_tinytex = TRUE,
+      render_latex = TRUE,
+      verbose = FALSE
+    )
   )
 
   expect_equal(calls$install_tinytex, 1L)
@@ -36,9 +38,11 @@ test_that("setup_tinytex_env(FALSE) errors when TinyTeX absent and render needed
   )
 
   expect_error(
-    setup_tinytex_env(setup_tinytex = FALSE,
-                      render_latex  = TRUE,
-                      verbose       = FALSE),
+    setup_tinytex_env(
+      setup_tinytex = FALSE,
+      render_latex = TRUE,
+      verbose = FALSE
+    ),
     "TinyTeX is not detected"
   )
 })
@@ -51,9 +55,11 @@ test_that("setup_tinytex_env(FALSE) is a no-op when render_latex is FALSE", {
   )
 
   expect_no_error(
-    setup_tinytex_env(setup_tinytex = FALSE,
-                      render_latex  = FALSE,
-                      verbose       = FALSE)
+    setup_tinytex_env(
+      setup_tinytex = FALSE,
+      render_latex = FALSE,
+      verbose = FALSE
+    )
   )
 })
 
@@ -65,9 +71,11 @@ test_that("setup_tinytex_env(FALSE) succeeds when TinyTeX is already present", {
   )
 
   expect_no_error(
-    setup_tinytex_env(setup_tinytex = FALSE,
-                      render_latex  = TRUE,
-                      verbose       = FALSE)
+    setup_tinytex_env(
+      setup_tinytex = FALSE,
+      render_latex = TRUE,
+      verbose = FALSE
+    )
   )
 })
 
@@ -82,16 +90,20 @@ test_that("setup_tinytex_env(TRUE) builds a Windows-shaped PATH on Windows", {
     path_sep        = function() ";"
   )
 
-  setup_tinytex_env(setup_tinytex = TRUE,
-                    render_latex  = TRUE,
-                    verbose       = FALSE)
+  setup_tinytex_env(
+    setup_tinytex = TRUE,
+    render_latex = TRUE,
+    verbose = FALSE
+  )
 
   new_path <- Sys.getenv("PATH")
 
   # Both Windows bin variants are prepended, semicolon-separated, ahead of
   # the original PATH.
-  expect_match(new_path,
-               "^C:/TinyTeX/bin/win32;C:/TinyTeX/bin/windows;C:\\\\Windows\\\\System32$")
+  expect_match(
+    new_path,
+    "^C:/TinyTeX/bin/win32;C:/TinyTeX/bin/windows;C:\\\\Windows\\\\System32$"
+  )
 })
 
 test_that("setup_tinytex_env(TRUE) builds a Linux-shaped PATH on non-Windows", {
@@ -105,10 +117,14 @@ test_that("setup_tinytex_env(TRUE) builds a Linux-shaped PATH on non-Windows", {
     path_sep        = function() ":"
   )
 
-  setup_tinytex_env(setup_tinytex = TRUE,
-                    render_latex  = TRUE,
-                    verbose       = FALSE)
+  setup_tinytex_env(
+    setup_tinytex = TRUE,
+    render_latex = TRUE,
+    verbose = FALSE
+  )
 
-  expect_identical(Sys.getenv("PATH"),
-                   "/opt/TinyTeX/bin/x86_64-linux:/usr/bin")
+  expect_identical(
+    Sys.getenv("PATH"),
+    "/opt/TinyTeX/bin/x86_64-linux:/usr/bin"
+  )
 })

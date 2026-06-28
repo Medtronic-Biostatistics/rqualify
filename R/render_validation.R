@@ -25,7 +25,6 @@ render_validation <- function(path_rvalidation,
                               render_latex,
                               verbose,
                               on_exit_frame = parent.frame()) {
-
   path_rmd <- file.path("qualify_r", "R-validation.Rmd")
   file.copy(
     system.file(path_rmd, package = "rqualify"),
@@ -33,8 +32,8 @@ render_validation <- function(path_rvalidation,
   )
 
   current_locale_collate <- Sys.getlocale("LC_COLLATE")
-  current_locale_time    <- Sys.getlocale("LC_TIME")
-  current_language       <- Sys.getenv("LANGUAGE")
+  current_locale_time <- Sys.getlocale("LC_TIME")
+  current_language <- Sys.getenv("LANGUAGE")
 
   register_on_exit(
     bquote(Sys.setlocale("LC_COLLATE", .(current_locale_collate))),

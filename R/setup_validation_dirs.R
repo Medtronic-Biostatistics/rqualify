@@ -30,7 +30,7 @@ setup_validation_dirs <- function(path_save) {
     )
   }
 
-  path_rvalidation    <- file.path(path_save, "R-validation")
+  path_rvalidation <- file.path(path_save, "R-validation")
   path_iqoqtestoutput <- file.path(path_rvalidation, "IQ-OQ-TestOutput")
 
   if (dir_exists(path_rvalidation)) {
