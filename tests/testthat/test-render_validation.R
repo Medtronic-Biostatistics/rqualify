@@ -3,11 +3,14 @@ test_that("render_validation() copies Rmd, renders, and runs pdflatex when rende
   path_rvalidation <- file.path(tmp, "R-validation")
   dir.create(path_rvalidation)
 
-  seen <- list(render = NULL, pdflatex = NULL, pdflatex_wd = NA_character_)
+  seen <- new.env(parent = emptyenv())
+  seen$render <- NULL
+  seen$pdflatex <- NULL
+  seen$pdflatex_wd <- NA_character_
 
   local_mocked_bindings(
     render = function(input, output_format, quiet, ...) {
-      seen$render <<- list(
+      seen$render <- list(
         input = input,
         output_format = output_format,
         quiet = quiet
@@ -17,8 +20,8 @@ test_that("render_validation() copies Rmd, renders, and runs pdflatex when rende
       invisible(input)
     },
     pdflatex = function(file, ...) {
-      seen$pdflatex <<- file
-      seen$pdflatex_wd <<- getwd()
+      seen$pdflatex <- file
+      seen$pdflatex_wd <- getwd()
       invisible(file)
     }
   )
@@ -65,15 +68,17 @@ test_that("render_validation() skips pdflatex when render_latex=FALSE", {
   path_rvalidation <- file.path(tmp, "R-validation")
   dir.create(path_rvalidation)
 
-  called <- list(render = 0L, pdflatex = 0L)
+  called <- new.env(parent = emptyenv())
+  called$render <- 0L
+  called$pdflatex <- 0L
 
   local_mocked_bindings(
     render = function(input, output_format, quiet, ...) {
-      called$render <<- called$render + 1L
+      called$render <- called$render + 1L
       invisible(input)
     },
     pdflatex = function(file, ...) {
-      called$pdflatex <<- called$pdflatex + 1L
+      called$pdflatex <- called$pdflatex + 1L
       invisible(file)
     }
   )
@@ -109,7 +114,7 @@ test_that("render_validation() registers locale/language restoration on the call
   original_time <- Sys.getlocale("LC_TIME")
   original_language <- Sys.getenv("LANGUAGE")
 
-  observed <- list()
+  observed <- new.env(parent = emptyenv())
 
   caller_fn <- function() {
     render_validation(
@@ -119,9 +124,9 @@ test_that("render_validation() registers locale/language restoration on the call
     )
     # render_validation has returned; its cleanup handlers should NOT have
     # fired yet because they were attached to *this* frame's on.exit stack.
-    observed$mid_collate <<- Sys.getlocale("LC_COLLATE")
-    observed$mid_time <<- Sys.getlocale("LC_TIME")
-    observed$mid_language <<- Sys.getenv("LANGUAGE")
+    observed$mid_collate <- Sys.getlocale("LC_COLLATE")
+    observed$mid_time <- Sys.getlocale("LC_TIME")
+    observed$mid_language <- Sys.getenv("LANGUAGE")
   }
   caller_fn()
 

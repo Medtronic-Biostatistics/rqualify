@@ -1,13 +1,15 @@
 test_that("setup_pandoc_env(TRUE) installs and activates Pandoc", {
-  calls <- list(install = 0L, activate = 0L)
+  calls <- new.env(parent = emptyenv())
+  calls$install <- 0L
+  calls$activate <- 0L
 
   local_mocked_bindings(
     pandoc_install = function(...) {
-      calls$install <<- calls$install + 1L
+      calls$install <- calls$install + 1L
       invisible(NULL)
     },
     pandoc_activate = function(...) {
-      calls$activate <<- calls$activate + 1L
+      calls$activate <- calls$activate + 1L
       invisible(NULL)
     },
     pandoc_available = function(...) stop("should not be consulted when setup_pandoc=TRUE")
@@ -21,15 +23,17 @@ test_that("setup_pandoc_env(TRUE) installs and activates Pandoc", {
 })
 
 test_that("setup_pandoc_env(FALSE) activates when Pandoc is already available", {
-  calls <- list(install = 0L, activate = 0L)
+  calls <- new.env(parent = emptyenv())
+  calls$install <- 0L
+  calls$activate <- 0L
 
   local_mocked_bindings(
     pandoc_install = function(...) {
-      calls$install <<- calls$install + 1L
+      calls$install <- calls$install + 1L
       invisible(NULL)
     },
     pandoc_activate = function(...) {
-      calls$activate <<- calls$activate + 1L
+      calls$activate <- calls$activate + 1L
       invisible(NULL)
     },
     pandoc_available = function(...) TRUE

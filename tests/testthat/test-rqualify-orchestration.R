@@ -1,7 +1,8 @@
 test_that("rqualify() orchestrates helpers in the expected order with correct arguments", {
-  calls <- list()
+  state <- new.env(parent = emptyenv())
+  state$calls <- list()
   record <- function(name, args = list()) {
-    calls[[length(calls) + 1L]] <<- list(name = name, args = args)
+    state$calls <- c(state$calls, list(list(name = name, args = args)))
   }
 
   fake_paths <- list(
@@ -64,6 +65,8 @@ test_that("rqualify() orchestrates helpers in the expected order with correct ar
   # Return value is the R-validation path from setup_validation_dirs()
   expect_identical(result, fake_paths$path_rvalidation)
 
+  calls <- state$calls
+
   # Each helper called exactly once, in the expected order
   expect_identical(
     vapply(calls, `[[`, character(1), "name"),
@@ -109,9 +112,10 @@ test_that("rqualify() orchestrates helpers in the expected order with correct ar
 })
 
 test_that("rqualify() errors when path_save is missing without calling any helper", {
-  calls <- character()
+  state <- new.env(parent = emptyenv())
+  state$called <- 0L
   fail_if_called <- function(...) {
-    calls <<- c(calls, "called")
+    state$called <- state$called + 1L
     stop("should not be called")
   }
 
@@ -127,11 +131,11 @@ test_that("rqualify() errors when path_save is missing without calling any helpe
     rqualify(setup_tinytex = FALSE, setup_pandoc = FALSE, verbose = FALSE),
     "path_save"
   )
-  expect_length(calls, 0)
+  expect_identical(state$called, 0L)
 })
 
 test_that("rqualify() forwards render_latex = FALSE to the relevant helpers", {
-  seen <- list()
+  seen <- new.env(parent = emptyenv())
   fake_paths <- list(
     path_save           = "/fake",
     path_rvalidation    = "/fake/R-validation",
@@ -141,12 +145,12 @@ test_that("rqualify() forwards render_latex = FALSE to the relevant helpers", {
   local_mocked_bindings(
     setup_validation_dirs = function(path_save) fake_paths,
     setup_tinytex_env = function(setup_tinytex, render_latex, verbose) {
-      seen$tinytex_render_latex <<- render_latex
+      seen$tinytex_render_latex <- render_latex
       invisible(NULL)
     },
     setup_pandoc_env = function(...) invisible(NULL),
     render_validation = function(path_rvalidation, render_latex, verbose) {
-      seen$render_render_latex <<- render_latex
+      seen$render_render_latex <- render_latex
       invisible(NULL)
     },
     check_validation_results = function(...) invisible("ok")
@@ -254,9 +258,10 @@ test_that("rqualify() rejects non-logical setup_* / render_latex / verbose", {
 })
 
 test_that("rqualify() validates arguments before calling any helper", {
-  called <- character()
+  state <- new.env(parent = emptyenv())
+  state$called <- 0L
   fail_if_called <- function(...) {
-    called <<- c(called, "called")
+    state$called <- state$called + 1L
     stop("should not be called")
   }
   local_mocked_bindings(
@@ -271,7 +276,7 @@ test_that("rqualify() validates arguments before calling any helper", {
     rqualify(path_save = "/tmp", verbose = "loud"),
     class = "rqualify_bad_arg"
   )
-  expect_length(called, 0)
+  expect_identical(state$called, 0L)
 })
 
 test_that("rqualify() signals classed error when path_save is missing", {

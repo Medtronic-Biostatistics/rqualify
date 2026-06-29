@@ -11,15 +11,17 @@ test_that("setup_tinytex_env(TRUE) prepends the detected bin subdir to PATH", {
 
   fake_root <- make_fake_tinytex(withr::local_tempdir(), "x86_64-linux")
 
-  calls <- list(install_tinytex = 0L, tinytex_root = 0L)
+  calls <- new.env(parent = emptyenv())
+  calls$install_tinytex <- 0L
+  calls$tinytex_root <- 0L
 
   local_mocked_bindings(
     install_tinytex = function(...) {
-      calls$install_tinytex <<- calls$install_tinytex + 1L
+      calls$install_tinytex <- calls$install_tinytex + 1L
       invisible(NULL)
     },
     tinytex_root = function(...) {
-      calls$tinytex_root <<- calls$tinytex_root + 1L
+      calls$tinytex_root <- calls$tinytex_root + 1L
       fake_root
     },
     is_tinytex = function() TRUE
