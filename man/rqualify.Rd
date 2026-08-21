@@ -17,24 +17,24 @@ rqualify(
 a folder named R-validation does not already exist at this location.}
 
 \item{setup_tinytex}{Logical. If TRUE, sets up TinyTeX for LaTeX document
-generation. Note, this does not install the tinytex R package, but the TinyTeX
-LaTeX bundle. It is a convenient wrapper for installing TinyTeX using
+generation. Note, this does not install the tinytex R package, but the TinyTeX 
+LaTeX bundle. It is a convenient wrapper for installing TinyTeX using 
 \code{tinytex::install_tinytex()}, and adding the TinyTeX location to the environment.
 The function installs the "TinyTeX" bundle and the additional package grfext,
 and sets the TinyTeX installation path on the system PATH.}
 
 \item{setup_pandoc}{Logical. If TRUE, sets up pandoc for document conversion.
 Note, this does not install the pandoc R package, but the Pandoc software. It
-is a convenient wrapper around \code{pandoc::pandoc_install()} and
+is a convenient wrapper around \code{pandoc::pandoc_install()} and `
 \code{pandoc::pandoc_activate()}, which are called internally.}
 
-\item{render_latex}{Logical. If TRUE, renders the generated LaTeX file to PDF using
+\item{render_latex}{Logical. If TRUE, renders the generated LaTeX file to PDF using 
 \code{tinytex::pdflatex()}.}
 
 \item{verbose}{Logical. If TRUE, prints progress messages to the console.}
 }
 \value{
-The path to the R-validation folder. The primary purpose of this
+The path to the R-validation folder. The primary purpose of this 
   function is its side effects, rendering an RMarkdown document.
 }
 \description{
@@ -42,38 +42,36 @@ Run IQ-OQ on an installation of R software
 }
 \details{
 This function creates a folder named R-validation at the specified path, allows
-  users to conveniently install TinyTeX and Pandoc, renders an RMarkdown file to LaTeX,
+  users to conveniently install TinyTeX and Pandox, renders an RMarkdown file to LaTeX, 
   compiles the LaTeX to PDF, and saves the output in the created folder.
 
 The validation process involves running a series of tests on the R installation and
-can be quite time consuming. The function will print progress messages to the
+can be quite time consuming. The function will print progress messages to the 
 console if \code{verbose} is set to TRUE.
 
 The following steps are carried out using default arguments:
 
 \enumerate{
   \item Create the folder tree R-validation/IQ-OQ-TestOutput at \code{path_save}
-  \item Install TinyTeX and necessary LaTeX packages (only if
-    \code{setup_tinytex = TRUE})
-  \item Install Pandoc (only if \code{setup_pandoc = TRUE})
+  \item Install TinyTeX and necessary LaTeX packages
+  \item Install Pandoc
   \item Copy RMarkdown validation file to the R-validation folder
   \item Execute the IQ-OQ by rendering the RMarkdown file to LaTeX
-  \item Compile the LaTeX file to pdf (only if \code{render_latex = TRUE})
+  \item Compile the LaTeX file to pdf
 }
 }
 \examples{
-\dontshow{if (tinytex::is_tinytex() && pandoc::pandoc_available()) withAutoprint(\{ # examplesIf}
+\dontshow{if (tinytex::is_tinytex() && pandoc::pandoc_available()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 \donttest{
-# Render the R-validation report, must have TinyTeX and Pandoc installed for
+# Render the R-validation report, must have TinyTeX and Pandoc installed for 
 # this example, otherwise set setup_tinytex and setup_pandoc to TRUE.
-rqualify(
-  path_save = tempdir(),
-  setup_tinytex = FALSE,
-  setup_pandoc = FALSE
-)
+rqualify(path_save     = tempdir(),
+         setup_tinytex = FALSE,
+         setup_pandoc  = FALSE)
 }
 \dontshow{
-unlink(file.path(tempdir(), "R-validation"), recursive = TRUE)
+unlink(file.path(tempdir(), "R-validation"), recursive=TRUE)
 }
+  
 \dontshow{\}) # examplesIf}
 }
