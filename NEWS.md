@@ -1,3 +1,13 @@
+# rqualify 1.1.0
+
+## Major changes
+
+* Support for report generation via quarto and typst, enabling RStudio users to run a report without having to install tinytex or pandoc (quarto, pandoc and typst are included in the RStudio installation).
+
+## Minor changes
+
+* None.
+
 # rqualify 1.0.2
 
 ## Major changes
