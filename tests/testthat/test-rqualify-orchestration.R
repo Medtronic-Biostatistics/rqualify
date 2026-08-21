@@ -1,3 +1,90 @@
+test_that("rqualify() orchestrates helpers in the expected order with correct arguments", {
+  calls <- list()
+  record <- function(name, args = list()) {
+    calls[[length(calls) + 1L]] <<- list(name = name, args = args)
+  }
+
+  fake_paths <- list(
+    path_save           = "/fake/parent",
+    path_rvalidation    = "/fake/parent/R-validation",
+    path_iqoqtestoutput = "/fake/parent/R-validation/IQ-OQ-TestOutput"
+  )
+
+  local_mocked_bindings(
+    setup_validation_dirs = function(path_save) {
+      record("setup_validation_dirs", list(path_save = path_save))
+      fake_paths
+    },
+    setup_tinytex_env = function(setup_tinytex, render_latex, verbose) {
+      record("setup_tinytex_env",
+             list(setup_tinytex = setup_tinytex,
+                  render_latex  = render_latex,
+                  verbose       = verbose))
+      invisible(NULL)
+    },
+    setup_pandoc_env = function(setup_pandoc, verbose) {
+      record("setup_pandoc_env",
+             list(setup_pandoc = setup_pandoc, verbose = verbose))
+      invisible(NULL)
+    },
+    render_validation = function(path_rvalidation, engine, render_latex, verbose) {
+      record("render_validation",
+             list(path_rvalidation = path_rvalidation,
+                  engine           = engine,
+                  render_latex     = render_latex,
+                  verbose          = verbose))
+      invisible(NULL)
+    },
+    check_validation_results = function(path_rvalidation) {
+      record("check_validation_results",
+             list(path_rvalidation = path_rvalidation))
+      invisible("ok")
+    }
+  )
+
+  result <- rqualify(
+    path_save     = "/fake/parent",
+    engine        = "latex",
+    setup_tinytex = FALSE,
+    setup_pandoc  = FALSE,
+    render_latex  = TRUE,
+    verbose       = FALSE
+  )
+
+  # Return value is the R-validation path from setup_validation_dirs()
+  expect_identical(result, fake_paths$path_rvalidation)
+
+  # Each helper called exactly once, in the expected order
+  expect_identical(
+    vapply(calls, `[[`, character(1), "name"),
+    c("setup_validation_dirs",
+      "setup_tinytex_env",
+      "setup_pandoc_env",
+      "render_validation",
+      "check_validation_results")
+  )
+
+  # Arguments propagated correctly
+  expect_identical(calls[[1]]$args$path_save, "/fake/parent")
+
+  expect_identical(calls[[2]]$args,
+                   list(setup_tinytex = FALSE,
+                        render_latex  = TRUE,
+                        verbose       = FALSE))
+
+  expect_identical(calls[[3]]$args,
+                   list(setup_pandoc = FALSE, verbose = FALSE))
+
+  expect_identical(calls[[4]]$args,
+                   list(path_rvalidation = fake_paths$path_rvalidation,
+                        engine           = "latex",
+                        render_latex     = TRUE,
+                        verbose          = FALSE))
+
+  expect_identical(calls[[5]]$args,
+                   list(path_rvalidation = fake_paths$path_rvalidation))
+})
+
 test_that("rqualify() errors when path_save is missing without calling any helper", {
   calls <- character()
   fail_if_called <- function(...) {
