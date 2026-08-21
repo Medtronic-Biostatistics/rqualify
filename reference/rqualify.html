@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rqualify</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,6 +51,7 @@
 <span>  setup_tinytex <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  setup_pandoc <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  render_latex <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  engine <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"latex"</span>, <span class="st">"quarto"</span><span class="op">)</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -85,6 +86,11 @@ is a convenient wrapper around <code><a href="https://cderv.github.io/pandoc/ref
 <code><a href="https://rdrr.io/pkg/tinytex/man/latexmk.html" class="external-link">tinytex::pdflatex()</a></code>.</p></dd>
 
 
+<dt id="arg-engine">engine<a class="anchor" aria-label="anchor" href="#arg-engine"></a></dt>
+<dd><p>Character. Engine to generate the PDF. Either <code>latex</code> or
+<code>quarto</code></p></dd>
+
+
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>Logical. If TRUE, prints progress messages to the console.</p></dd>
 
@@ -96,9 +102,14 @@ is a convenient wrapper around <code><a href="https://cderv.github.io/pandoc/ref
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This function creates a folder named R-validation at the specified path, allows
-  users to conveniently install TinyTeX and Pandox, renders an RMarkdown file to LaTeX,
-  compiles the LaTeX to PDF, and saves the output in the created folder.</p>
+    <p>This function creates a folder named R-validation at the specified path,
+  and generates a PDF report. Depending on the <code>engine</code> argument, the report
+  can be generated with LaTeX or with typst (via quarto). If <code>engine = "latex"</code>,
+  it allows users to conveniently install TinyTeX and Pandox, render an RMarkdown
+  file to LaTeX, compiles the LaTeX to PDF, and saves the output in the created
+  folder. If <code>engine = "quarto"</code>, it instead uses quarto to render the report
+  via typst. Quarto, pandoc, and typst are all part of the standard RStudio
+  installation, therefore requiring no additional software installation.</p>
 <p>The validation process involves running a series of tests on the R installation and
 can be quite time consuming. The function will print progress messages to the
 console if <code>verbose</code> is set to TRUE.</p>
