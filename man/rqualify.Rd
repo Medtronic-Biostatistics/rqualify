@@ -9,7 +9,7 @@ rqualify(
   setup_tinytex = TRUE,
   setup_pandoc = TRUE,
   render_latex = TRUE,
-  engine = c("latex", "quarto"),
+  engine = "latex",
   verbose = TRUE
 )
 }
@@ -30,7 +30,8 @@ is a convenient wrapper around \code{pandoc::pandoc_install()} and `
 \code{pandoc::pandoc_activate()}, which are called internally.}
 
 \item{render_latex}{Logical. If TRUE, renders the generated LaTeX file to PDF using 
-\code{tinytex::pdflatex()}.}
+\code{tinytex::pdflatex()} when engine is set to "latex". If FALSE, the 
+LaTeX file will be generated but not rendered to PDF.}
 
 \item{engine}{Character. Engine to generate the PDF. Either \code{latex} or 
 \code{quarto}}
@@ -47,10 +48,10 @@ Run IQ-OQ on an installation of R software
 \details{
 This function creates a folder named R-validation at the specified path, 
   and generates a PDF report. Depending on the \code{engine} argument, the report
-  can be generated with LaTeX or with typst (via quarto). If \code{engine = "latex"}, 
+  can be generated with LaTeX or with typst (via Quarto). If \code{engine = "latex"}, 
   it allows users to conveniently install TinyTeX and Pandox, render an RMarkdown 
   file to LaTeX, compiles the LaTeX to PDF, and saves the output in the created 
-  folder. If \code{engine = "quarto"}, it instead uses quarto to render the report 
+  folder. If \code{engine = "quarto"}, it instead uses Quarto to render the report 
   via typst. Quarto, pandoc, and typst are all part of the standard RStudio 
   installation, therefore requiring no additional software installation.
 
