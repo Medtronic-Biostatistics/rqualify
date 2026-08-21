@@ -53,6 +53,14 @@ library(rqualify)
 rqualify(path_save = tempdir())
 ```
 
+Another alternative is to use Quarto, especially if you wwant to execute the validation process from within RStudio:
+
+```         
+library(rqualify)
+rqualify(path_save = tempdir(),
+         engine    = "quarto")
+```
+
 In any case, ensure that the `path_save` location does not already include a folder named `R-validation`. See `?rqualify` for more info.
 
 ## Special Thanks

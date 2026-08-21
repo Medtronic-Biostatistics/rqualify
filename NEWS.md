@@ -6,7 +6,9 @@
 
 ## Minor changes
 
-- None.
+- Added several functions to increase modularity and allow for easier development of unit tests.
+
+- Added several unit tests for the new functions.
 
 # rqualify 1.0.2
 
