@@ -4,211 +4,117 @@
 #'   a folder named R-validation does not already exist at this location.
 #'
 #' @param setup_tinytex Logical. If TRUE, sets up TinyTeX for LaTeX document
-#'  generation. Note, this does not install the tinytex R package, but the TinyTeX 
-#'  LaTeX bundle. It is a convenient wrapper for installing TinyTeX using 
+#'  generation. Note, this does not install the tinytex R package, but the TinyTeX
+#'  LaTeX bundle. It is a convenient wrapper for installing TinyTeX using
 #'  \code{tinytex::install_tinytex()}, and adding the TinyTeX location to the environment.
 #'  The function installs the "TinyTeX" bundle and the additional package grfext,
 #'  and sets the TinyTeX installation path on the system PATH.
 #'
 #' @param setup_pandoc Logical. If TRUE, sets up pandoc for document conversion.
 #'  Note, this does not install the pandoc R package, but the Pandoc software. It
-#'  is a convenient wrapper around \code{pandoc::pandoc_install()} and `
+#'  is a convenient wrapper around \code{pandoc::pandoc_install()} and
 #'  \code{pandoc::pandoc_activate()}, which are called internally.
-#'  
-#' @param render_latex Logical. If TRUE, renders the generated LaTeX file to PDF using 
+#'
+#' @param render_latex Logical. If TRUE, renders the generated LaTeX file to PDF using
 #'   \code{tinytex::pdflatex()}.
-#' 
+#'
 #' @param verbose Logical. If TRUE, prints progress messages to the console.
-#' 
+#'
 #' @details This function creates a folder named R-validation at the specified path, allows
-#'   users to conveniently install TinyTeX and Pandox, renders an RMarkdown file to LaTeX, 
+#'   users to conveniently install TinyTeX and Pandoc, renders an RMarkdown file to LaTeX,
 #'   compiles the LaTeX to PDF, and saves the output in the created folder.
-#' 
+#'
 #' The validation process involves running a series of tests on the R installation and
-#' can be quite time consuming. The function will print progress messages to the 
+#' can be quite time consuming. The function will print progress messages to the
 #' console if \code{verbose} is set to TRUE.
 #'
 #' The following steps are carried out using default arguments:
 #'
 #' \enumerate{
 #'   \item Create the folder tree R-validation/IQ-OQ-TestOutput at \code{path_save}
-#'   \item Install TinyTeX and necessary LaTeX packages
-#'   \item Install Pandoc
+#'   \item Install TinyTeX and necessary LaTeX packages (only if
+#'     \code{setup_tinytex = TRUE})
+#'   \item Install Pandoc (only if \code{setup_pandoc = TRUE})
 #'   \item Copy RMarkdown validation file to the R-validation folder
 #'   \item Execute the IQ-OQ by rendering the RMarkdown file to LaTeX
-#'   \item Compile the LaTeX file to pdf
+#'   \item Compile the LaTeX file to pdf (only if \code{render_latex = TRUE})
 #' }
-#' 
-#' @return The path to the R-validation folder. The primary purpose of this 
+#'
+#' @return The path to the R-validation folder. The primary purpose of this
 #'   function is its side effects, rendering an RMarkdown document.
-#'   
+#'
 #' @examplesIf tinytex::is_tinytex() && pandoc::pandoc_available()
 #' \donttest{
-#' # Render the R-validation report, must have TinyTeX and Pandoc installed for 
+#' # Render the R-validation report, must have TinyTeX and Pandoc installed for
 #' # this example, otherwise set setup_tinytex and setup_pandoc to TRUE.
-#' rqualify(path_save     = tempdir(),
-#'          setup_tinytex = FALSE,
-#'          setup_pandoc  = FALSE)
+#' rqualify(
+#'   path_save = tempdir(),
+#'   setup_tinytex = FALSE,
+#'   setup_pandoc = FALSE
+#' )
 #' }
 #' \dontshow{
-#' unlink(file.path(tempdir(), "R-validation"), recursive=TRUE)
+#' unlink(file.path(tempdir(), "R-validation"), recursive = TRUE)
 #' }
-#'   
-#' @importFrom rmarkdown render pandoc_version
-#' @importFrom tools file_path_sans_ext
+#'
+#' @importFrom rmarkdown render
 #' @importFrom utils read.csv
 #' @importFrom pandoc pandoc_install pandoc_activate pandoc_available
-#' @importFrom tinytex install_tinytex tinytex_root tlmgr_version pdflatex is_tinytex
+#' @importFrom tinytex install_tinytex tinytex_root pdflatex is_tinytex
 #'
 #' @export
-rqualify <- function(path_save, setup_tinytex=TRUE, setup_pandoc=TRUE, 
-                     render_latex=TRUE,
-                     verbose=TRUE){
-  
-  # Normalize folder path
-  path_save <- normalizePath(path_save, winslash="/")
-  
-  # Check for existence of tests folder
-  r_test_path <- file.path(R.home(), "tests")
-  if(!dir.exists(r_test_path)){
-    stop("R installation does not contain 'tests' folder. If running on Linux, see https://cran.r-project.org/doc/manuals/r-patched/R-admin.html#Testing-a-Unix_002dalike-Installation for instructions to install R with tests.")
+rqualify <- function(path_save,
+                     setup_tinytex = TRUE,
+                     setup_pandoc = TRUE,
+                     render_latex = TRUE,
+                     verbose = TRUE) {
+  if (missing(path_save)) {
+    rqualify_stop(
+      "rqualify_missing_arg",
+      "`path_save` is required."
+    )
   }
-  
-  
-  #-----------------------------------------------------------------------------
-  # Create folder 'R-validation' and 'R-validation/IQ-OQ-TestOutput' at path_save
-  #-----------------------------------------------------------------------------
-  path_rvalidation    <- file.path(path_save, "R-validation")
-  path_iqoqtestoutput <- file.path(path_rvalidation, "IQ-OQ-TestOutput")
-  
-  if(dir.exists(path_rvalidation)){
-    stop("Folder 'R-validation' already exists at the specified path. Rename or remove.")
-  }
-  
-  dc <- dir.create(path_rvalidation)
-  dc <- dir.create(path_iqoqtestoutput)
-  
-  
-  #-----------------------------------------------------------------------------
-  # Set-up tinytex?
-  #-----------------------------------------------------------------------------
-  if(setup_tinytex){
-    if(verbose) cat("\n=== Now setting up tinytex ===\n")
-    
-    # Install the TinyTeX LaTeX bundle
-    install_tinytex(bundle="TinyTeX",
-                    force=TRUE,
-                    extra_packages="grfext")
-    
-    # Force install packages if missing
-    options(tinytex.install_packages = TRUE)
-    
-    # Force TinyTex onto the path
-    path_TinyTeX <- tinytex_root()
-    
-    if(.Platform$OS.type == "windows"){
-      path_tt <- paste(file.path(path_TinyTeX, "bin", "win32"),
-                       file.path(path_TinyTeX, "bin", "windows"),
-                       sep=.Platform$path.sep)
-    } else{
-      path_tt <- file.path(path_TinyTeX, "bin", "x86_64-linux")
-    }
-    
-    Sys.setenv(PATH = paste(path_tt, Sys.getenv("PATH"), sep=.Platform$path.sep))
-  }
-  
-  if(!setup_tinytex){
-    if(!is_tinytex() && render_latex){
-      stop("TinyTeX is not not detected. Please set setup_tinytex to TRUE to install TinyTeX, or set render_latex to FALSE to skip rendering the LaTeX file to PDF.")
-    }
-  }
-  
-  
-  #-----------------------------------------------------------------------------
-  # Set-up pandoc?
-  #-----------------------------------------------------------------------------
-  if(setup_pandoc){
-    if(verbose) cat("\n=== Now setting up Pandoc ===\n")
-    
-    pandoc_install()
-    pandoc_activate()
-  }
-  
-  # If not, check that pandoc is installed and activate, otherwise stop with error
-  if(!setup_pandoc){
-    if(pandoc::pandoc_available()){
-      pandoc_activate()
-    } else{
-      stop("Pandoc is not detected. Please set setup_pandoc to TRUE to install Pandoc.")
-    }
-  }
-  
 
-  #-----------------------------------------------------------------------------
-  # Render Rmd to tex
-  #-----------------------------------------------------------------------------
-  # Copy Rmd file to 'path_rvalidation'
-  path_rmd <- file.path("qualify_r", "R-validation.Rmd")
-  
-  fc <- file.copy(system.file(path_rmd, package='rqualify'),
-                  path_rvalidation)
-  
-  # Get current locale and language settings to reset after rendering
-  current_locale_collate <- Sys.getlocale("LC_COLLATE")
-  current_locale_time    <- Sys.getlocale("LC_TIME")
-  current_language       <- Sys.getenv("LANGUAGE")
+  check_string(path_save, "path_save")
+  check_flag(setup_tinytex, "setup_tinytex")
+  check_flag(setup_pandoc, "setup_pandoc")
+  check_flag(render_latex, "render_latex")
+  check_flag(verbose, "verbose")
 
-  on.exit(Sys.setlocale("LC_COLLATE", current_locale_collate), add=TRUE)
-  on.exit(Sys.setlocale("LC_TIME", current_locale_time), add=TRUE)
-  on.exit(Sys.setenv("LANGUAGE"=current_language), add=TRUE)
-  
-  # Set locale and language - required for core test
-  Sys.setlocale("LC_COLLATE", "C")
-  Sys.setlocale("LC_TIME", "C")
-  Sys.setenv(LANGUAGE = "en")
-  
-  if(verbose) cat("\n=== Now generating RMarkdown ===\n")
-  
-  render(input         = file.path(path_rvalidation, "R-validation.Rmd"), 
-         output_format = "latex_document", 
-         quiet         = !verbose)
-  
-  #-----------------------------------------------------------------------------
-  # Render tex to pdf?
-  #-----------------------------------------------------------------------------
-  if(render_latex){
-    path_tex <- file.path(path_rvalidation, "R-validation.tex")
-    
-    # Get working directory and force reset on exit/in case of error
-    oldwd <- getwd()
-    on.exit(setwd(oldwd), add=TRUE)
-    
-    if(verbose) cat("\n=== Now generating RMarkdown ===\n")
-    
-    os <- setwd(path_rvalidation)
-    pdflatex(path_tex)
-    setwd(os)
-    if(verbose) cat("\n=== RMarkdown report complete===\n")
+  paths <- setup_validation_dirs(path_save)
+
+  setup_tinytex_env(setup_tinytex, render_latex, verbose)
+  setup_pandoc_env(setup_pandoc, verbose)
+
+  render_validation(
+    path_rvalidation = paths$path_rvalidation,
+    render_latex     = render_latex,
+    verbose          = verbose
+  )
+
+  check_validation_results(paths$path_rvalidation)
+
+  paths$path_rvalidation
+}
+
+#' @noRd
+check_string <- function(x, name) {
+  if (!is.character(x) || length(x) != 1L || is.na(x) || !nzchar(x)) {
+    rqualify_stop(
+      "rqualify_bad_arg",
+      sprintf("`%s` must be a single non-empty string.", name),
+      arg = name, value = x
+    )
   }
-  
-  
-  #-----------------------------------------------------------------------------
-  # Check test summary results and print warning if any tests failed
-  #-----------------------------------------------------------------------------
-  path_results <- file.path(path_rvalidation, "IQ-OQ-TestOutput", "test_summary.csv")
-  
-  if(file.exists(path_results)){
-    summ_results <- read.csv(path_results)
-    
-    if(any(summ_results$system_results %in% "FAIL") | any(summ_results$test_results %in% "FAIL")){
-      warning("R-validation failed. Please check the output files in the 'R-validation' folder.")
-    } 
-  } else{
-    warning("Test summary file not found. Please check the output files in the 'R-validation' folder.")
+}
+
+#' @noRd
+check_flag <- function(x, name) {
+  if (!is.logical(x) || length(x) != 1L || is.na(x)) {
+    rqualify_stop(
+      "rqualify_bad_arg",
+      sprintf("`%s` must be a single TRUE or FALSE.", name),
+      arg = name, value = x
+    )
   }
-  
-  #-----------------------------------------------------------------------------
-  # Output report path
-  #-----------------------------------------------------------------------------
-  path_rvalidation
 }

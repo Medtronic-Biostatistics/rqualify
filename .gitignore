@@ -3,3 +3,4 @@
 .RData
 .Ruserdata
 docs
+.posit/assistant/settings.json

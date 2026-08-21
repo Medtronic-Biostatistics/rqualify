@@ -1,7 +1,7 @@
 Package: rqualify
 Type: Package
 Title: Qualification of R Software Installations
-Version: 1.0.3
+Version: 1.0.4
 Authors@R: c(
     person("Donnie", "Musgrove",
       email = "donniemusgrove@gmail.com",
@@ -34,9 +34,9 @@ Imports:
     tinytex
 Suggests:
     knitr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    withr
 Encoding: UTF-8
 VignetteBuilder: knitr
-LazyData: true
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Config/testthat/edition: 3

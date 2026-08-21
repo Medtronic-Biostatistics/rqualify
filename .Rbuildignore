@@ -12,3 +12,6 @@
 ^vignettes/usage.Rmd$
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
+^\.posit$
+^STYLE\.md$
+^\.lintr$

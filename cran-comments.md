@@ -1,12 +1,33 @@
+## Release summary
+
+rqualify 1.0.4 is a maintenance release with bug fixes, internal
+refactoring, and API hardening. The public API is unchanged.
+
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 0 notes
 
-* This is a new release.
-* Addressed several initial submission CRAN comments as follows:
-* Added several on.exit calls to reset locale and env settings, and to reset the working directory. 
-* Replaced \dontrun with \donttest and added TinyTeX and Pandoc availability conditions on the function example.
-* Altered functions in examples/vignettes/tests to save output to tempdir().
-* Fixed verbose argument  so that messages to console can be easily suppressed.
-* Altered functions examples and the vignette so that by default, external packages are not installed. 
-* Altered vignette to partially execute code chunks by default, while code chunks with long run time are set to eval = FALSE and pre-computed output is displayed.
+## Highlights since 1.0.3
+
+* Bug fix: `setup_tinytex_env()` no longer assumes the TinyTeX `bin/`
+  subdirectory is named `x86_64-linux` on every non-Windows platform.
+  The subdirectory is now detected by listing `bin/`, which correctly
+  handles macOS (including Apple Silicon) and `aarch64-linux`.
+* Bug fix: removed a duplicated "Now generating RMarkdown" banner that
+  was printed before LaTeX compilation when `verbose = TRUE`.
+* Bug fix: fixed a stray dangling backtick in roxygen documentation.
+* `rqualify()` now validates its arguments before doing any work.
+* All errors and warnings now signal subclassed conditions (e.g.
+  `rqualify_no_tests_folder`, `rqualify_validation_failed`) so callers
+  can catch specific failures programmatically.
+* Internal refactor: split `rqualify()` into five testable helper
+  functions; test coverage rose from 1.52% to 96%.
+* Removed unused namespace imports and the unused `LazyData: true` from
+  DESCRIPTION.
+
+## Test environments
+
+* local macOS, R 4.5.3
+* GitHub Actions: macos-latest (release), windows-latest (release),
+  ubuntu-latest (devel/release/oldrel-1) via the standard
+  r-lib/actions R-CMD-check workflow
