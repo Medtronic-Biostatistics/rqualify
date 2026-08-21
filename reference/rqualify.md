@@ -37,7 +37,7 @@ rqualify(
   does not install the pandoc R package, but the Pandoc software. It is
   a convenient wrapper around
   [`pandoc::pandoc_install()`](https://cderv.github.io/pandoc/reference/pandoc_install.html)
-  and \`
+  and
   [`pandoc::pandoc_activate()`](https://cderv.github.io/pandoc/reference/pandoc_activate.html),
   which are called internally.
 
@@ -58,7 +58,7 @@ function is its side effects, rendering an RMarkdown document.
 ## Details
 
 This function creates a folder named R-validation at the specified path,
-allows users to conveniently install TinyTeX and Pandox, renders an
+allows users to conveniently install TinyTeX and Pandoc, renders an
 RMarkdown file to LaTeX, compiles the LaTeX to PDF, and saves the output
 in the created folder.
 
@@ -70,30 +70,32 @@ The following steps are carried out using default arguments:
 
 1.  Create the folder tree R-validation/IQ-OQ-TestOutput at `path_save`
 
-2.  Install TinyTeX and necessary LaTeX packages
+2.  Install TinyTeX and necessary LaTeX packages (only if
+    `setup_tinytex = TRUE`)
 
-3.  Install Pandoc
+3.  Install Pandoc (only if `setup_pandoc = TRUE`)
 
 4.  Copy RMarkdown validation file to the R-validation folder
 
 5.  Execute the IQ-OQ by rendering the RMarkdown file to LaTeX
 
-6.  Compile the LaTeX file to pdf
+6.  Compile the LaTeX file to pdf (only if `render_latex = TRUE`)
 
 ## Examples
 
 ``` r
 if (FALSE) { # tinytex::is_tinytex() && pandoc::pandoc_available()
 # \donttest{
-# Render the R-validation report, must have TinyTeX and Pandoc installed for 
+# Render the R-validation report, must have TinyTeX and Pandoc installed for
 # this example, otherwise set setup_tinytex and setup_pandoc to TRUE.
-rqualify(path_save     = tempdir(),
-         setup_tinytex = FALSE,
-         setup_pandoc  = FALSE)
+rqualify(
+  path_save = tempdir(),
+  setup_tinytex = FALSE,
+  setup_pandoc = FALSE
+)
 # }
 DONTSHOW({
-unlink(file.path(tempdir(), "R-validation"), recursive=TRUE)
+unlink(file.path(tempdir(), "R-validation"), recursive = TRUE)
 })
-  
 }
 ```
