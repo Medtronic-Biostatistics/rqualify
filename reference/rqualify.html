@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rqualify</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,7 +76,7 @@ and sets the TinyTeX installation path on the system PATH.</p></dd>
 <dt id="arg-setup-pandoc">setup_pandoc<a class="anchor" aria-label="anchor" href="#arg-setup-pandoc"></a></dt>
 <dd><p>Logical. If TRUE, sets up pandoc for document conversion.
 Note, this does not install the pandoc R package, but the Pandoc software. It
-is a convenient wrapper around <code><a href="https://cderv.github.io/pandoc/reference/pandoc_install.html" class="external-link">pandoc::pandoc_install()</a></code> and
+is a convenient wrapper around <code><a href="https://cderv.github.io/pandoc/reference/pandoc_install.html" class="external-link">pandoc::pandoc_install()</a></code> and `
 <code><a href="https://cderv.github.io/pandoc/reference/pandoc_activate.html" class="external-link">pandoc::pandoc_activate()</a></code>, which are called internally.</p></dd>
 
 
@@ -97,36 +97,34 @@ is a convenient wrapper around <code><a href="https://cderv.github.io/pandoc/ref
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>This function creates a folder named R-validation at the specified path, allows
-  users to conveniently install TinyTeX and Pandoc, renders an RMarkdown file to LaTeX,
+  users to conveniently install TinyTeX and Pandox, renders an RMarkdown file to LaTeX,
   compiles the LaTeX to PDF, and saves the output in the created folder.</p>
 <p>The validation process involves running a series of tests on the R installation and
 can be quite time consuming. The function will print progress messages to the
 console if <code>verbose</code> is set to TRUE.</p>
 <p>The following steps are carried out using default arguments:</p>
 <ol><li><p>Create the folder tree R-validation/IQ-OQ-TestOutput at <code>path_save</code></p></li>
-<li><p>Install TinyTeX and necessary LaTeX packages (only if
-    <code>setup_tinytex = TRUE</code>)</p></li>
-<li><p>Install Pandoc (only if <code>setup_pandoc = TRUE</code>)</p></li>
+<li><p>Install TinyTeX and necessary LaTeX packages</p></li>
+<li><p>Install Pandoc</p></li>
 <li><p>Copy RMarkdown validation file to the R-validation folder</p></li>
 <li><p>Execute the IQ-OQ by rendering the RMarkdown file to LaTeX</p></li>
-<li><p>Compile the LaTeX file to pdf (only if <code>render_latex = TRUE</code>)</p></li>
+<li><p>Compile the LaTeX file to pdf</p></li>
 </ol></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># tinytex::is_tinytex() &amp;&amp; pandoc::pandoc_available()</span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span><span class="co"># Render the R-validation report, must have TinyTeX and Pandoc installed for</span></span></span>
+<span class="r-in"><span><span class="co"># Render the R-validation report, must have TinyTeX and Pandoc installed for </span></span></span>
 <span class="r-in"><span><span class="co"># this example, otherwise set setup_tinytex and setup_pandoc to TRUE.</span></span></span>
-<span class="r-in"><span><span class="fu">rqualify</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  path_save <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  setup_tinytex <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
-<span class="r-in"><span>  setup_pandoc <span class="op">=</span> <span class="cn">FALSE</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">rqualify</span><span class="op">(</span>path_save     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>         setup_tinytex <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>         setup_pandoc  <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span><span class="fu">DONTSHOW</span><span class="op">(</span><span class="op">{</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"R-validation"</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"R-validation"</span><span class="op">)</span>, recursive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>

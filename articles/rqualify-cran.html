@@ -30,7 +30,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rqualify</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -92,13 +92,11 @@ for the full documentation. Here is a minimal usage example:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Medtronic-Biostatistics/rqualify" class="external-link">rqualify</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Render the R-validation report, must have TinyTeX and Pandoc installed,</span></span>
+<span><span class="co"># Render the R-validation report, must have TinyTeX and Pandoc installed, </span></span>
 <span><span class="co"># otherwise set setup_tinytex and setup_pandoc to TRUE.</span></span>
-<span><span class="fu"><a href="../reference/rqualify.html">rqualify</a></span><span class="op">(</span></span>
-<span>  path_save <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  setup_tinytex <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  setup_pandoc <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/rqualify.html">rqualify</a></span><span class="op">(</span>path_save    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>         setup_tinytex <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>         setup_pandoc  <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="r-validation-rmd-contents">R-validation.Rmd Contents<a class="anchor" aria-label="anchor" href="#r-validation-rmd-contents"></a>
 </h3>
@@ -118,9 +116,9 @@ the report with details about the R installation being qualified.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get R installation facts</span></span>
 <span><span class="va">RVersionInfo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Version.html" class="external-link">R.Version</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">Version</span> <span class="op">&lt;-</span> <span class="va">RVersionInfo</span><span class="op">$</span><span class="va">version.string</span></span>
-<span><span class="va">Arch</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"_"</span>, <span class="st">" "</span>, <span class="va">RVersionInfo</span><span class="op">$</span><span class="va">arch</span><span class="op">)</span></span>
-<span><span class="va">Platform</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"_"</span>, <span class="st">" "</span>, <span class="va">RVersionInfo</span><span class="op">$</span><span class="va">platform</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">Version</span>      <span class="op">&lt;-</span> <span class="va">RVersionInfo</span><span class="op">$</span><span class="va">version.string</span></span>
+<span><span class="va">Arch</span>         <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"_"</span>, <span class="st">" "</span>, <span class="va">RVersionInfo</span><span class="op">$</span><span class="va">arch</span><span class="op">)</span></span>
+<span><span class="va">Platform</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"_"</span>, <span class="st">" "</span>, <span class="va">RVersionInfo</span><span class="op">$</span><span class="va">platform</span><span class="op">)</span></span></code></pre></div>
 <pre><code>R Version: R version 4.6.1 (2026-06-24)
 
 Architecture: x86 64
@@ -130,7 +128,7 @@ Platform: x86 64-pc-linux-gnu</code></pre>
 <p>The following is the output of <code><a href="https://rdrr.io/r/base/Rhome.html" class="external-link">R.home()</a></code>, showing where R
 was installed on this computer:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">r_home</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Rhome.html" class="external-link">R.home</a></span><span class="op">(</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">r_home</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Rhome.html" class="external-link">R.home</a></span><span class="op">(</span><span class="op">)</span>, sep<span class="op">=</span><span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>/opt/R/4.6.1/lib/R</code></pre>
 <hr>
 <p>The following is the output of <code>system("R -e 'q()'")</code>,
@@ -140,10 +138,10 @@ presenting the R welcome banner as displayed from a default R console
 <code class="sourceCode R"><span><span class="co"># Output the R startup banner</span></span>
 <span><span class="va">results0</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.html" class="external-link">system</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/shQuote.html" class="external-link">shQuote</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Rhome.html" class="external-link">R.home</a></span><span class="op">(</span><span class="st">"bin"</span><span class="op">)</span>, <span class="st">"R"</span><span class="op">)</span><span class="op">)</span>, <span class="st">"-e"</span>, <span class="fu"><a href="https://rdrr.io/r/base/shQuote.html" class="external-link">shQuote</a></span><span class="op">(</span><span class="st">"q()"</span><span class="op">)</span><span class="op">)</span>, intern <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">results0</span><span class="op">)</span> <span class="op">!=</span> <span class="st">"try-error"</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">results0</span><span class="op">)</span> <span class="op">!=</span> <span class="st">"try-error"</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">results0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">results0</span>, collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span>
 <span>  <span class="va">results0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"&gt; q\\(\\)"</span>, <span class="st">""</span>, <span class="va">results0</span><span class="op">)</span></span>
-<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span><span class="op">}</span> <span class="kw">else</span><span class="op">{</span></span>
 <span>  <span class="va">results0</span> <span class="op">&lt;-</span> <span class="st">"Unable to execute R at the command line"</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code>
@@ -168,16 +166,14 @@ details about the current system upon which R is running and user
 information:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Run Sys.info() at the command line</span></span>
-<span><span class="va">results_sysinfo</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span></span>
-<span>  code_block <span class="op">=</span> <span class="st">"Sys.info()"</span>,</span>
-<span>  file_prefix <span class="op">=</span> <span class="st">"sysinfo"</span>,</span>
-<span>  folder_output <span class="op">=</span> <span class="va">dir_temp</span></span>
-<span><span class="op">)</span></span>
+<span><span class="va">results_sysinfo</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block    <span class="op">=</span> <span class="st">"Sys.info()"</span>,</span>
+<span>                             file_prefix   <span class="op">=</span> <span class="st">"sysinfo"</span>,</span>
+<span>                             folder_output <span class="op">=</span> <span class="va">dir_temp</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Clean-up the results (remove the unnecessary preamble and arrow)</span></span>
 <span><span class="va">results_sysinfo_clean</span> <span class="op">&lt;-</span> <span class="va">results_sysinfo</span><span class="op">[</span><span class="op">-</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">results_sysinfo</span> <span class="op">==</span> <span class="st">"&gt; Sys.info()"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">results_sysinfo_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">results_sysinfo_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">results_sysinfo_clean</span> <span class="op">&lt;-</span> <span class="va">results_sysinfo_clean</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">results_sysinfo_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code><span>                                      <span class="va">sysname</span> </span>
@@ -201,16 +197,14 @@ information:</p>
 details of the platform upon which R was built (compiled):</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Run .Platform at the command line</span></span>
-<span><span class="va">results_platform</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span></span>
-<span>  code_block <span class="op">=</span> <span class="st">".Platform"</span>,</span>
-<span>  file_prefix <span class="op">=</span> <span class="st">"platform"</span>,</span>
-<span>  folder_output <span class="op">=</span> <span class="va">dir_temp</span></span>
-<span><span class="op">)</span></span>
+<span><span class="va">results_platform</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block    <span class="op">=</span> <span class="st">".Platform"</span>,</span>
+<span>                              file_prefix   <span class="op">=</span> <span class="st">"platform"</span>,</span>
+<span>                              folder_output <span class="op">=</span> <span class="va">dir_temp</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Clean-up the results (remove the unnecessary preamble)</span></span>
 <span><span class="va">results_platform_clean</span> <span class="op">&lt;-</span> <span class="va">results_platform</span><span class="op">[</span><span class="op">-</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">results_platform</span> <span class="op">==</span> <span class="st">"&gt; .Platform"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">results_platform_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">results_platform_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">results_platform_clean</span> <span class="op">&lt;-</span> <span class="va">results_platform_clean</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">results_platform_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code>$OS.type
@@ -241,16 +235,14 @@ $r_arch
 detailed information on the currently running version of R:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Run R.version at the command line</span></span>
-<span><span class="va">results_rversion</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span></span>
-<span>  code_block <span class="op">=</span> <span class="st">"R.version"</span>,</span>
-<span>  file_prefix <span class="op">=</span> <span class="st">"rversion"</span>,</span>
-<span>  folder_output <span class="op">=</span> <span class="va">dir_temp</span></span>
-<span><span class="op">)</span></span>
+<span><span class="va">results_rversion</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block    <span class="op">=</span> <span class="st">"R.version"</span>,</span>
+<span>                              file_prefix   <span class="op">=</span> <span class="st">"rversion"</span>,</span>
+<span>                              folder_output <span class="op">=</span> <span class="va">dir_temp</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Clean-up the results (remove the unnecessary preamble)</span></span>
 <span><span class="va">results_rversion_clean</span> <span class="op">&lt;-</span> <span class="va">results_rversion</span><span class="op">[</span><span class="op">-</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">results_rversion</span> <span class="op">==</span> <span class="st">"&gt; R.version"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">results_rversion_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">results_rversion_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">results_rversion_clean</span> <span class="op">&lt;-</span> <span class="va">results_rversion_clean</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">results_rversion_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code>               _                           
@@ -273,16 +265,14 @@ nickname       Happy Hop                   </code></pre>
 numerical characteristics of the computer upon which R is running:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Run .Machine at the command line</span></span>
-<span><span class="va">results_machine</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span></span>
-<span>  code_block <span class="op">=</span> <span class="st">".Machine"</span>,</span>
-<span>  file_prefix <span class="op">=</span> <span class="st">"machine"</span>,</span>
-<span>  folder_output <span class="op">=</span> <span class="va">dir_temp</span></span>
-<span><span class="op">)</span></span>
+<span><span class="va">results_machine</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block    <span class="op">=</span> <span class="st">".Machine"</span>,</span>
+<span>                             file_prefix   <span class="op">=</span> <span class="st">"machine"</span>,</span>
+<span>                             folder_output <span class="op">=</span> <span class="va">dir_temp</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Clean-up the results (remove the unnecessary preamble)</span></span>
 <span><span class="va">results_machine_clean</span> <span class="op">&lt;-</span> <span class="va">results_machine</span><span class="op">[</span><span class="op">-</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">results_machine</span> <span class="op">==</span> <span class="st">"&gt; .Machine"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">results_machine_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">results_machine_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">results_machine_clean</span> <span class="op">&lt;-</span> <span class="va">results_machine_clean</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">results_machine_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code>$double.eps
@@ -376,16 +366,14 @@ $longdouble.max.exp
 current R version, locale information and attached packages:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Run sessionInfo() at the command line</span></span>
-<span><span class="va">results_sessioninfo</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span></span>
-<span>  code_block <span class="op">=</span> <span class="st">"sessionInfo()"</span>,</span>
-<span>  file_prefix <span class="op">=</span> <span class="st">"sessioninfo"</span>,</span>
-<span>  folder_output <span class="op">=</span> <span class="va">dir_temp</span></span>
-<span><span class="op">)</span></span>
+<span><span class="va">results_sessioninfo</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block   <span class="op">=</span> <span class="st">"sessionInfo()"</span>,</span>
+<span>                                 file_prefix  <span class="op">=</span> <span class="st">"sessioninfo"</span>,</span>
+<span>                                 folder_output <span class="op">=</span> <span class="va">dir_temp</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Clean-up the results (remove the unnecessary preamble)</span></span>
 <span><span class="va">results_sessioninfo_clean</span> <span class="op">&lt;-</span> <span class="va">results_sessioninfo</span><span class="op">[</span><span class="op">-</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">results_sessioninfo</span> <span class="op">==</span> <span class="st">"&gt; sessionInfo()"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">results_sessioninfo_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">results_sessioninfo_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">results_sessioninfo_clean</span> <span class="op">&lt;-</span> <span class="va">results_sessioninfo_clean</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">results_sessioninfo_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code>R version 4.6.1 (2026-06-24)
@@ -414,16 +402,14 @@ loaded via a namespace (and not attached):
 <p>The following is the output of <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code>, the current
 package library location; may be more than one folder:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">results_libpath</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span></span>
-<span>  code_block <span class="op">=</span> <span class="st">".libPaths()"</span>,</span>
-<span>  file_prefix <span class="op">=</span> <span class="st">"libpaths"</span>,</span>
-<span>  folder_output <span class="op">=</span> <span class="va">dir_temp</span></span>
-<span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">results_libpath</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block   <span class="op">=</span> <span class="st">".libPaths()"</span>,</span>
+<span>                             file_prefix  <span class="op">=</span> <span class="st">"libpaths"</span>,</span>
+<span>                             folder_output <span class="op">=</span> <span class="va">dir_temp</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Clean-up the results (remove the unnecessary preamble)</span></span>
 <span><span class="va">results_libpath_clean</span> <span class="op">&lt;-</span> <span class="va">results_libpath</span><span class="op">[</span><span class="op">-</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">results_libpath</span> <span class="op">==</span> <span class="st">"&gt; .libPaths()"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">results_libpath_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">results_libpath_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="va">results_libpath_clean</span> <span class="op">&lt;-</span> <span class="va">results_libpath_clean</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">results_libpath_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code>[1] "/home/runner/work/_temp/Library" "/opt/R/4.6.1/lib/R/site-library"
@@ -434,20 +420,18 @@ package library location; may be more than one folder:</p>
 used to render the report (note, if Pandoc is not installed, the output
 will indicate that Pandoc is not available):</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="fu">pandoc</span><span class="fu">::</span><span class="fu"><a href="https://cderv.github.io/pandoc/reference/pandoc_available.html" class="external-link">pandoc_available</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">results_pandoc_ver</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span></span>
-<span>    code_block <span class="op">=</span> <span class="st">"rmarkdown::pandoc_version()"</span>,</span>
-<span>    file_prefix <span class="op">=</span> <span class="st">"pandoc_ver"</span>,</span>
-<span>    folder_output <span class="op">=</span> <span class="va">dir_temp</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
+<code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="fu">pandoc</span><span class="fu">::</span><span class="fu"><a href="https://cderv.github.io/pandoc/reference/pandoc_available.html" class="external-link">pandoc_available</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">results_pandoc_ver</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block   <span class="op">=</span> <span class="st">"rmarkdown::pandoc_version()"</span>,</span>
+<span>                                  file_prefix  <span class="op">=</span> <span class="st">"pandoc_ver"</span>,</span>
+<span>                                  folder_output <span class="op">=</span> <span class="va">dir_temp</span><span class="op">)</span></span>
+<span>  </span>
 <span>  <span class="co"># Clean-up the results (remove the unnecessary preamble)</span></span>
 <span>  <span class="va">results_pandoc_ver_clean</span> <span class="op">&lt;-</span> <span class="va">results_pandoc_ver</span><span class="op">[</span><span class="op">-</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">results_pandoc_ver</span> <span class="op">==</span> <span class="st">"&gt; rmarkdown::pandoc_version()"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
-<span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">results_pandoc_ver_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">results_pandoc_ver_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>    <span class="va">results_pandoc_ver_clean</span> <span class="op">&lt;-</span> <span class="va">results_pandoc_ver_clean</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">results_pandoc_ver_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">]</span></span>
 <span>  <span class="op">}</span></span>
-<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span><span class="op">}</span> <span class="kw">else</span><span class="op">{</span></span>
 <span>  <span class="va">results_pandoc_ver_clean</span> <span class="op">&lt;-</span> <span class="st">"Pandoc not available"</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code>[1] ‘3.8.3’</code></pre>
@@ -457,20 +441,18 @@ listing the version and installation path of TinyTex used to render the
 report to pdf (note, if TinyTeX is not installed, the output will
 indicate that TinyTeX is not available):</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="fu">tinytex</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tinytex/man/is_tinytex.html" class="external-link">is_tinytex</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">results_tinytex_ver</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span></span>
-<span>    code_block <span class="op">=</span> <span class="st">"tinytex::tlmgr_version()"</span>,</span>
-<span>    file_prefix <span class="op">=</span> <span class="st">"tinytex_ver"</span>,</span>
-<span>    folder_output <span class="op">=</span> <span class="va">dir_temp</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
+<code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="fu">tinytex</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tinytex/man/is_tinytex.html" class="external-link">is_tinytex</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">results_tinytex_ver</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block   <span class="op">=</span> <span class="st">"tinytex::tlmgr_version()"</span>,</span>
+<span>                                   file_prefix  <span class="op">=</span> <span class="st">"tinytex_ver"</span>,</span>
+<span>                                   folder_output <span class="op">=</span> <span class="va">dir_temp</span><span class="op">)</span></span>
+<span>  </span>
 <span>  <span class="co"># Clean-up the results (remove the unnecessary preamble)</span></span>
 <span>  <span class="va">results_tinytex_ver_clean</span> <span class="op">&lt;-</span> <span class="va">results_tinytex_ver</span><span class="op">[</span><span class="op">-</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">results_tinytex_ver</span> <span class="op">==</span> <span class="st">"&gt; tinytex::tlmgr_version()"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
-<span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">results_tinytex_ver_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html" class="external-link">any</a></span><span class="op">(</span><span class="va">results_tinytex_ver_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>    <span class="va">results_tinytex_ver_clean</span> <span class="op">&lt;-</span> <span class="va">results_tinytex_ver_clean</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">results_tinytex_ver_clean</span> <span class="op">==</span> <span class="st">"&gt; "</span><span class="op">)</span><span class="op">]</span></span>
 <span>  <span class="op">}</span></span>
-<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span><span class="op">}</span> <span class="kw">else</span><span class="op">{</span></span>
 <span>  <span class="va">results_tinytex_ver_clean</span> <span class="op">&lt;-</span> <span class="st">"TinyTeX not available"</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code>TinyTeX not available</code></pre>
@@ -489,10 +471,10 @@ regression tests:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Copy system tests to IQ-OQ-TestOutput/tests</span></span>
 <span><span class="va">r_test_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Rhome.html" class="external-link">R.home</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"tests"</span><span class="op">)</span></span>
-<span><span class="va">fc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">r_test_path</span>, <span class="st">"IQ-OQ-TestOutput"</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">fc</span>          <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">r_test_path</span>, <span class="st">"IQ-OQ-TestOutput"</span>, recursive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Set absolute test path</span></span>
-<span><span class="va">path_system_tests</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/normalizePath.html" class="external-link">normalizePath</a></span><span class="op">(</span><span class="st">"IQ-OQ-TestOutput/tests"</span>, winslash <span class="op">=</span> <span class="st">"/"</span><span class="op">)</span></span>
+<span><span class="va">path_system_tests</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/normalizePath.html" class="external-link">normalizePath</a></span><span class="op">(</span><span class="st">"IQ-OQ-TestOutput/tests"</span>, winslash<span class="op">=</span><span class="st">"/"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">code_check1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">'</span></span>
 <span><span class="st">options(echo = FALSE)</span></span>
@@ -512,13 +494,11 @@ regression tests:</p>
 <span><span class="st">  cat("\n\nTest suite result: PASS\n\n")</span></span>
 <span><span class="st">}</span></span>
 <span><span class="st">q(status = Failure)</span></span>
-<span><span class="st">'</span>, <span class="va">path_system_tests</span>, <span class="va">path_system_tests</span><span class="op">)</span></span>
+<span><span class="st">'</span>,<span class="va">path_system_tests</span>,<span class="va">path_system_tests</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">results1</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span></span>
-<span>  code_block <span class="op">=</span> <span class="va">code_check1</span>,</span>
-<span>  file_prefix <span class="op">=</span> <span class="st">"CMDFile1"</span>,</span>
-<span>  folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">results1</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block    <span class="op">=</span> <span class="va">code_check1</span>,</span>
+<span>                      file_prefix   <span class="op">=</span> <span class="st">"CMDFile1"</span>,</span>
+<span>                      folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>
 R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
 Copyright (C) 2025 The R Foundation for Statistical Computing
@@ -645,11 +625,9 @@ examples:</p>
 <span><span class="st">}</span></span>
 <span><span class="st">q(status = Failure)</span></span>
 <span><span class="st">'</span></span>
-<span><span class="va">results2</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span></span>
-<span>  code_block <span class="op">=</span> <span class="va">code_check2</span>,</span>
-<span>  file_prefix <span class="op">=</span> <span class="st">"CMDFile2"</span>,</span>
-<span>  folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">results2</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block    <span class="op">=</span> <span class="va">code_check2</span>,</span>
+<span>                      file_prefix   <span class="op">=</span> <span class="st">"CMDFile2"</span>,</span>
+<span>                      folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>
 R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
 Copyright (C) 2025 The R Foundation for Statistical Computing
@@ -728,11 +706,9 @@ code examples:</p>
 <span><span class="st">}</span></span>
 <span><span class="st">q(status = Failure)</span></span>
 <span><span class="st">'</span></span>
-<span><span class="va">results3</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span></span>
-<span>  code_block <span class="op">=</span> <span class="va">code_check3</span>,</span>
-<span>  file_prefix <span class="op">=</span> <span class="st">"CMDFile3"</span>,</span>
-<span>  folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">results3</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block    <span class="op">=</span> <span class="va">code_check3</span>,</span>
+<span>                      file_prefix   <span class="op">=</span> <span class="st">"CMDFile3"</span>,</span>
+<span>                      folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>
 R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
 Copyright (C) 2025 The R Foundation for Statistical Computing
@@ -809,11 +785,9 @@ code examples:</p>
 <span><span class="st">}</span></span>
 <span><span class="st">q(status = Failure)</span></span>
 <span><span class="st">'</span></span>
-<span><span class="va">results4</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span></span>
-<span>  code_block <span class="op">=</span> <span class="va">code_check4</span>,</span>
-<span>  file_prefix <span class="op">=</span> <span class="st">"CMDFile4"</span>,</span>
-<span>  folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">results4</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block    <span class="op">=</span> <span class="va">code_check4</span>,</span>
+<span>                      file_prefix   <span class="op">=</span> <span class="st">"CMDFile4"</span>,</span>
+<span>                      folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>
 R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
 Copyright (C) 2025 The R Foundation for Statistical Computing
@@ -890,11 +864,9 @@ vignette code examples:</p>
 <span><span class="st">}</span></span>
 <span><span class="st">q(status = Failure)</span></span>
 <span><span class="st">'</span></span>
-<span><span class="va">results5</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span></span>
-<span>  code_block <span class="op">=</span> <span class="va">code_check5</span>,</span>
-<span>  file_prefix <span class="op">=</span> <span class="st">"CMDFile5"</span>,</span>
-<span>  folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">results5</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block    <span class="op">=</span> <span class="va">code_check5</span>,</span>
+<span>                      file_prefix   <span class="op">=</span> <span class="st">"CMDFile5"</span>,</span>
+<span>                      folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>
 R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
 Copyright (C) 2025 The R Foundation for Statistical Computing
@@ -977,11 +949,9 @@ tests:</p>
 <span><span class="st">}</span></span>
 <span><span class="st">q(status = Failure)</span></span>
 <span><span class="st">'</span></span>
-<span><span class="va">results6</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span></span>
-<span>  code_block <span class="op">=</span> <span class="va">code_check6</span>,</span>
-<span>  file_prefix <span class="op">=</span> <span class="st">"CMDFile6"</span>,</span>
-<span>  folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">results6</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block    <span class="op">=</span> <span class="va">code_check6</span>,</span>
+<span>                      file_prefix   <span class="op">=</span> <span class="st">"CMDFile6"</span>,</span>
+<span>                      folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>
 R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
 Copyright (C) 2025 The R Foundation for Statistical Computing
@@ -1149,11 +1119,9 @@ code tests:</p>
 <span><span class="st">}</span></span>
 <span><span class="st">q(status = Failure)</span></span>
 <span><span class="st">'</span></span>
-<span><span class="va">results7</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span></span>
-<span>  code_block <span class="op">=</span> <span class="va">code_check7</span>,</span>
-<span>  file_prefix <span class="op">=</span> <span class="st">"CMDFile7"</span>,</span>
-<span>  folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">results7</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block    <span class="op">=</span> <span class="va">code_check7</span>,</span>
+<span>                      file_prefix   <span class="op">=</span> <span class="st">"CMDFile7"</span>,</span>
+<span>                      folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>
 R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
 Copyright (C) 2025 The R Foundation for Statistical Computing
