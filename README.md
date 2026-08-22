@@ -58,6 +58,8 @@ Another alternative is to use Quarto, especially if you wwant to execute the val
 ```         
 library(rqualify)
 rqualify(path_save = tempdir(),
+         setup_tinytex = FALSE,
+         setup_pandoc  = FALSE,
          engine    = "quarto")
 ```
 
