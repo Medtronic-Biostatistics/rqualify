@@ -113,6 +113,16 @@ this package at <code>qualify_r/R-validation.Rmd</code> can be used as a
 template for your own validation document. Note, if viewing on Github,
 the <code>R-validation.Rmd</code> file is located at
 <code>inst/qualify_r/R-validation.Rmd</code>.</p>
+<p>Alternately, you can execute the validation proces via Quarto and
+Typst. In that instance, the following steps are performed:</p>
+<ol style="list-style-type: decimal">
+<li>Creates the folder tree <code>R-validation/IQ-OQ-TestOutput</code>
+at the specified <code>path_save</code>.</li>
+<li>Copies <code>R-validation.Qmd</code> to the
+<code>R-validation</code> folder.</li>
+<li>Executes the IQ-OQ by rendering <code>R-validation.Qmd</code> via
+Quarto and Typst to <code>R-validation.pdf</code>.</li>
+</ol>
 </div>
 <div class="section level2">
 <h2 id="tips-for-a-successful-qualification">Tips for a Successful Qualification<a class="anchor" aria-label="anchor" href="#tips-for-a-successful-qualification"></a>

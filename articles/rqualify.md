@@ -39,6 +39,15 @@ file `R-validation.Rmd` located in the root directory of this package at
 validation document. Note, if viewing on Github, the `R-validation.Rmd`
 file is located at `inst/qualify_r/R-validation.Rmd`.
 
+Alternately, you can execute the validation proces via Quarto and Typst.
+In that instance, the following steps are performed:
+
+1.  Creates the folder tree `R-validation/IQ-OQ-TestOutput` at the
+    specified `path_save`.
+2.  Copies `R-validation.Qmd` to the `R-validation` folder.
+3.  Executes the IQ-OQ by rendering `R-validation.Qmd` via Quarto and
+    Typst to `R-validation.pdf`.
+
 ## Tips for a Successful Qualification
 
 - Best practice is to Install and execute the qualification code on a

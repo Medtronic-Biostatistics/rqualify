@@ -70,3 +70,13 @@ file and to capture errors for display in the PDF report.
 For additional details and to see an example of a successful
 qualification, see
 [`vignette("details")`](https://medtronic-biostatistics.github.io/rqualify/articles/details.md).
+
+## Rvalidation.qmd
+
+The Rvalidation.qmd file is a Quarto file that follows the same
+structures as Rvalidation.Rmd. It is used to generate a PDF report using
+Quarto instead of R Markdown. The file includes the same sections for
+Installation Qualification (IQ) and Operational Qualification (OQ), as
+well as a summary table of the checks performed and their outcomes. The
+R code chunks in Rvalidation.qmd are adapted from the R-IQ-OQ code, with
+modifications to fit the structure of a Quarto file.

@@ -10,7 +10,7 @@ rqualify(
   setup_tinytex = TRUE,
   setup_pandoc = TRUE,
   render_latex = TRUE,
-  engine = c("latex", "quarto"),
+  engine = "latex",
   verbose = TRUE
 )
 ```
@@ -45,7 +45,9 @@ rqualify(
 - render_latex:
 
   Logical. If TRUE, renders the generated LaTeX file to PDF using
-  [`tinytex::pdflatex()`](https://rdrr.io/pkg/tinytex/man/latexmk.html).
+  [`tinytex::pdflatex()`](https://rdrr.io/pkg/tinytex/man/latexmk.html)
+  when engine is set to "latex". If FALSE, the LaTeX file will be
+  generated but not rendered to PDF.
 
 - engine:
 
@@ -64,11 +66,11 @@ function is its side effects, rendering an RMarkdown document.
 
 This function creates a folder named R-validation at the specified path,
 and generates a PDF report. Depending on the `engine` argument, the
-report can be generated with LaTeX or with typst (via quarto). If
+report can be generated with LaTeX or with typst (via Quarto). If
 `engine = "latex"`, it allows users to conveniently install TinyTeX and
 Pandox, render an RMarkdown file to LaTeX, compiles the LaTeX to PDF,
 and saves the output in the created folder. If `engine = "quarto"`, it
-instead uses quarto to render the report via typst. Quarto, pandoc, and
+instead uses Quarto to render the report via typst. Quarto, pandoc, and
 typst are all part of the standard RStudio installation, therefore
 requiring no additional software installation.
 

@@ -11,6 +11,10 @@
 - **[Marc Schwartz](https://msbiostats.com/)**. Author.  
   For initial validation code.
 
+- **Alan Haynes**. Contributor.
+
+- **Bryan Martin**. Contributor.
+
 - **Medtronic Inc.**. Copyright holder.
 
 ## Citation
