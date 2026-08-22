@@ -17,6 +17,14 @@ Authors@R: c(
       role = "aut",
       comment = "For initial validation code."
     ),
+    person("Alan", "Haynes", 
+      email = "alan.haynes@unibe.ch",
+      role = "ctb"
+    ),
+    person("Bryan", "Martin", 
+      email = "bryandmartin1@gmail.com",
+      role = "ctb"
+    ),
     person("Medtronic Inc.", role = "cph")
   )
 Description: Qualify R software installations using R Markdown as the foundation 
@@ -35,9 +43,10 @@ Imports:
     tinytex
 Suggests:
     knitr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    withr
 Encoding: UTF-8
 VignetteBuilder: knitr
 LazyData: true
-RoxygenNote: 7.3.3
 Config/testthat/edition: 3
+Config/roxygen2/version: 8.0.0
