@@ -1,7 +1,7 @@
 Package: rqualify
 Type: Package
 Title: Qualification of R Software Installations
-Version: 1.1.0
+Version: 1.0.4
 Authors@R: c(
     person("Donnie", "Musgrove",
       email = "donniemusgrove@gmail.com",
@@ -30,12 +30,12 @@ Depends:
     R (>= 4.4.0)
 Imports:
     pandoc,
-    quarto,
     rmarkdown,
     tinytex
 Suggests:
     knitr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    withr
 Encoding: UTF-8
 VignetteBuilder: knitr
 LazyData: true

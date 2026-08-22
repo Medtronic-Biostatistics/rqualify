@@ -9,7 +9,6 @@ rqualify(
   setup_tinytex = TRUE,
   setup_pandoc = TRUE,
   render_latex = TRUE,
-  engine = c("latex", "quarto"),
   verbose = TRUE
 )
 }
@@ -32,9 +31,6 @@ is a convenient wrapper around \code{pandoc::pandoc_install()} and `
 \item{render_latex}{Logical. If TRUE, renders the generated LaTeX file to PDF using 
 \code{tinytex::pdflatex()}.}
 
-\item{engine}{Character. Engine to generate the PDF. Either \code{latex} or 
-\code{quarto}}
-
 \item{verbose}{Logical. If TRUE, prints progress messages to the console.}
 }
 \value{
@@ -45,14 +41,9 @@ The path to the R-validation folder. The primary purpose of this
 Run IQ-OQ on an installation of R software
 }
 \details{
-This function creates a folder named R-validation at the specified path, 
-  and generates a PDF report. Depending on the \code{engine} argument, the report
-  can be generated with LaTeX or with typst (via quarto). If \code{engine = "latex"}, 
-  it allows users to conveniently install TinyTeX and Pandox, render an RMarkdown 
-  file to LaTeX, compiles the LaTeX to PDF, and saves the output in the created 
-  folder. If \code{engine = "quarto"}, it instead uses quarto to render the report 
-  via typst. Quarto, pandoc, and typst are all part of the standard RStudio 
-  installation, therefore requiring no additional software installation.
+This function creates a folder named R-validation at the specified path, allows
+  users to conveniently install TinyTeX and Pandoc, renders an RMarkdown file to LaTeX, 
+  compiles the LaTeX to PDF, and saves the output in the created folder.
 
 The validation process involves running a series of tests on the R installation and
 can be quite time consuming. The function will print progress messages to the 
