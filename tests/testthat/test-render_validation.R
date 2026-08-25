@@ -74,6 +74,41 @@ test_that("render_validation() skips pdflatex when render_latex=FALSE", {
   expect_equal(called$pdflatex, 0L)
 })
 
+test_that("render_validation() uses verbose output and quiet=FALSE for latex mode", {
+  tmp <- withr::local_tempdir()
+  path_rvalidation <- file.path(tmp, "R-validation")
+  dir.create(path_rvalidation)
+
+  seen <- list(render = NULL, pdflatex = NULL)
+
+  local_mocked_bindings(
+    render = function(input, output_format, quiet, ...) {
+      seen$render <<- list(input = input,
+                           output_format = output_format,
+                           quiet = quiet)
+      file.create(file.path(dirname(input), "R-validation.tex"))
+      invisible(input)
+    },
+    pdflatex = function(file, ...) {
+      seen$pdflatex <<- file
+      invisible(file)
+    }
+  )
+
+  expect_output(
+    render_validation(path_rvalidation = path_rvalidation,
+                      render_latex     = TRUE,
+                      verbose          = TRUE),
+    "Now generating RMarkdown.*RMarkdown report complete"
+  )
+
+  expect_identical(seen$render$quiet, FALSE)
+  expect_equal(normalizePath(seen$pdflatex, winslash = "/"),
+               normalizePath(file.path(path_rvalidation, "R-validation.tex"),
+                             winslash = "/"))
+})
+
+
 test_that("render_validation() registers locale/language restoration on the caller's frame", {
   tmp <- withr::local_tempdir()
   path_rvalidation <- file.path(tmp, "R-validation")
