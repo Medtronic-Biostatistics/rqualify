@@ -7,7 +7,9 @@ what code is executed when the file is rendered. This overview is for
 informational purposes and documents the internal structure of the
 `R-validation.Rmd` file. If any of the code blocks are updated, this is
 not considered a breaking change as the document will still render
-properly.
+properly. For Quarto users, `R-validation` is the source file for the
+`R-validation.qmd` file, and any changes to the `R-validation.Rmd` file
+will be reflected in `R-validation.qmd`.
 
 Please see
 <https://medtronic-biostatistics.github.io/rqualify/index.html> for the
