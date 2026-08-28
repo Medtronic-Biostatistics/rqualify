@@ -135,7 +135,7 @@ if(any(results_sysinfo_clean == "> ")){
                                           version 
     "#22-Ubuntu SMP Mon Jul 27 17:24:03 UTC 2026" 
                                          nodename 
-                                  "runnervm76f27" 
+                                  "runnervmgx7h7" 
                                           machine 
                                          "x86_64" 
                                             login 
