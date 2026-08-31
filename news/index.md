@@ -2,6 +2,8 @@
 
 ## rqualify 1.1.0
 
+CRAN release: 2026-08-28
+
 ### Major changes
 
 - Support for report generation via quarto and typst, enabling RStudio
