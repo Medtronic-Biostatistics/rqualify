@@ -1,6 +1,6 @@
 test_that("version probes use the first output line and reject failed commands", {
   r <- file.path(R.home("bin"), if (.Platform$OS.type == "windows") "R.exe" else "R")
-  expect_match(command_version(r), "^R version ")
+  expect_true(startsWith(command_version(r), R.version$version.string))
   for (command in list(NULL, NA_character_, "")) {
     expect_identical(command_version(command), NA_character_)
   }
