@@ -85,3 +85,28 @@ test_that("normalizes relative path_save before creating directories", {
     c(TRUE, TRUE)
   )
 })
+
+test_that("unwritable destinations are rejected before creating output", {
+  tmp <- withr::local_tempdir()
+  local_r_tests_dir_exists()
+  local_mocked_bindings(file.access = function(...) -1L, .package = "base")
+  expect_error(setup_validation_dirs(tmp), "path_save.*not writable")
+  expect_false(dir.exists(file.path(tmp, "R-validation")))
+})
+
+test_that("directory creation failures are reported and partial setup is removed", {
+  tmp <- withr::local_tempdir()
+  local_r_tests_dir_exists()
+  original_create <- base::dir.create
+  local_mocked_bindings(dir.create = function(...) FALSE, .package = "base")
+  expect_error(setup_validation_dirs(tmp), "Could not create the R-validation directory")
+  expect_false(dir.exists(file.path(tmp, "R-validation")))
+
+  local_mocked_bindings(dir.create = function(path, ...) {
+    if (basename(path) == "IQ-OQ-TestOutput") return(FALSE)
+    original_create(path, ...)
+  }, .package = "base")
+  expect_error(setup_validation_dirs(tmp), "Could not create the IQ-OQ-TestOutput directory")
+  expect_false(dir.exists(file.path(tmp, "R-validation")))
+  expect_true(dir.exists(tmp))
+})

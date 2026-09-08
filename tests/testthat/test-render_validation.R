@@ -70,3 +70,41 @@ test_that("render errors restore working directory, locale, and language", {
   expect_identical(Sys.getlocale("LC_TIME"), old_time)
   expect_true(is.na(Sys.getenv("LANGUAGE", unset = NA_character_)))
 })
+
+test_that("template copy failures stop before invoking either renderer", {
+  tmp <- withr::local_tempdir()
+  local_mocked_bindings(file.copy = function(...) FALSE, .package = "base")
+  local_mocked_bindings(
+    render = function(...) stop("must not render"),
+    quarto_render = function(...) stop("must not render")
+  )
+  expect_error(render_validation(tmp, TRUE, verbose = FALSE), "Could not copy the RMarkdown report template")
+  expect_error(render_validation(tmp, TRUE, engine = "quarto", verbose = FALSE), "Could not copy the Quarto report template")
+})
+
+test_that("a LaTeX compiler that produces no PDF cannot silently succeed", {
+  tmp <- withr::local_tempdir()
+  local_mocked_bindings(
+    render = function(input, ...) file.create(file.path(dirname(input), "R-validation.tex")),
+    pdflatex = function(...) NULL
+  )
+  expect_error(render_validation(tmp, TRUE, verbose = FALSE), "LaTeX did not produce the expected PDF report")
+})
+
+test_that("verbose rendering reports progress and enables renderer output", {
+  tmp <- withr::local_tempdir()
+  local_mocked_bindings(
+    render = function(input, output_format, quiet) {
+      expect_false(quiet)
+      file.create(file.path(dirname(input), "R-validation.tex"))
+    },
+    pdflatex = function(file) file.create(sub("tex$", "pdf", file)),
+    quarto_render = function(input, quiet, as_job) {
+      expect_false(quiet)
+      expect_false(as_job)
+      file.create(file.path(dirname(input), "R-validation.pdf"))
+    }
+  )
+  expect_output(render_validation(tmp, TRUE, verbose = TRUE), "RMarkdown report complete")
+  expect_output(render_validation(tmp, TRUE, engine = "quarto", verbose = TRUE), "Now generating PDF")
+})

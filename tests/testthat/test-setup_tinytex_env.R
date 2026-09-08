@@ -41,12 +41,64 @@ test_that("TinyTeX discovery uses actual binary directories on each platform", {
 
 test_that("discovered TinyTeX bins are activated without duplicate PATH entries", {
   root <- withr::local_tempdir()
-  bin <- file.path(root, "bin", "universal-darwin")
+  bin <- file.path(root, "bin", "native")
   dir.create(bin, recursive = TRUE)
-  file.create(file.path(bin, "pdflatex"))
-  withr::local_envvar(PATH = "/usr/bin")
-  local_mocked_bindings(tinytex_root = function() root, os_type = function() "unix", path_sep = function() ":")
+  executable <- if (.Platform$OS.type == "windows") "pdflatex.exe" else "pdflatex"
+  file.create(file.path(bin, executable))
+  original <- file.path(root, "existing tools")
+  withr::local_envvar(PATH = original)
+  local_mocked_bindings(tinytex_root = function() root)
   activate_tinytex_path()
   activate_tinytex_path()
-  expect_identical(Sys.getenv("PATH"), paste(bin, "/usr/bin", sep = ":"))
+  expect_identical(Sys.getenv("PATH"), paste(bin, original, sep = .Platform$path.sep))
+})
+
+test_that("Windows PATH activation preserves drive letters and spaces", {
+  bin <- "C:/Users/Example User/TinyTeX/bin/windows"
+  original <- "C:/Windows/System32;D:/Other Tools"
+  withr::local_envvar(PATH = original)
+  local_mocked_bindings(
+    tinytex_root = function() "C:/Users/Example User/TinyTeX",
+    tinytex_bin_dirs = function(root) bin,
+    path_sep = function() ";"
+  )
+  activate_tinytex_path()
+  activate_tinytex_path()
+  expect_identical(Sys.getenv("PATH"), paste(bin, original, sep = ";"))
+})
+
+test_that("setup activates an existing TinyTeX executable before installing", {
+  root <- withr::local_tempdir()
+  bin <- file.path(root, "bin", "native")
+  dir.create(bin, recursive = TRUE)
+  executable <- file.path(bin, if (.Platform$OS.type == "windows") "pdflatex.exe" else "pdflatex")
+  file.create(executable)
+  Sys.chmod(executable, "0755")
+  withr::local_envvar(PATH = "")
+  local_mocked_bindings(
+    tinytex_root = function() root,
+    install_tinytex = function(...) stop("must not install")
+  )
+  expect_identical(find_pdflatex(), "")
+  expect_no_error(setup_tinytex_env(FALSE, TRUE, FALSE))
+  expect_identical(normalizePath(find_pdflatex(), winslash = "/"), normalizePath(executable, winslash = "/"))
+})
+
+test_that("TinyTeX installation failures do not establish a usable renderer", {
+  local_mocked_bindings(
+    find_pdflatex = function() "",
+    activate_tinytex_path = function() NULL,
+    install_tinytex = function(...) NULL
+  )
+  expect_output(
+    expect_error(setup_tinytex_env(TRUE, TRUE, TRUE), "did not provide a usable pdflatex"),
+    "Now setting up TinyTeX"
+  )
+})
+
+test_that("failed TinyTeX discovery leaves PATH untouched", {
+  withr::local_envvar(PATH = "original path")
+  local_mocked_bindings(tinytex_root = function() stop("TinyTeX is not installed"))
+  expect_no_error(activate_tinytex_path())
+  expect_identical(Sys.getenv("PATH"), "original path")
 })

@@ -34,3 +34,29 @@ test_that("Pandoc is installed only when missing and explicitly enabled", {
   expect_true(installed)
   expect_true(activated)
 })
+
+test_that("an installation without a usable Pandoc renderer fails", {
+  local_mocked_bindings(pandoc_available = function(...) FALSE, .package = "rmarkdown")
+  local_mocked_bindings(
+    pandoc_available = function() FALSE,
+    pandoc_install = function() NULL,
+    pandoc_activate = function(quiet) expect_false(quiet)
+  )
+  expect_output(
+    expect_error(setup_pandoc_env(TRUE, TRUE), "did not provide a usable renderer"),
+    "Now setting up Pandoc"
+  )
+})
+
+test_that("Quarto must satisfy the minimum version before rendering", {
+  available <- FALSE
+  local_mocked_bindings(
+    quarto_available = function(min) {
+      expect_identical(min, "1.4")
+      available
+    }, .package = "quarto"
+  )
+  expect_error(setup_quarto_env(), "Quarto >= 1.4 is required")
+  available <- TRUE
+  expect_no_error(setup_quarto_env())
+})

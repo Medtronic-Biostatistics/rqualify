@@ -2,6 +2,8 @@
 
 ## Bug fixes
 
+- Fixed the Windows CI test for TinyTeX PATH activation to use the native path separator and executable name. Added a regression case for Windows drive letters and paths containing spaces.
+
 - Qualification now requires a successful subprocess exit and an explicit PASS completion result. Crashed tests, missing output, and contradictory or incomplete results can no longer be reported as passing.
 
 - Summary checking now validates all eight expected suites, required columns, allowed statuses, and consistency with available execution evidence. Missing or malformed summaries cannot establish a successful qualification.
@@ -21,6 +23,8 @@
 - Both report formats now share execution and result-classification functions. Subprocess scripts and logs are retained, and paths containing spaces or quotes are handled safely.
 
 - Added regression tests for subprocess failures, malformed summaries, engine-specific prerequisites, retries, tool discovery, and structured results. Added opt-in PDF rendering smoke tests for both templates and a dedicated CI workflow using short failure fixtures.
+
+- Expanded test coverage for tool-version metadata, all six package test suites, subprocess diagnostics, template and directory failures, and missing renderers.
 
 - Clarified that core system tests use `scope = "basic"`; development and internet scopes are not run. Updated the templates, function documentation, and vignettes to describe the actual checks and results.
 
