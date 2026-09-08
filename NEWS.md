@@ -1,3 +1,13 @@
+# rqualify 1.1.0.9000
+
+## Minor changes
+
+- Added a light, dark, and automatic theme selector to the pkgdown website, with code highlighting for both light and dark modes.
+
+- Enabled R syntax highlighting for all README code examples.
+
+- Excluded the local `.posit/` folder from version control.
+
 # rqualify 1.1.0
 
 ## Major changes
