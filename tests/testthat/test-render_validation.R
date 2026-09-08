@@ -1,205 +1,110 @@
-test_that("render_validation() copies Rmd, renders, and runs pdflatex when render_latex=TRUE", {
+test_that("LaTeX rendering copies the template and produces the requested artifact", {
   tmp <- withr::local_tempdir()
-  path_rvalidation <- file.path(tmp, "R-validation")
-  dir.create(path_rvalidation)
-
-  seen <- list(render = NULL, pdflatex = NULL, pdflatex_wd = NA_character_)
-
   local_mocked_bindings(
-    render = function(input, output_format, quiet, ...) {
-      seen$render <<- list(input = input,
-                           output_format = output_format,
-                           quiet = quiet)
-      # Pretend rendering produced a .tex file
+    render = function(input, output_format, quiet) {
+      expect_true(file.exists(input))
+      expect_identical(output_format, "latex_document")
+      expect_true(quiet)
       file.create(file.path(dirname(input), "R-validation.tex"))
-      invisible(input)
     },
-    pdflatex = function(file, ...) {
-      seen$pdflatex    <<- file
-      seen$pdflatex_wd <<- getwd()
-      invisible(file)
+    pdflatex = function(file) {
+      expect_equal(normalizePath(getwd()), normalizePath(tmp))
+      file.create(sub("tex$", "pdf", file))
     }
   )
-
-  starting_wd <- getwd()
-
-  render_validation(path_rvalidation = path_rvalidation,
-                    render_latex     = TRUE,
-                    verbose          = FALSE)
-
-  # Rmd copied into the validation folder
-  expect_true(file.exists(file.path(path_rvalidation, "R-validation.Rmd")))
-
-  # render() called with correct args
-  expect_equal(normalizePath(seen$render$input, winslash = "/"),
-               normalizePath(file.path(path_rvalidation, "R-validation.Rmd"),
-                             winslash = "/"))
-  expect_identical(seen$render$output_format, "latex_document")
-  expect_true(seen$render$quiet)
-
-  # pdflatex() called from the validation folder
-  expect_equal(normalizePath(seen$pdflatex, winslash = "/"),
-               normalizePath(file.path(path_rvalidation, "R-validation.tex"),
-                             winslash = "/"))
-  expect_equal(normalizePath(seen$pdflatex_wd, winslash = "/"),
-               normalizePath(path_rvalidation, winslash = "/"))
-
-  # Working directory restored at end of render_validation()
-  expect_equal(getwd(), starting_wd)
+  oldwd <- getwd()
+  result <- render_validation(tmp, TRUE, verbose = FALSE)
+  expect_identical(result, file.path(tmp, "R-validation.Rmd"))
+  expect_true(file.exists(file.path(tmp, "R-validation.pdf")))
+  expect_identical(getwd(), oldwd)
 })
 
-test_that("render_validation() skips pdflatex when render_latex=FALSE", {
+test_that("LaTeX-only rendering does not invoke pdflatex", {
   tmp <- withr::local_tempdir()
-  path_rvalidation <- file.path(tmp, "R-validation")
-  dir.create(path_rvalidation)
-
-  called <- list(render = 0L, pdflatex = 0L)
-
   local_mocked_bindings(
-    render = function(input, output_format, quiet, ...) {
-      called$render <<- called$render + 1L
-      invisible(input)
-    },
-    pdflatex = function(file, ...) {
-      called$pdflatex <<- called$pdflatex + 1L
-      invisible(file)
+    render = function(input, ...) file.create(file.path(dirname(input), "R-validation.tex")),
+    pdflatex = function(...) stop("must not compile")
+  )
+  expect_no_error(render_validation(tmp, FALSE, verbose = FALSE))
+  expect_false(file.exists(file.path(tmp, "R-validation.pdf")))
+})
+
+test_that("Quarto renders synchronously and respects quiet mode", {
+  tmp <- withr::local_tempdir()
+  local_mocked_bindings(
+    render = function(...) stop("must not invoke R Markdown"),
+    pdflatex = function(...) stop("must not invoke LaTeX"),
+    quarto_render = function(input, quiet, as_job) {
+      expect_true(file.exists(input))
+      expect_true(quiet)
+      expect_false(as_job)
+      file.create(file.path(dirname(input), "R-validation.pdf"))
     }
   )
-
-  render_validation(path_rvalidation = path_rvalidation,
-                    render_latex     = FALSE,
-                    verbose          = FALSE)
-
-  expect_equal(called$render, 1L)
-  expect_equal(called$pdflatex, 0L)
+  expect_output(result <- render_validation(tmp, TRUE, engine = "quarto", verbose = FALSE), NA)
+  expect_identical(result, file.path(tmp, "R-validation.qmd"))
+  expect_true(file.exists(file.path(tmp, "R-validation.pdf")))
 })
 
-test_that("render_validation() uses verbose output and quiet=FALSE for latex mode", {
+test_that("a renderer that produces no artifact cannot silently succeed", {
   tmp <- withr::local_tempdir()
-  path_rvalidation <- file.path(tmp, "R-validation")
-  dir.create(path_rvalidation)
+  local_mocked_bindings(render = function(...) NULL, quarto_render = function(...) NULL)
+  expect_error(render_validation(tmp, FALSE, verbose = FALSE), "expected LaTeX report")
+  expect_error(render_validation(tmp, FALSE, engine = "quarto", verbose = FALSE), "expected PDF report")
+})
 
-  seen <- list(render = NULL, pdflatex = NULL)
-
+test_that("render errors restore working directory, locale, and language", {
+  tmp <- withr::local_tempdir()
+  oldwd <- getwd()
+  old_collate <- Sys.getlocale("LC_COLLATE")
+  old_time <- Sys.getlocale("LC_TIME")
+  withr::local_envvar(LANGUAGE = NA_character_)
   local_mocked_bindings(
-    render = function(input, output_format, quiet, ...) {
-      seen$render <<- list(input = input,
-                           output_format = output_format,
-                           quiet = quiet)
+    render = function(input, ...) file.create(file.path(dirname(input), "R-validation.tex")),
+    pdflatex = function(...) stop("deliberate renderer failure")
+  )
+  caller <- function() render_validation(tmp, TRUE, verbose = FALSE)
+  expect_error(caller(), "deliberate renderer failure")
+  expect_identical(getwd(), oldwd)
+  expect_identical(Sys.getlocale("LC_COLLATE"), old_collate)
+  expect_identical(Sys.getlocale("LC_TIME"), old_time)
+  expect_true(is.na(Sys.getenv("LANGUAGE", unset = NA_character_)))
+})
+
+test_that("template copy failures stop before invoking either renderer", {
+  tmp <- withr::local_tempdir()
+  local_mocked_bindings(file.copy = function(...) FALSE, .package = "base")
+  local_mocked_bindings(
+    render = function(...) stop("must not render"),
+    quarto_render = function(...) stop("must not render")
+  )
+  expect_error(render_validation(tmp, TRUE, verbose = FALSE), "Could not copy the RMarkdown report template")
+  expect_error(render_validation(tmp, TRUE, engine = "quarto", verbose = FALSE), "Could not copy the Quarto report template")
+})
+
+test_that("a LaTeX compiler that produces no PDF cannot silently succeed", {
+  tmp <- withr::local_tempdir()
+  local_mocked_bindings(
+    render = function(input, ...) file.create(file.path(dirname(input), "R-validation.tex")),
+    pdflatex = function(...) NULL
+  )
+  expect_error(render_validation(tmp, TRUE, verbose = FALSE), "LaTeX did not produce the expected PDF report")
+})
+
+test_that("verbose rendering reports progress and enables renderer output", {
+  tmp <- withr::local_tempdir()
+  local_mocked_bindings(
+    render = function(input, output_format, quiet) {
+      expect_false(quiet)
       file.create(file.path(dirname(input), "R-validation.tex"))
-      invisible(input)
     },
-    pdflatex = function(file, ...) {
-      seen$pdflatex <<- file
-      invisible(file)
+    pdflatex = function(file) file.create(sub("tex$", "pdf", file)),
+    quarto_render = function(input, quiet, as_job) {
+      expect_false(quiet)
+      expect_false(as_job)
+      file.create(file.path(dirname(input), "R-validation.pdf"))
     }
   )
-
-  expect_output(
-    render_validation(path_rvalidation = path_rvalidation,
-                      render_latex     = TRUE,
-                      verbose          = TRUE),
-    "Now generating RMarkdown.*RMarkdown report complete"
-  )
-
-  expect_identical(seen$render$quiet, FALSE)
-  expect_equal(normalizePath(seen$pdflatex, winslash = "/"),
-               normalizePath(file.path(path_rvalidation, "R-validation.tex"),
-                             winslash = "/"))
-})
-
-
-test_that("render_validation() registers locale/language restoration on the caller's frame", {
-  tmp <- withr::local_tempdir()
-  path_rvalidation <- file.path(tmp, "R-validation")
-  dir.create(path_rvalidation)
-
-  local_mocked_bindings(
-    render   = function(input, output_format, quiet, ...) {
-      file.create(file.path(dirname(input), "R-validation.tex"))
-      invisible(input)
-    },
-    pdflatex = function(file, ...) invisible(file)
-  )
-
-  # Record locale/language as observed *before* and *during* the caller's body,
-  # then again *after* it returns. The on.exit handlers registered by
-  # render_validation should restore the originals only after the caller
-  # returns (not when render_validation itself returns).
-  original_collate  <- Sys.getlocale("LC_COLLATE")
-  original_time     <- Sys.getlocale("LC_TIME")
-  original_language <- Sys.getenv("LANGUAGE")
-
-  observed <- list()
-
-  caller_fn <- function() {
-    render_validation(path_rvalidation = path_rvalidation,
-                      render_latex     = TRUE,
-                      verbose          = FALSE)
-    # render_validation has returned; its cleanup handlers should NOT have
-    # fired yet because they were attached to *this* frame's on.exit stack.
-    observed$mid_collate  <<- Sys.getlocale("LC_COLLATE")
-    observed$mid_time     <<- Sys.getlocale("LC_TIME")
-    observed$mid_language <<- Sys.getenv("LANGUAGE")
-  }
-  caller_fn()
-
-  # Inside caller_fn(), locale/language were the values render_validation set
-  expect_identical(observed$mid_collate,  "C")
-  expect_identical(observed$mid_time,     "C")
-  expect_identical(observed$mid_language, "en")
-
-  # After caller_fn() returns, originals are restored
-  expect_identical(Sys.getlocale("LC_COLLATE"), original_collate)
-  expect_identical(Sys.getlocale("LC_TIME"),    original_time)
-  expect_identical(Sys.getenv("LANGUAGE"),      original_language)
-})
-
-test_that("render_validation() registers working-directory restoration on the caller's frame", {
-  tmp <- withr::local_tempdir()
-  path_rvalidation <- file.path(tmp, "R-validation")
-  dir.create(path_rvalidation)
-
-  local_mocked_bindings(
-    render = function(input, output_format, quiet, ...) {
-      file.create(file.path(dirname(input), "R-validation.tex"))
-      invisible(input)
-    },
-    pdflatex = function(file, ...) invisible(file)
-  )
-
-  starting_wd <- getwd()
-
-  # render_validation() itself does setwd(oldwd) at the end of the body
-  # (so the wd is back to starting_wd by the time it returns). The
-  # on.exit handler is a belt-and-braces restore in case pdflatex() errors.
-  # We confirm the handler is on the caller's frame by inducing an error
-  # *after* setwd-into-path_rvalidation but *before* render_validation's
-  # own setwd-back. We trip this by having pdflatex() throw.
-  local_mocked_bindings(
-    render = function(input, output_format, quiet, ...) {
-      file.create(file.path(dirname(input), "R-validation.tex"))
-      invisible(input)
-    },
-    pdflatex = function(file, ...) stop("simulated pdflatex failure")
-  )
-
-  caller_fn <- function() {
-    tryCatch(
-      render_validation(path_rvalidation = path_rvalidation,
-                        render_latex     = TRUE,
-                        verbose          = FALSE),
-      error = function(e) NULL
-    )
-    # If the wd handler were on render_validation's frame, it would have
-    # fired already and we'd see starting_wd here. If it's on caller_fn's
-    # frame (the desired behavior), the wd is still inside path_rvalidation.
-    normalizePath(getwd(), winslash = "/")
-  }
-
-  mid_wd <- caller_fn()
-
-  expect_equal(mid_wd,
-               normalizePath(path_rvalidation, winslash = "/"))
-  expect_equal(getwd(), starting_wd)
+  expect_output(render_validation(tmp, TRUE, verbose = TRUE), "RMarkdown report complete")
+  expect_output(render_validation(tmp, TRUE, engine = "quarto", verbose = TRUE), "Now generating PDF")
 })

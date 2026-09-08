@@ -1,79 +1,46 @@
-make_validation_tree <- function(parent, summary_rows = NULL) {
-  path_rvalidation <- file.path(parent, "R-validation")
-  dir.create(path_rvalidation)
-  dir.create(file.path(path_rvalidation, "IQ-OQ-TestOutput"))
+test_that("only complete, valid passing results are accepted", {
+  tmp <- withr::local_tempdir()
+  write_test_summary(tmp)
+  expect_no_warning(result <- check_validation_results(tmp))
+  expect_identical(result, "ok")
+  expect_equal(read_validation_results(tmp)$summary, passing_summary())
+})
 
-  if (!is.null(summary_rows)) {
-    write.csv(
-      summary_rows,
-      file.path(path_rvalidation, "IQ-OQ-TestOutput", "test_summary.csv"),
-      row.names = FALSE
-    )
+test_that("test and subprocess failures are reported", {
+  tmp <- withr::local_tempdir()
+  for (column in c("test_results", "system_results")) {
+    summary <- passing_summary()
+    summary[[column]][2] <- "FAIL"
+    write_test_summary(tmp, summary)
+    expect_warning(result <- check_validation_results(tmp), "R-validation failed")
+    expect_identical(result, "fail")
   }
-
-  path_rvalidation
-}
-
-test_that("returns 'ok' silently when all results pass", {
-  tmp <- withr::local_tempdir()
-  path_rvalidation <- make_validation_tree(
-    tmp,
-    data.frame(
-      system_results = c("PASS", "PASS"),
-      test_results   = c("PASS", "PASS"),
-      stringsAsFactors = FALSE
-    )
-  )
-
-  expect_no_warning(
-    res <- check_validation_results(path_rvalidation)
-  )
-  expect_identical(res, "ok")
 })
 
-test_that("warns and returns 'fail' when any test_results entry is FAIL", {
+test_that("malformed, incomplete, and inconsistent summaries cannot pass", {
   tmp <- withr::local_tempdir()
-  path_rvalidation <- make_validation_tree(
-    tmp,
-    data.frame(
-      system_results = c("PASS", "PASS"),
-      test_results   = c("PASS", "FAIL"),
-      stringsAsFactors = FALSE
-    )
+  good <- passing_summary()
+  bad <- list(
+    missing_columns = data.frame(unrelated = "PASS"),
+    empty = good[FALSE, ],
+    missing_suite = good[-1, ],
+    duplicate_suite = good[c(1:7, 7), ],
+    missing_results = transform(good, test_results = NA_character_),
+    invalid_result = transform(good, test_results = "unknown"),
+    missing_system_results = transform(good, system_results = NA_character_),
+    missing_completion = transform(good, completed = FALSE),
+    nonzero_exit = transform(good, exit_status = 1L),
+    missing_exit = transform(good, exit_status = NA_integer_)
   )
-
-  expect_warning(
-    res <- check_validation_results(path_rvalidation),
-    "R-validation failed"
-  )
-  expect_identical(res, "fail")
+  for (name in names(bad)) {
+    write_test_summary(tmp, bad[[name]])
+    expect_warning(result <- check_validation_results(tmp), "invalid or incomplete", info = name)
+    expect_identical(result, "invalid", info = name)
+  }
 })
 
-test_that("warns and returns 'fail' when any system_results entry is FAIL", {
+test_that("missing summaries are reported distinctly", {
   tmp <- withr::local_tempdir()
-  path_rvalidation <- make_validation_tree(
-    tmp,
-    data.frame(
-      system_results = c("PASS", "FAIL"),
-      test_results   = c("PASS", "PASS"),
-      stringsAsFactors = FALSE
-    )
-  )
-
-  expect_warning(
-    res <- check_validation_results(path_rvalidation),
-    "R-validation failed"
-  )
-  expect_identical(res, "fail")
-})
-
-test_that("warns and returns 'missing' when test_summary.csv is absent", {
-  tmp <- withr::local_tempdir()
-  path_rvalidation <- make_validation_tree(tmp)  # no summary written
-
-  expect_warning(
-    res <- check_validation_results(path_rvalidation),
-    "not found"
-  )
-  expect_identical(res, "missing")
+  expect_warning(result <- check_validation_results(tmp), "not found")
+  expect_identical(result, "missing")
 })

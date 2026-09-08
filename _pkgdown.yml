@@ -16,12 +16,15 @@ authors:
 
 template:
   bootstrap: 5
+  light-switch: true
+  theme: arrow-light
+  theme-dark: arrow-dark
 
 
 navbar:
   structure:
     left:  [intro, reference, tutorials, news]
-    right: [search, github]
+    right: [search, github, lightswitch]
   left:
   - icon: fa-home
     href: index.html
