@@ -32,11 +32,11 @@ render_validation <- function(path_rvalidation,
                               engine = "latex",
                               verbose,
                               on_exit_frame = parent.frame()) {
-  
+  engine <- match.arg(engine, c("latex", "quarto"))
   
   current_locale_collate <- Sys.getlocale("LC_COLLATE")
   current_locale_time    <- Sys.getlocale("LC_TIME")
-  current_language       <- Sys.getenv("LANGUAGE")
+  current_language       <- Sys.getenv("LANGUAGE", unset = NA_character_)
   
   register_on_exit(
     bquote(Sys.setlocale("LC_COLLATE", .(current_locale_collate))),
@@ -47,7 +47,7 @@ render_validation <- function(path_rvalidation,
     on_exit_frame
   )
   register_on_exit(
-    bquote(Sys.setenv("LANGUAGE" = .(current_language))),
+    bquote(restore_validation_env(c(LANGUAGE = .(current_language)))),
     on_exit_frame
   )
   
@@ -61,8 +61,9 @@ render_validation <- function(path_rvalidation,
     if (verbose) cat("\n=== Now generating RMarkdown ===\n")
     
     path_rmd <- file.path("qualify_r", "R-validation.Rmd")
-    fc <- file.copy(system.file(path_rmd, package = "rqualify"),
-                    path_rvalidation)
+    if (!file.copy(system.file(path_rmd, package = "rqualify"), path_rvalidation)) {
+      stop("Could not copy the RMarkdown report template.")
+    }
     
     
     input_rmd <- file.path(path_rvalidation, "R-validation.Rmd")
@@ -71,6 +72,8 @@ render_validation <- function(path_rvalidation,
       output_format = "latex_document",
       quiet         = !verbose
     )
+    path_tex <- file.path(path_rvalidation, "R-validation.tex")
+    if (!file.exists(path_tex)) stop("Rendering did not produce the expected LaTeX report.")
     
     if (render_latex) {
       path_tex <- file.path(path_rvalidation, "R-validation.tex")
@@ -83,11 +86,14 @@ render_validation <- function(path_rvalidation,
       setwd(path_rvalidation)
       pdflatex(path_tex)
       setwd(oldwd)
+      if (!file.exists(file.path(path_rvalidation, "R-validation.pdf"))) {
+        stop("LaTeX did not produce the expected PDF report.")
+      }
       
       if (verbose) cat("\n=== RMarkdown report complete===\n")
     }
     
-    invisible(input_rmd)
+    return(invisible(input_rmd))
   }
 
   if(engine == "quarto"){
@@ -98,13 +104,16 @@ render_validation <- function(path_rvalidation,
     pkg_qmd <- file.path("qualify_r", "R-validation.qmd")
     path_qmd <- file.path(path_rvalidation, "R-validation.qmd")
     
-    fc <- file.copy(system.file(pkg_qmd, package='rqualify'),
-                    path_rvalidation)
+    if (!file.copy(system.file(pkg_qmd, package = "rqualify"), path_rvalidation)) {
+      stop("Could not copy the Quarto report template.")
+    }
     
     if(verbose) cat("\n=== Now generating PDF ===\n")
-    print(path_qmd)
     
-    quarto_render(input  = path_qmd, quiet  = !verbose)
+    quarto_render(input = path_qmd, quiet = !verbose, as_job = FALSE)
+    if (!file.exists(file.path(path_rvalidation, "R-validation.pdf"))) {
+      stop("Quarto did not produce the expected PDF report.")
+    }
     
     invisible(path_qmd)
   }

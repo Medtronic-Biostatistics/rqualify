@@ -1,19 +1,3 @@
-local_r_tests_dir_exists <- function(exists = TRUE, env = parent.frame()) {
-  r_tests <- normalizePath(
-    file.path(R.home(), "tests"),
-    mustWork = FALSE,
-    winslash = "/"
-  )
-
-  local_mocked_bindings(
-    dir_exists = function(paths) {
-      paths <- normalizePath(paths, mustWork = FALSE, winslash = "/")
-      ifelse(paths == r_tests, exists, base::dir.exists(paths))
-    },
-    .env = env
-  )
-}
-
 test_that("errors when path_save is missing", {
   expect_error(setup_validation_dirs(), "path_save")
 })

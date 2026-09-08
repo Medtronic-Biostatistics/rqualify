@@ -1,29 +1,33 @@
-#' Set up Pandoc for the validation render
-#'
-#' Internal helper. If `setup_pandoc` is `TRUE`, installs and activates
-#' Pandoc via the \pkg{pandoc} package. Otherwise, activates an existing
-#' Pandoc installation or stops with an informative error.
-#'
-#' @param setup_pandoc Logical. Install and activate Pandoc.
-#' @param verbose      Logical. Print progress messages.
-#'
-#' @return Invisibly, `NULL`. Called for side effects.
-#'
-#' @keywords internal
-#' @noRd
+render_pandoc_available <- function() rmarkdown::pandoc_available()
+
 setup_pandoc_env <- function(setup_pandoc, verbose) {
-  if (setup_pandoc) {
-    if (verbose) cat("\n=== Now setting up Pandoc ===\n")
-    pandoc_install()
-    pandoc_activate()
+  # Includes system Pandoc and the copy bundled with RStudio or Quarto.
+  if (render_pandoc_available()) return(invisible(NULL))
+  if (pandoc_available()) {
+    pandoc_activate(quiet = !verbose)
     return(invisible(NULL))
   }
-
-  if (pandoc_available()) {
-    pandoc_activate()
-  } else {
-    stop("Pandoc is not detected. Please set setup_pandoc to TRUE to install Pandoc.")
+  if (!setup_pandoc) {
+    stop("Pandoc is not detected. Please set setup_pandoc to TRUE to install Pandoc.", call. = FALSE)
   }
+  if (verbose) cat("\n=== Now setting up Pandoc ===\n")
+  pandoc_install()
+  pandoc_activate(quiet = !verbose)
+  if (!render_pandoc_available()) stop("Pandoc setup did not provide a usable renderer.", call. = FALSE)
+  invisible(NULL)
+}
 
+setup_quarto_env <- function() {
+  if (!quarto::quarto_available(min = "1.4")) {
+    stop("Quarto >= 1.4 is required for the Typst report. Install Quarto or use engine = 'latex'.", call. = FALSE)
+  }
+  invisible(NULL)
+}
+
+restore_validation_env <- function(values) {
+  unset <- names(values)[is.na(values)]
+  if (length(unset)) Sys.unsetenv(unset)
+  values <- values[!is.na(values)]
+  if (length(values)) do.call(Sys.setenv, as.list(values))
   invisible(NULL)
 }

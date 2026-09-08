@@ -1,197 +1,115 @@
-test_that("rqualify() orchestrates helpers in the expected order with correct arguments", {
-  calls <- list()
-  record <- function(name, args = list()) {
-    calls[[length(calls) + 1L]] <<- list(name = name, args = args)
-  }
-
-  fake_paths <- list(
-    path_save           = "/fake/parent",
-    path_rvalidation    = "/fake/parent/R-validation",
-    path_iqoqtestoutput = "/fake/parent/R-validation/IQ-OQ-TestOutput"
-  )
-
-  local_mocked_bindings(
-    setup_validation_dirs = function(path_save) {
-      record("setup_validation_dirs", list(path_save = path_save))
-      fake_paths
-    },
-    setup_tinytex_env = function(setup_tinytex, render_latex, verbose) {
-      record("setup_tinytex_env",
-             list(setup_tinytex = setup_tinytex,
-                  render_latex  = render_latex,
-                  verbose       = verbose))
-      invisible(NULL)
-    },
-    setup_pandoc_env = function(setup_pandoc, verbose) {
-      record("setup_pandoc_env",
-             list(setup_pandoc = setup_pandoc, verbose = verbose))
-      invisible(NULL)
-    },
+mock_report <- function(summary = passing_summary(), env = parent.frame()) {
+  testthat::local_mocked_bindings(
+    setup_pandoc_env = function(...) NULL,
+    setup_tinytex_env = function(...) NULL,
+    setup_quarto_env = function() NULL,
+    validation_tool_versions = function(engine) list(R = as.character(getRversion()), engine = engine),
     render_validation = function(path_rvalidation, engine, render_latex, verbose) {
-      record("render_validation",
-             list(path_rvalidation = path_rvalidation,
-                  engine           = engine,
-                  render_latex     = render_latex,
-                  verbose          = verbose))
-      invisible(NULL)
-    },
-    check_validation_results = function(path_rvalidation) {
-      record("check_validation_results",
-             list(path_rvalidation = path_rvalidation))
-      invisible("ok")
-    }
+      write_test_summary(path_rvalidation, summary)
+      file.create(file.path(path_rvalidation, if (render_latex || engine == "quarto") "R-validation.pdf" else "R-validation.tex"))
+    }, .env = env
   )
+}
 
-  result <- rqualify(
-    path_save     = "/fake/parent",
-    engine        = "latex",
-    setup_tinytex = FALSE,
-    setup_pandoc  = FALSE,
-    render_latex  = TRUE,
-    verbose       = FALSE
-  )
+test_that("default return stays a path and detailed results preserve evidence", {
+  local_r_tests_dir_exists()
+  mock_report()
+  tmp <- withr::local_tempdir()
+  result <- rqualify(tmp, verbose = FALSE)
+  expect_identical(result, file.path(normalizePath(tmp, winslash = "/"), "R-validation"))
+  saved <- readRDS(file.path(result, "validation_result.rds"))
+  expect_s3_class(saved, "rqualify_result")
+  expect_identical(saved$status, "ok")
+  expect_identical(saved$core_test_scope, "basic")
+  expect_equal(saved$summary, passing_summary())
+  expect_true(file.exists(saved$files$pdf))
 
-  # Return value is the R-validation path from setup_validation_dirs()
-  expect_identical(result, fake_paths$path_rvalidation)
-
-  # Each helper called exactly once, in the expected order
-  expect_identical(
-    vapply(calls, `[[`, character(1), "name"),
-    c("setup_validation_dirs",
-      "setup_tinytex_env",
-      "setup_pandoc_env",
-      "render_validation",
-      "check_validation_results")
-  )
-
-  # Arguments propagated correctly
-  expect_identical(calls[[1]]$args$path_save, "/fake/parent")
-
-  expect_identical(calls[[2]]$args,
-                   list(setup_tinytex = FALSE,
-                        render_latex  = TRUE,
-                        verbose       = FALSE))
-
-  expect_identical(calls[[3]]$args,
-                   list(setup_pandoc = FALSE, verbose = FALSE))
-
-  expect_identical(calls[[4]]$args,
-                   list(path_rvalidation = fake_paths$path_rvalidation,
-                        engine           = "latex",
-                        render_latex     = TRUE,
-                        verbose          = FALSE))
-
-  expect_identical(calls[[5]]$args,
-                   list(path_rvalidation = fake_paths$path_rvalidation))
+  tmp2 <- withr::local_tempdir()
+  detailed <- rqualify(tmp2, engine = "quarto", details = TRUE, verbose = FALSE)
+  expect_s3_class(detailed, "rqualify_result")
+  expect_identical(detailed$engine, "quarto")
+  expect_identical(detailed$versions$engine, "quarto")
+  expect_equal(readRDS(detailed$files$metadata), detailed)
 })
 
-test_that("rqualify() errors when path_save is missing without calling any helper", {
-  calls <- character()
-  fail_if_called <- function(...) {
-    calls <<- c(calls, "called")
-    stop("should not be called")
+test_that("Quarto bypasses LaTeX and standalone Pandoc setup and restores its environment", {
+  local_r_tests_dir_exists()
+  mock_report()
+  local_mocked_bindings(
+    setup_tinytex_env = function(...) stop("must not inspect TinyTeX"),
+    setup_pandoc_env = function(...) stop("must not inspect Pandoc"),
+    setup_quarto_env = function() expect_true(TRUE),
+    render_validation = function(path_rvalidation, ...) {
+      expect_identical(Sys.getenv("QUARTO_R"), file.path(R.home("bin"), "Rscript"))
+      write_test_summary(path_rvalidation)
+    }
+  )
+  withr::local_envvar(QUARTO_R = NA_character_)
+  tmp <- withr::local_tempdir()
+  expect_no_error(rqualify(tmp, engine = "quarto", setup_tinytex = FALSE,
+                          setup_pandoc = FALSE, verbose = FALSE))
+  expect_true(is.na(Sys.getenv("QUARTO_R", unset = NA_character_)))
+})
+
+test_that("failed prerequisite checks create no output and permit retry", {
+  local_r_tests_dir_exists()
+  mock_report()
+  ready <- FALSE
+  local_mocked_bindings(setup_pandoc_env = function(...) {
+    if (!ready) stop("missing dependency")
+  })
+  tmp <- withr::local_tempdir()
+  expect_error(rqualify(tmp), "missing dependency")
+  expect_false(dir.exists(file.path(tmp, "R-validation")))
+  ready <- TRUE
+  expect_no_error(rqualify(tmp, verbose = FALSE))
+})
+
+test_that("invalid inputs are rejected before setup or file creation", {
+  tmp <- withr::local_tempdir()
+  local_mocked_bindings(
+    setup_tinytex_env = function(...) stop("unexpected setup"),
+    setup_pandoc_env = function(...) stop("unexpected setup")
+  )
+  expect_error(rqualify(), "path_save")
+  for (engine in list("typo", "lat", NA_character_, character(), c("latex", "quarto"))) {
+    expect_error(rqualify(tmp, engine = engine), "engine")
   }
-
-  local_mocked_bindings(
-    setup_validation_dirs    = fail_if_called,
-    setup_tinytex_env        = fail_if_called,
-    setup_pandoc_env         = fail_if_called,
-    render_validation        = fail_if_called,
-    check_validation_results = fail_if_called
-  )
-
-  expect_error(
-    rqualify(setup_tinytex = FALSE, setup_pandoc = FALSE, verbose = FALSE),
-    "path_save"
-  )
-  expect_length(calls, 0)
-})
-
-test_that("rqualify() forwards render_latex = FALSE to the relevant helpers", {
-  seen <- list()
-  fake_paths <- list(
-    path_save           = "/fake",
-    path_rvalidation    = "/fake/R-validation",
-    path_iqoqtestoutput = "/fake/R-validation/IQ-OQ-TestOutput"
-  )
-
-  local_mocked_bindings(
-    setup_validation_dirs = function(path_save) fake_paths,
-    setup_tinytex_env = function(setup_tinytex, render_latex, verbose) {
-      seen$tinytex_render_latex <<- render_latex
-      invisible(NULL)
-    },
-    setup_pandoc_env = function(...) invisible(NULL),
-    render_validation = function(path_rvalidation, engine, render_latex, verbose) {
-      seen$render_render_latex <<- render_latex
-      invisible(NULL)
-    },
-    check_validation_results = function(...) invisible("ok")
-  )
-
-  rqualify(path_save     = "/fake",
-           engine        = "latex",
-           setup_tinytex = FALSE,
-           setup_pandoc  = FALSE,
-           render_latex  = FALSE,
-           verbose       = FALSE)
-
-  expect_false(seen$tinytex_render_latex)
-  expect_false(seen$render_render_latex)
-})
-
-test_that("rqualify() still returns the R-validation path when check_validation_results() warns", {
-  fake_paths <- list(
-    path_save           = "/fake",
-    path_rvalidation    = "/fake/R-validation",
-    path_iqoqtestoutput = "/fake/R-validation/IQ-OQ-TestOutput"
-  )
-
-  local_mocked_bindings(
-    setup_validation_dirs    = function(path_save) fake_paths,
-    setup_tinytex_env        = function(...) invisible(NULL),
-    setup_pandoc_env         = function(...) invisible(NULL),
-    render_validation        = function(...) invisible(NULL),
-    check_validation_results = function(path_rvalidation) {
-      warning("R-validation failed. Please check the output files in the 'R-validation' folder.")
-      invisible("fail")
+  for (path in list(NULL, character(), NA_character_, "", 1, c(tmp, tmp), file.path(tmp, "missing"))) {
+    expect_error(rqualify(path), "path_save")
+  }
+  for (name in c("setup_tinytex", "setup_pandoc", "render_latex", "verbose", "details")) {
+    for (value in list(NA, NULL, 1, c(TRUE, FALSE))) {
+      args <- c(list(path_save = tmp), setNames(list(value), name))
+      expect_error(do.call(rqualify, args), name)
     }
-  )
-
-  expect_warning(
-    result <- rqualify(path_save     = "/fake",
-                       setup_tinytex = FALSE,
-                       setup_pandoc  = FALSE,
-                       verbose       = FALSE),
-    "R-validation failed"
-  )
-  expect_identical(result, fake_paths$path_rvalidation)
+  }
+  expect_false(dir.exists(file.path(tmp, "R-validation")))
 })
 
-test_that("rqualify() still returns the R-validation path when summary file is missing", {
-  fake_paths <- list(
-    path_save           = "/fake",
-    path_rvalidation    = "/fake/R-validation",
-    path_iqoqtestoutput = "/fake/R-validation/IQ-OQ-TestOutput"
-  )
+test_that("failed qualification remains failed in returned and saved details", {
+  local_r_tests_dir_exists()
+  summary <- passing_summary()
+  summary$test_results[2] <- "FAIL"
+  summary$system_results[2] <- "FAIL"
+  summary$completed[2] <- FALSE
+  summary$exit_status[2] <- 1L
+  mock_report(summary)
+  tmp <- withr::local_tempdir()
+  expect_warning(result <- rqualify(tmp, details = TRUE, verbose = FALSE), "R-validation failed")
+  expect_identical(result$status, "fail")
+  expect_identical(readRDS(result$files$metadata)$status, "fail")
+})
 
-  local_mocked_bindings(
-    setup_validation_dirs    = function(path_save) fake_paths,
-    setup_tinytex_env        = function(...) invisible(NULL),
-    setup_pandoc_env         = function(...) invisible(NULL),
-    render_validation        = function(...) invisible(NULL),
-    check_validation_results = function(path_rvalidation) {
-      warning("Test summary file not found. Please check the output files in the 'R-validation' folder.")
-      invisible("missing")
-    }
-  )
-
-  expect_warning(
-    result <- rqualify(path_save     = "/fake",
-                       setup_tinytex = FALSE,
-                       setup_pandoc  = FALSE,
-                       verbose       = FALSE),
-    "not found"
-  )
-  expect_identical(result, fake_paths$path_rvalidation)
+test_that("PATH changes are restored after setup failure", {
+  local_r_tests_dir_exists()
+  withr::local_envvar(PATH = "/original", RSTUDIO_PANDOC = NA_character_)
+  local_mocked_bindings(setup_pandoc_env = function(...) {
+    Sys.setenv(PATH = "/changed", RSTUDIO_PANDOC = "/changed")
+    stop("setup failed")
+  })
+  tmp <- withr::local_tempdir()
+  expect_error(rqualify(tmp), "setup failed")
+  expect_identical(Sys.getenv("PATH"), "/original")
+  expect_true(is.na(Sys.getenv("RSTUDIO_PANDOC", unset = NA_character_)))
 })

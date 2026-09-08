@@ -1,114 +1,52 @@
-test_that("setup_tinytex_env(TRUE) installs TinyTeX and prepends bin to PATH", {
+test_that("existing LaTeX is reused and non-PDF renders do not need it", {
+  local_mocked_bindings(
+    find_pdflatex = function() "/existing/pdflatex",
+    install_tinytex = function(...) stop("must not install")
+  )
+  expect_no_error(setup_tinytex_env(TRUE, TRUE, FALSE))
+  expect_no_error(setup_tinytex_env(FALSE, TRUE, FALSE))
+  local_mocked_bindings(find_pdflatex = function() stop("must not inspect LaTeX"))
+  expect_no_error(setup_tinytex_env(TRUE, FALSE, FALSE))
+})
+
+test_that("missing LaTeX is installed without forcing replacement", {
+  installed <- FALSE
+  local_mocked_bindings(
+    find_pdflatex = function() if (installed) "/installed/pdflatex" else "",
+    activate_tinytex_path = function() NULL,
+    install_tinytex = function(bundle, force, extra_packages) {
+      expect_false(force)
+      expect_identical(extra_packages, "grfext")
+      installed <<- TRUE
+    }
+  )
+  expect_error(setup_tinytex_env(FALSE, TRUE, FALSE), "pdflatex.*not detected")
+  expect_false(installed)
+  expect_no_error(setup_tinytex_env(TRUE, TRUE, FALSE))
+  expect_true(installed)
+})
+
+test_that("TinyTeX discovery uses actual binary directories on each platform", {
+  root <- withr::local_tempdir()
+  for (layout in c("universal-darwin", "aarch64-linux", "x86_64-linux", "windows", "win32")) {
+    bin <- file.path(root, layout, "bin", layout)
+    dir.create(bin, recursive = TRUE)
+    windows <- layout %in% c("windows", "win32")
+    file.create(file.path(bin, if (windows) "pdflatex.exe" else "pdflatex"))
+    local_mocked_bindings(os_type = function() if (windows) "windows" else "unix")
+    expect_identical(tinytex_bin_dirs(file.path(root, layout)), bin)
+  }
+  expect_length(tinytex_bin_dirs(""), 0)
+})
+
+test_that("discovered TinyTeX bins are activated without duplicate PATH entries", {
+  root <- withr::local_tempdir()
+  bin <- file.path(root, "bin", "universal-darwin")
+  dir.create(bin, recursive = TRUE)
+  file.create(file.path(bin, "pdflatex"))
   withr::local_envvar(PATH = "/usr/bin")
-  withr::local_options(tinytex.install_packages = NULL)
-
-  calls <- list(install_tinytex = 0L, tinytex_root = 0L)
-
-  local_mocked_bindings(
-    install_tinytex = function(...) {
-      calls$install_tinytex <<- calls$install_tinytex + 1L
-      invisible(NULL)
-    },
-    tinytex_root = function(...) {
-      calls$tinytex_root <<- calls$tinytex_root + 1L
-      "/fake/TinyTeX"
-    },
-    is_tinytex = function() TRUE
-  )
-
-  expect_invisible(
-    setup_tinytex_env(setup_tinytex = TRUE,
-                      render_latex  = TRUE,
-                      verbose       = FALSE)
-  )
-
-  expect_equal(calls$install_tinytex, 1L)
-  expect_equal(calls$tinytex_root, 1L)
-  expect_true(isTRUE(getOption("tinytex.install_packages")))
-  expect_true(startsWith(Sys.getenv("PATH"), "/fake/TinyTeX"))
-})
-
-test_that("setup_tinytex_env(FALSE) errors when TinyTeX absent and render needed", {
-  local_mocked_bindings(
-    is_tinytex = function() FALSE,
-    install_tinytex = function(...) stop("should not be called"),
-    tinytex_root = function() stop("should not be called")
-  )
-
-  expect_error(
-    setup_tinytex_env(setup_tinytex = FALSE,
-                      render_latex  = TRUE,
-                      verbose       = FALSE),
-    "TinyTeX is not detected"
-  )
-})
-
-test_that("setup_tinytex_env(FALSE) is a no-op when render_latex is FALSE", {
-  local_mocked_bindings(
-    is_tinytex = function() FALSE,
-    install_tinytex = function(...) stop("should not be called"),
-    tinytex_root = function() stop("should not be called")
-  )
-
-  expect_no_error(
-    setup_tinytex_env(setup_tinytex = FALSE,
-                      render_latex  = FALSE,
-                      verbose       = FALSE)
-  )
-})
-
-test_that("setup_tinytex_env(FALSE) succeeds when TinyTeX is already present", {
-  local_mocked_bindings(
-    is_tinytex = function() TRUE,
-    install_tinytex = function(...) stop("should not be called"),
-    tinytex_root = function() stop("should not be called")
-  )
-
-  expect_no_error(
-    setup_tinytex_env(setup_tinytex = FALSE,
-                      render_latex  = TRUE,
-                      verbose       = FALSE)
-  )
-})
-
-test_that("setup_tinytex_env(TRUE) builds a Windows-shaped PATH on Windows", {
-  withr::local_envvar(PATH = "C:\\Windows\\System32")
-
-  local_mocked_bindings(
-    install_tinytex = function(...) invisible(NULL),
-    tinytex_root    = function(...) "C:/TinyTeX",
-    is_tinytex      = function() TRUE,
-    os_type         = function() "windows",
-    path_sep        = function() ";"
-  )
-
-  setup_tinytex_env(setup_tinytex = TRUE,
-                    render_latex  = TRUE,
-                    verbose       = FALSE)
-
-  new_path <- Sys.getenv("PATH")
-
-  # Both Windows bin variants are prepended, semicolon-separated, ahead of
-  # the original PATH.
-  expect_match(new_path,
-               "^C:/TinyTeX/bin/win32;C:/TinyTeX/bin/windows;C:\\\\Windows\\\\System32$")
-})
-
-test_that("setup_tinytex_env(TRUE) builds a Linux-shaped PATH on non-Windows", {
-  withr::local_envvar(PATH = "/usr/bin")
-
-  local_mocked_bindings(
-    install_tinytex = function(...) invisible(NULL),
-    tinytex_root    = function(...) "/opt/TinyTeX",
-    is_tinytex      = function() TRUE,
-    os_type         = function() "unix",
-    path_sep        = function() ":"
-  )
-
-  setup_tinytex_env(setup_tinytex = TRUE,
-                    render_latex  = TRUE,
-                    verbose       = FALSE)
-
-  expect_identical(Sys.getenv("PATH"),
-                   "/opt/TinyTeX/bin/x86_64-linux:/usr/bin")
+  local_mocked_bindings(tinytex_root = function() root, os_type = function() "unix", path_sep = function() ":")
+  activate_tinytex_path()
+  activate_tinytex_path()
+  expect_identical(Sys.getenv("PATH"), paste(bin, "/usr/bin", sep = ":"))
 })
