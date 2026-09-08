@@ -10,13 +10,13 @@
 
 You can install the package via CRAN:
 
-```         
+```r
 install.packages("rqualify")
 ```
 
 The package can also be installed from this Github repository using the following:
 
-```         
+```r
 # If needed install.packages("remotes")
 remotes::install_github("Medtronic-Biostatistics/rqualify")
 ```
@@ -29,7 +29,7 @@ The purpose of this package is to ease the R software validation steps required 
 
 Once the `rqualify` package is installed, there are a few ways to execute the validation process. For instance, you can install Pandoc and TinyTeX as follows:
 
-```         
+```r
 library(rqualify)
 
 # Install and activate Pandoc
@@ -48,14 +48,14 @@ rqualify(path_save     = tempdir(),
 
 Alternately, a more convenient approach to execute the entire validation process can be used, where the Pandoc and TinyTeX installation process are wrapped inside the function:
 
-```         
+```r
 library(rqualify)
 rqualify(path_save = tempdir())
 ```
 
 Another alternative is to use Quarto, especially if you want to execute the validation process from within RStudio:
 
-```         
+```r
 library(rqualify)
 rqualify(path_save     = tempdir(),
          setup_tinytex = FALSE,
