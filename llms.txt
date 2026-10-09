@@ -1,7 +1,5 @@
 # rqualify
 
-Development version: **1.1.0.9000**.
-
 ## Installation
 
 You can install the package via CRAN:

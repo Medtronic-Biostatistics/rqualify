@@ -3,7 +3,7 @@
 ## Authors
 
 - **[Donnie Musgrove](https://github.com/donaldmusgrove)**. Author,
-  maintainer.
+  maintainer. [](https://orcid.org/0000-0003-3506-6301)
 
 - **[Graeme L. Hickey](https://github.com/graemeleehickey)**. Author.
   [](https://orcid.org/0000-0002-4989-0054)
@@ -14,6 +14,7 @@
 - **Alan Haynes**. Contributor.
 
 - **Bryan Martin**. Contributor.
+  [](https://orcid.org/0000-0002-8002-5296)
 
 - **Medtronic Inc.**. Copyright holder.
 
@@ -23,13 +24,13 @@ Source:
 [`DESCRIPTION`](https://github.com/Medtronic-Biostatistics/rqualify/blob/main/DESCRIPTION)
 
 Musgrove D, Hickey G, Schwartz M (2026). *rqualify: Qualification of R
-Software Installations*. R package version 1.1.0.9000,
+Software Installations*. R package version 1.2.0,
 <https://github.com/Medtronic-Biostatistics/rqualify>.
 
     @Manual{,
       title = {rqualify: Qualification of R Software Installations},
       author = {Donnie Musgrove and Graeme L. Hickey and Marc Schwartz},
       year = {2026},
-      note = {R package version 1.1.0.9000},
+      note = {R package version 1.2.0},
       url = {https://github.com/Medtronic-Biostatistics/rqualify},
     }

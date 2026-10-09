@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">rqualify</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,9 +46,9 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.1.0.9000" id="rqualify-1109000">rqualify 1.1.0.9000<a class="anchor" aria-label="anchor" href="#rqualify-1109000"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.2.0" id="rqualify-120">rqualify 1.2.0<a class="anchor" aria-label="anchor" href="#rqualify-120"></a></h2>
 <div class="section level3">
-<h3 id="bug-fixes-1-1-0-9000">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-0-9000"></a></h3>
+<h3 id="bug-fixes-1-2-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-0"></a></h3>
 <ul><li><p>Fixed the Windows CI test for TinyTeX PATH activation to use the native path separator and executable name. Added a regression case for Windows drive letters and paths containing spaces.</p></li>
 <li><p>Qualification now requires a successful subprocess exit and an explicit PASS completion result. Crashed tests, missing output, and contradictory or incomplete results can no longer be reported as passing.</p></li>
 <li><p>Summary checking now validates all eight expected suites, required columns, allowed statuses, and consistency with available execution evidence. Missing or malformed summaries cannot establish a successful qualification.</p></li>
@@ -58,7 +58,7 @@
 <li><p>README setup examples now qualify Pandoc and TinyTeX functions with their package namespaces. Local <code>.posit/</code> files are excluded from source-package builds as well as Git.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="minor-changes-1-1-0-9000">Minor changes<a class="anchor" aria-label="anchor" href="#minor-changes-1-1-0-9000"></a></h3>
+<h3 id="minor-changes-1-2-0">Minor changes<a class="anchor" aria-label="anchor" href="#minor-changes-1-2-0"></a></h3>
 <ul><li><p>Added <code>details = TRUE</code> to return overall status, per-suite evidence, report paths, timestamps, and R/tool versions. These results are also saved as <code>validation_result.rds</code>; the default return remains the output directory path.</p></li>
 <li><p>Both report formats now share execution and result-classification functions. Subprocess scripts and logs are retained, and paths containing spaces or quotes are handled safely.</p></li>
 <li><p>Added regression tests for subprocess failures, malformed summaries, engine-specific prerequisites, retries, tool discovery, and structured results. Added opt-in PDF rendering smoke tests for both templates and a dedicated CI workflow using short failure fixtures.</p></li>
