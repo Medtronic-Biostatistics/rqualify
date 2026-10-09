@@ -2,21 +2,22 @@
 
 ## rqualify 1.2.0
 
-### Bug fixes
-
-- Fixed the Windows CI test for TinyTeX PATH activation to use the
-  native path separator and executable name. Added a regression case for
-  Windows drive letters and paths containing spaces.
+### Major changes
 
 - Qualification now requires a successful subprocess exit and an
-  explicit PASS completion result. Crashed tests, missing output, and
-  contradictory or incomplete results can no longer be reported as
-  passing.
+  explicit PASS completion result.
 
 - Summary checking now validates all eight expected suites, required
   columns, allowed statuses, and consistency with available execution
   evidence. Missing or malformed summaries cannot establish a successful
   qualification.
+
+- Added `details = TRUE` to
+  [`rqualify()`](https://medtronic-biostatistics.github.io/rqualify/reference/rqualify.md)
+  to return overall status, per-suite evidence, report paths,
+  timestamps, and R/tool versions. These results are also saved as
+  `validation_result.rds`; the default return remains the output
+  directory path.
 
 - Quarto uses its bundled Pandoc and Typst without checking for or
   installing TinyTeX or standalone Pandoc. The selected R executable is
@@ -24,26 +25,12 @@
 
 - Invalid engines, logical arguments, and output paths are rejected
   before setup. Dependency checks precede directory creation, allowing
-  retries after a missing prerequisite is resolved. Directory and
-  template-copy failures are checked, and missing rendered artifacts
-  raise errors.
-
-- Existing Pandoc and LaTeX installations are reused. TinyTeX binary
-  discovery follows the installed directory layout, including macOS,
-  Linux ARM, and Windows, instead of assuming x86_64 Linux. New
-  installations no longer force replacement of existing TinyTeX
-  installations.
-
-- README setup examples now qualify Pandoc and TinyTeX functions with
-  their package namespaces. Local `.posit/` files are excluded from
-  source-package builds as well as Git.
+  retries after a missing prerequisite is resolved.
 
 ### Minor changes
 
-- Added `details = TRUE` to return overall status, per-suite evidence,
-  report paths, timestamps, and R/tool versions. These results are also
-  saved as `validation_result.rds`; the default return remains the
-  output directory path.
+- Fixed the Windows CI test for TinyTeX PATH activation to use the
+  native path separator and executable name.
 
 - Both report formats now share execution and result-classification
   functions. Subprocess scripts and logs are retained, and paths
@@ -65,11 +52,6 @@
 
 - Added a light, dark, and automatic theme selector to the pkgdown
   website, with code highlighting for both light and dark modes.
-
-- Enabled R syntax highlighting for all README code examples and
-  increased the README logo size.
-
-- Excluded the local `.posit/` folder from version control.
 
 ## rqualify 1.1.0
 

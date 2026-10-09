@@ -48,25 +48,21 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.0" id="rqualify-120">rqualify 1.2.0<a class="anchor" aria-label="anchor" href="#rqualify-120"></a></h2>
 <div class="section level3">
-<h3 id="bug-fixes-1-2-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-0"></a></h3>
-<ul><li><p>Fixed the Windows CI test for TinyTeX PATH activation to use the native path separator and executable name. Added a regression case for Windows drive letters and paths containing spaces.</p></li>
-<li><p>Qualification now requires a successful subprocess exit and an explicit PASS completion result. Crashed tests, missing output, and contradictory or incomplete results can no longer be reported as passing.</p></li>
+<h3 id="major-changes-1-2-0">Major changes<a class="anchor" aria-label="anchor" href="#major-changes-1-2-0"></a></h3>
+<ul><li><p>Qualification now requires a successful subprocess exit and an explicit PASS completion result.</p></li>
 <li><p>Summary checking now validates all eight expected suites, required columns, allowed statuses, and consistency with available execution evidence. Missing or malformed summaries cannot establish a successful qualification.</p></li>
+<li><p>Added <code>details = TRUE</code> to <code><a href="../reference/rqualify.html">rqualify()</a></code> to return overall status, per-suite evidence, report paths, timestamps, and R/tool versions. These results are also saved as <code>validation_result.rds</code>; the default return remains the output directory path.</p></li>
 <li><p>Quarto uses its bundled Pandoc and Typst without checking for or installing TinyTeX or standalone Pandoc. The selected R executable is passed to Quarto explicitly.</p></li>
-<li><p>Invalid engines, logical arguments, and output paths are rejected before setup. Dependency checks precede directory creation, allowing retries after a missing prerequisite is resolved. Directory and template-copy failures are checked, and missing rendered artifacts raise errors.</p></li>
-<li><p>Existing Pandoc and LaTeX installations are reused. TinyTeX binary discovery follows the installed directory layout, including macOS, Linux ARM, and Windows, instead of assuming x86_64 Linux. New installations no longer force replacement of existing TinyTeX installations.</p></li>
-<li><p>README setup examples now qualify Pandoc and TinyTeX functions with their package namespaces. Local <code>.posit/</code> files are excluded from source-package builds as well as Git.</p></li>
+<li><p>Invalid engines, logical arguments, and output paths are rejected before setup. Dependency checks precede directory creation, allowing retries after a missing prerequisite is resolved.</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="minor-changes-1-2-0">Minor changes<a class="anchor" aria-label="anchor" href="#minor-changes-1-2-0"></a></h3>
-<ul><li><p>Added <code>details = TRUE</code> to return overall status, per-suite evidence, report paths, timestamps, and R/tool versions. These results are also saved as <code>validation_result.rds</code>; the default return remains the output directory path.</p></li>
+<ul><li><p>Fixed the Windows CI test for TinyTeX PATH activation to use the native path separator and executable name.</p></li>
 <li><p>Both report formats now share execution and result-classification functions. Subprocess scripts and logs are retained, and paths containing spaces or quotes are handled safely.</p></li>
 <li><p>Added regression tests for subprocess failures, malformed summaries, engine-specific prerequisites, retries, tool discovery, and structured results. Added opt-in PDF rendering smoke tests for both templates and a dedicated CI workflow using short failure fixtures.</p></li>
 <li><p>Expanded test coverage for tool-version metadata, all six package test suites, subprocess diagnostics, template and directory failures, and missing renderers.</p></li>
 <li><p>Clarified that core system tests use <code>scope = "basic"</code>; development and internet scopes are not run. Updated the templates, function documentation, and vignettes to describe the actual checks and results.</p></li>
 <li><p>Added a light, dark, and automatic theme selector to the pkgdown website, with code highlighting for both light and dark modes.</p></li>
-<li><p>Enabled R syntax highlighting for all README code examples and increased the README logo size.</p></li>
-<li><p>Excluded the local <code>.posit/</code> folder from version control.</p></li>
 </ul></div>
 </div>
     <div class="section level2">
