@@ -1,10 +1,13 @@
 # Package Usage
 
-The `rqualify` package consists of 2 functions and R Markdown files:
+The package provides the
+[`rqualify()`](https://medtronic-biostatistics.github.io/rqualify/reference/rqualify.md)
+entry point and two report templates backed by shared execution and
+result-checking helpers:
 
 1.  `rqualify`: Orchestrates the qualification process.
-2.  `R-validation.Rmd`: An R Markdown file that defines the structure
-    and content of the PDF report.
+2.  `R-validation.Rmd` and `R-validation.qmd`: LaTeX and Quarto/Typst
+    report templates.
 
 ## rqualify()
 
@@ -45,6 +48,16 @@ during the stage of installing TinyTeX or Pandoc. If you encounter this
 popup, please approve the installation to allow the process to continue.
 If you do not approve the installation, the process will not be able to
 proceed and will likely result in an error.
+
+Quarto skips TinyTeX and standalone Pandoc setup. Existing rendering
+tools are reused. Prerequisites are checked before output directories
+are created, so a missing tool does not prevent retrying at the same
+destination.
+
+Set `details = TRUE` to receive a structured result containing overall
+status, per-suite results, report paths, timestamps, and R/tool
+versions. The result is also saved as `validation_result.rds`. The
+default return remains the output directory path.
 
 For additional details on inputs and outputs of the `rqualify` function,
 please refer to the function documentation

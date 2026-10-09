@@ -34,7 +34,7 @@ During OQ, the functions `testInstalledBasic` and
 the functionality of base and recommended packages. The following 7
 checks are performed:
 
-1.  System test execution via `testInstalledBasic("both")`
+1.  System test execution via `testInstalledBasic(scope="basic")`
 2.  Base package examples execution via
     `testInstalledPackages(scope="base", types="examples")`
 3.  Base package vignettes execution via
@@ -47,6 +47,10 @@ checks are performed:
     `testInstalledPackages(scope="base", types="tests")`
 7.  Recommended package tests execution via
     `testInstalledPackages(scope="recommended", types="tests")`
+
+Development and internet system-test scopes are not run. Passing
+requires a zero subprocess exit status and an explicit completion
+result.
 
 The check result of each package and function are displayed in each
 section of the PDF report, along with any error messages encountered

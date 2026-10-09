@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
-<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
@@ -26,11 +26,11 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">rqualify</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,6 +57,14 @@
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/Medtronic-Biostatistics/rqualify/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
+  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
+<li><button class="dropdown-item" data-bs-theme-value="light"><span class="fa fa-sun"></span> Light</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="dark"><span class="fa fa-moon"></span> Dark</button></li>
+    <li><button class="dropdown-item" data-bs-theme-value="auto"><span class="fa fa-adjust"></span> Auto</button></li>
+  </ul>
+</li>
       </ul>
 </div>
 
@@ -72,7 +80,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Introduction to the rqualify Package</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/Medtronic-Biostatistics/rqualify/blob/v1.1.0/vignettes/rqualify-cran.Rmd" class="external-link"><code>vignettes/rqualify-cran.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/Medtronic-Biostatistics/rqualify/blob/main/vignettes/rqualify-cran.Rmd" class="external-link"><code>vignettes/rqualify-cran.Rmd</code></a></small>
       <div class="d-none name"><code>rqualify-cran.Rmd</code></div>
     </div>
 
@@ -86,11 +94,9 @@ file, showing what code is executed when the file is rendered. This
 overview is for informational purposes and documents the internal
 structure of the <code>R-validation.Rmd</code> file. If any of the code
 blocks are updated, this is not considered a breaking change as the
-document will still render properly. For Quarto users,
-<code>R-validation</code> is the source file for the
-<code>R-validation.qmd</code> file, and any changes to the
-<code>R-validation.Rmd</code> file will be reflected in
-<code>R-validation.qmd</code>.</p>
+document will still render properly. The LaTeX and Quarto templates both
+call shared package functions to execute tests and classify their
+results.</p>
 <p>Please see <a href="https://medtronic-biostatistics.github.io/rqualify/index.html" class="uri">https://medtronic-biostatistics.github.io/rqualify/index.html</a>
 for the full documentation. Here is a minimal usage example:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -135,19 +141,12 @@ was installed on this computer:</p>
 <code class="sourceCode R"><span><span class="va">r_home</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Rhome.html" class="external-link">R.home</a></span><span class="op">(</span><span class="op">)</span>, sep<span class="op">=</span><span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>/opt/R/4.6.1/lib/R</code></pre>
 <hr>
-<p>The following is the output of <code>system("R -e 'q()'")</code>,
-presenting the R welcome banner as displayed from a default R console
-(terminal) to show the R console correctly running and then exiting:</p>
+<p>The following is the output of a fresh R subprocess, including its
+explicit completion result. A successful exit and completion result are
+both required to pass Installation Qualification:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Output the R startup banner</span></span>
-<span><span class="va">results0</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.html" class="external-link">system</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/shQuote.html" class="external-link">shQuote</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Rhome.html" class="external-link">R.home</a></span><span class="op">(</span><span class="st">"bin"</span><span class="op">)</span>, <span class="st">"R"</span><span class="op">)</span><span class="op">)</span>, <span class="st">"-e"</span>, <span class="fu"><a href="https://rdrr.io/r/base/shQuote.html" class="external-link">shQuote</a></span><span class="op">(</span><span class="st">"q()"</span><span class="op">)</span><span class="op">)</span>, intern <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">results0</span><span class="op">)</span> <span class="op">!=</span> <span class="st">"try-error"</span><span class="op">)</span><span class="op">{</span></span>
-<span>  <span class="va">results0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">results0</span>, collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span>
-<span>  <span class="va">results0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"&gt; q\\(\\)"</span>, <span class="st">""</span>, <span class="va">results0</span><span class="op">)</span></span>
-<span><span class="op">}</span> <span class="kw">else</span><span class="op">{</span></span>
-<span>  <span class="va">results0</span> <span class="op">&lt;-</span> <span class="st">"Unable to execute R at the command line"</span></span>
-<span><span class="op">}</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">iq_run</span> <span class="op">&lt;-</span> <span class="fu">rqualify</span><span class="fu">:::</span><span class="fu">run_validation_suite</span><span class="op">(</span><span class="st">"iq"</span>, <span class="va">dir_temp</span><span class="op">)</span></span>
+<span><span class="va">results0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">iq_run</span><span class="op">$</span><span class="va">output</span>, collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>
 R version 4.6.1 (2026-06-24) -- "Happy Hop"
 Copyright (C) 2026 The R Foundation for Statistical Computing
@@ -163,7 +162,11 @@ Type 'contributors()' for more information and
 
 Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
-Type 'q()' to quit R.</code></pre>
+Type 'q()' to quit R.
+
+&gt; options(echo = FALSE, useFancyQuotes = FALSE)
+
+Test suite result: PASS</code></pre>
 <hr>
 <p>The following is the output of <code><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info()</a></code>, defining some
 details about the current system upon which R is running and user
@@ -187,7 +190,7 @@ information:</p>
 <span>                                      <span class="va">version</span> </span>
 <span><span class="st">"#22-Ubuntu SMP Mon Jul 27 17:24:03 UTC 2026"</span> </span>
 <span>                                     <span class="va">nodename</span> </span>
-<span>                              <span class="st">"runnervmgx7h7"</span> </span>
+<span>                              <span class="st">"runnervmmprz5"</span> </span>
 <span>                                      <span class="va">machine</span> </span>
 <span>                                     <span class="st">"x86_64"</span> </span>
 <span>                                        <span class="va">login</span> </span>
@@ -382,7 +385,7 @@ current R version, locale information and attached packages:</p>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code>R version 4.6.1 (2026-06-24)
 Platform: x86_64-pc-linux-gnu
-Running under: Ubuntu 24.04.4 LTS
+Running under: Ubuntu 24.04.5 LTS
 
 Matrix products: default
 BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
@@ -469,40 +472,11 @@ indicate that TinyTeX is not available):</p>
 <h5 id="r-core-operational-qualification---system-tests-oq">R Core Operational Qualification - System Tests (OQ)<a class="anchor" aria-label="anchor" href="#r-core-operational-qualification---system-tests-oq"></a>
 </h5>
 <p>The following is the output of
-<code>testInstalledBasic("both")</code>, which runs a series of core
-system-wide operational tests of the R installation, including various
-regression tests:</p>
+<code>testInstalledBasic(scope = "basic")</code>, which runs the
+installed basic system tests; development and internet scopes are not
+run:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Copy system tests to IQ-OQ-TestOutput/tests</span></span>
-<span><span class="va">r_test_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Rhome.html" class="external-link">R.home</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"tests"</span><span class="op">)</span></span>
-<span><span class="va">fc</span>          <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="va">r_test_path</span>, <span class="st">"IQ-OQ-TestOutput"</span>, recursive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Set absolute test path</span></span>
-<span><span class="va">path_system_tests</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/normalizePath.html" class="external-link">normalizePath</a></span><span class="op">(</span><span class="st">"IQ-OQ-TestOutput/tests"</span>, winslash<span class="op">=</span><span class="st">"/"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">code_check1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">'</span></span>
-<span><span class="st">options(echo = FALSE)</span></span>
-<span><span class="st">options(useFancyQuotes = FALSE)</span></span>
-<span><span class="st"></span></span>
-<span><span class="st">Failure &lt;- tryCatch(tools:::testInstalledBasic(</span></span>
-<span><span class="st">                    scope      = "basic",</span></span>
-<span><span class="st">                    outDir     = "%s",</span></span>
-<span><span class="st">                    testSrcdir = "%s"</span></span>
-<span><span class="st">                    ),</span></span>
-<span><span class="st">                    error=function(e) TRUE)</span></span>
-<span><span class="st"></span></span>
-<span><span class="st">if (Failure){</span></span>
-<span><span class="st">  cat("\n\nTest suite result: FAIL\n\n")</span></span>
-<span><span class="st">  fc &lt;- file.create("IQ-OQ-TestOutput/CMDFile1Fail", showWarnings = FALSE)</span></span>
-<span><span class="st">} else {</span></span>
-<span><span class="st">  cat("\n\nTest suite result: PASS\n\n")</span></span>
-<span><span class="st">}</span></span>
-<span><span class="st">q(status = Failure)</span></span>
-<span><span class="st">'</span>,<span class="va">path_system_tests</span>,<span class="va">path_system_tests</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">results1</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block    <span class="op">=</span> <span class="va">code_check1</span>,</span>
-<span>                      file_prefix   <span class="op">=</span> <span class="st">"CMDFile1"</span>,</span>
-<span>                      folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">results1</span> <span class="op">&lt;-</span> <span class="fu">rqualify</span><span class="fu">:::</span><span class="fu">run_validation_suite</span><span class="op">(</span><span class="st">"basic"</span>, <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>
 R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
 Copyright (C) 2025 The R Foundation for Statistical Computing
@@ -616,22 +590,7 @@ Operational Qualification of this R installation.</p>
 which runs a series of operational tests of the R Base package code
 examples:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">code_check2</span> <span class="op">&lt;-</span> <span class="st">'</span></span>
-<span><span class="st">options(echo = FALSE)</span></span>
-<span><span class="st">options(useFancyQuotes = FALSE)</span></span>
-<span><span class="st">Failure &lt;- tryCatch(tools:::testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "base", types = "examples", errorsAreFatal = FALSE),</span></span>
-<span><span class="st">                    error=function(e) TRUE)</span></span>
-<span><span class="st">if (Failure) {</span></span>
-<span><span class="st">  cat("\n\nTest suite result: FAIL\n\n")</span></span>
-<span><span class="st">  fc &lt;- file.create("IQ-OQ-TestOutput/CMDFile2Fail")</span></span>
-<span><span class="st">} else {</span></span>
-<span><span class="st">  cat("\n\nTest suite result: PASS\n\n")</span></span>
-<span><span class="st">}</span></span>
-<span><span class="st">q(status = Failure)</span></span>
-<span><span class="st">'</span></span>
-<span><span class="va">results2</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block    <span class="op">=</span> <span class="va">code_check2</span>,</span>
-<span>                      file_prefix   <span class="op">=</span> <span class="st">"CMDFile2"</span>,</span>
-<span>                      folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">results2</span> <span class="op">&lt;-</span> <span class="fu">rqualify</span><span class="fu">:::</span><span class="fu">run_validation_suite</span><span class="op">(</span><span class="st">"base_examples"</span>, <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>
 R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
 Copyright (C) 2025 The R Foundation for Statistical Computing
@@ -697,22 +656,7 @@ Operational Qualification of this R installation.</p>
 which runs a series of operational tests of the R Base package vignette
 code examples:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">code_check3</span> <span class="op">&lt;-</span> <span class="st">'</span></span>
-<span><span class="st">options(echo = FALSE)</span></span>
-<span><span class="st">options(useFancyQuotes = FALSE)</span></span>
-<span><span class="st">Failure &lt;- tryCatch(tools:::testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "base", types = "vignettes", errorsAreFatal = FALSE),</span></span>
-<span><span class="st">                    error=function(e) TRUE)</span></span>
-<span><span class="st">if (Failure) {</span></span>
-<span><span class="st">  cat("\n\nTest suite result: FAIL\n\n")</span></span>
-<span><span class="st">  fc &lt;- file.create("IQ-OQ-TestOutput/CMDFile3Fail", showWarnings = FALSE)</span></span>
-<span><span class="st">} else {</span></span>
-<span><span class="st">  cat("\n\nTest suite result: PASS\n\n")</span></span>
-<span><span class="st">}</span></span>
-<span><span class="st">q(status = Failure)</span></span>
-<span><span class="st">'</span></span>
-<span><span class="va">results3</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block    <span class="op">=</span> <span class="va">code_check3</span>,</span>
-<span>                      file_prefix   <span class="op">=</span> <span class="st">"CMDFile3"</span>,</span>
-<span>                      folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">results3</span> <span class="op">&lt;-</span> <span class="fu">rqualify</span><span class="fu">:::</span><span class="fu">run_validation_suite</span><span class="op">(</span><span class="st">"base_vignettes"</span>, <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>
 R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
 Copyright (C) 2025 The R Foundation for Statistical Computing
@@ -776,22 +720,7 @@ Operational Qualification of this R installation.</p>
 which runs a series of operational tests of the R Recommended package
 code examples:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">code_check4</span> <span class="op">&lt;-</span> <span class="st">'</span></span>
-<span><span class="st">options(echo = FALSE)</span></span>
-<span><span class="st">options(useFancyQuotes = FALSE)</span></span>
-<span><span class="st">Failure &lt;- tryCatch(tools:::testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "recommended", types = "examples", errorsAreFatal = FALSE),</span></span>
-<span><span class="st">                    error=function(e) TRUE)</span></span>
-<span><span class="st">if (Failure){</span></span>
-<span><span class="st">  cat("\n\nTest suite result: FAIL\n\n")</span></span>
-<span><span class="st">  fc &lt;- file.create("IQ-OQ-TestOutput/CMDFile4Fail", showWarnings = FALSE)</span></span>
-<span><span class="st">} else {</span></span>
-<span><span class="st">  cat("\n\nTest suite result: PASS\n\n")</span></span>
-<span><span class="st">}</span></span>
-<span><span class="st">q(status = Failure)</span></span>
-<span><span class="st">'</span></span>
-<span><span class="va">results4</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block    <span class="op">=</span> <span class="va">code_check4</span>,</span>
-<span>                      file_prefix   <span class="op">=</span> <span class="st">"CMDFile4"</span>,</span>
-<span>                      folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">results4</span> <span class="op">&lt;-</span> <span class="fu">rqualify</span><span class="fu">:::</span><span class="fu">run_validation_suite</span><span class="op">(</span><span class="st">"recommended_examples"</span>, <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>
 R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
 Copyright (C) 2025 The R Foundation for Statistical Computing
@@ -855,22 +784,7 @@ Operational Qualification of this R installation.</p>
 which runs a series of operational tests of the R Recommended package
 vignette code examples:</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">code_check5</span> <span class="op">&lt;-</span> <span class="st">'</span></span>
-<span><span class="st">options(echo = FALSE)</span></span>
-<span><span class="st">options(useFancyQuotes = FALSE)</span></span>
-<span><span class="st">Failure &lt;- tryCatch(tools:::testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "recommended", types = "vignettes", errorsAreFatal = FALSE),</span></span>
-<span><span class="st">                    error=function(e) TRUE)</span></span>
-<span><span class="st">if (Failure){</span></span>
-<span><span class="st">  cat("\n\nTest suite result: FAIL\n\n")</span></span>
-<span><span class="st">  fc &lt;- file.create("IQ-OQ-TestOutput/CMDFile5Fail", showWarnings = FALSE)</span></span>
-<span><span class="st">} else {</span></span>
-<span><span class="st">  cat("\n\nTest suite result: PASS\n\n")</span></span>
-<span><span class="st">}</span></span>
-<span><span class="st">q(status = Failure)</span></span>
-<span><span class="st">'</span></span>
-<span><span class="va">results5</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block    <span class="op">=</span> <span class="va">code_check5</span>,</span>
-<span>                      file_prefix   <span class="op">=</span> <span class="st">"CMDFile5"</span>,</span>
-<span>                      folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">results5</span> <span class="op">&lt;-</span> <span class="fu">rqualify</span><span class="fu">:::</span><span class="fu">run_validation_suite</span><span class="op">(</span><span class="st">"recommended_vignettes"</span>, <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>
 R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
 Copyright (C) 2025 The R Foundation for Statistical Computing
@@ -940,22 +854,7 @@ Operational Qualification of this R installation.</p>
 which runs a series of operational tests of the R Base package code
 tests:</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">code_check6</span> <span class="op">&lt;-</span> <span class="st">'</span></span>
-<span><span class="st">options(echo = FALSE)</span></span>
-<span><span class="st">options(useFancyQuotes = FALSE)</span></span>
-<span><span class="st">Failure &lt;- tryCatch(tools:::testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "base", types = "tests", errorsAreFatal = FALSE),</span></span>
-<span><span class="st">                    error=function(e) TRUE)</span></span>
-<span><span class="st">if (Failure){</span></span>
-<span><span class="st">  cat("\n\nTest suite result: FAIL\n\n")</span></span>
-<span><span class="st">  fc &lt;- file.create("IQ-OQ-TestOutput/CMDFile6Fail", showWarnings = FALSE)</span></span>
-<span><span class="st">} else {</span></span>
-<span><span class="st">  cat("\n\nTest suite result: PASS\n\n")</span></span>
-<span><span class="st">}</span></span>
-<span><span class="st">q(status = Failure)</span></span>
-<span><span class="st">'</span></span>
-<span><span class="va">results6</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block    <span class="op">=</span> <span class="va">code_check6</span>,</span>
-<span>                      file_prefix   <span class="op">=</span> <span class="st">"CMDFile6"</span>,</span>
-<span>                      folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">results6</span> <span class="op">&lt;-</span> <span class="fu">rqualify</span><span class="fu">:::</span><span class="fu">run_validation_suite</span><span class="op">(</span><span class="st">"base_tests"</span>, <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>
 R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
 Copyright (C) 2025 The R Foundation for Statistical Computing
@@ -1110,22 +1009,7 @@ Operational Qualification of this R installation.</p>
 which runs a series of operational tests of the R Recommended package
 code tests:</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">code_check7</span> <span class="op">&lt;-</span> <span class="st">'</span></span>
-<span><span class="st">options(echo = FALSE)</span></span>
-<span><span class="st">options(useFancyQuotes = FALSE)</span></span>
-<span><span class="st">Failure &lt;- tryCatch(tools:::testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "recommended", types = "tests", errorsAreFatal = FALSE),</span></span>
-<span><span class="st">                    error=function(e) TRUE)</span></span>
-<span><span class="st">if (Failure){</span></span>
-<span><span class="st">  cat("\n\nTest suite result: FAIL\n\n")</span></span>
-<span><span class="st">  fc &lt;- file.create("IQ-OQ-TestOutput/CMDFile7Fail", showWarnings = FALSE)</span></span>
-<span><span class="st">} else {</span></span>
-<span><span class="st">  cat("\n\nTest suite result: PASS\n\n")</span></span>
-<span><span class="st">}</span></span>
-<span><span class="st">q(status = Failure)</span></span>
-<span><span class="st">'</span></span>
-<span><span class="va">results7</span> <span class="op">&lt;-</span> <span class="fu">code_exec</span><span class="op">(</span>code_block    <span class="op">=</span> <span class="va">code_check7</span>,</span>
-<span>                      file_prefix   <span class="op">=</span> <span class="st">"CMDFile7"</span>,</span>
-<span>                      folder_output <span class="op">=</span> <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">results7</span> <span class="op">&lt;-</span> <span class="fu">rqualify</span><span class="fu">:::</span><span class="fu">run_validation_suite</span><span class="op">(</span><span class="st">"recommended_tests"</span>, <span class="st">"IQ-OQ-TestOutput"</span><span class="op">)</span></span></code></pre></div>
 <pre><code>
 R version 4.5.1 (2025-06-13 ucrt) -- "Great Square Root"
 Copyright (C) 2025 The R Foundation for Statistical Computing
@@ -1552,9 +1436,10 @@ Operational Qualification of this R installation.</p>
 <p>The final page of the report will include a table with the summary of
 findings from the above tests, including the overall status of the
 Installation Qualification and Operational Qualification of this R
-installation. The overall status is determined by the presence of any
-<code>FAIL</code> results in the above tests, which would indicate a
-failure in the qualification of this R installation.</p>
+installation. A PASS requires a successful subprocess exit and an
+explicit completion result. The summary must contain all eight expected
+suites and valid statuses; missing or malformed evidence cannot
+establish a successful qualification.</p>
 <p>Please see <a href="https://medtronic-biostatistics.github.io/rqualify/index.html" class="uri">https://medtronic-biostatistics.github.io/rqualify/index.html</a>
 for the full documentation and an example of a successful report.</p>
 </div>

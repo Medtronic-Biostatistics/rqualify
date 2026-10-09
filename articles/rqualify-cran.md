@@ -7,9 +7,8 @@ what code is executed when the file is rendered. This overview is for
 informational purposes and documents the internal structure of the
 `R-validation.Rmd` file. If any of the code blocks are updated, this is
 not considered a breaking change as the document will still render
-properly. For Quarto users, `R-validation` is the source file for the
-`R-validation.qmd` file, and any changes to the `R-validation.Rmd` file
-will be reflected in `R-validation.qmd`.
+properly. The LaTeX and Quarto templates both call shared package
+functions to execute tests and classify their results.
 
 Please see
 <https://medtronic-biostatistics.github.io/rqualify/index.html> for the
@@ -72,21 +71,14 @@ r_home <- paste0(R.home(), sep="\n")
 
 ------------------------------------------------------------------------
 
-The following is the output of `system("R -e 'q()'")`, presenting the R
-welcome banner as displayed from a default R console (terminal) to show
-the R console correctly running and then exiting:
+The following is the output of a fresh R subprocess, including its
+explicit completion result. A successful exit and completion result are
+both required to pass Installation Qualification:
 
 ``` r
 
-# Output the R startup banner
-results0 <- try(system(paste(shQuote(file.path(R.home("bin"), "R")), "-e", shQuote("q()")), intern = TRUE))
-
-if (class(results0) != "try-error"){
-  results0 <- paste(results0, collapse = "\n")
-  results0 <- gsub("> q\\(\\)", "", results0)
-} else{
-  results0 <- "Unable to execute R at the command line"
-}
+iq_run <- rqualify:::run_validation_suite("iq", dir_temp)
+results0 <- paste(iq_run$output, collapse = "\n")
 ```
 
 
@@ -105,6 +97,10 @@ if (class(results0) != "try-error"){
     Type 'demo()' for some demos, 'help()' for on-line help, or
     'help.start()' for an HTML browser interface to help.
     Type 'q()' to quit R.
+
+    > options(echo = FALSE, useFancyQuotes = FALSE)
+
+    Test suite result: PASS
 
 ------------------------------------------------------------------------
 
@@ -135,7 +131,7 @@ if(any(results_sysinfo_clean == "> ")){
                                           version 
     "#22-Ubuntu SMP Mon Jul 27 17:24:03 UTC 2026" 
                                          nodename 
-                                  "runnervmgx7h7" 
+                                  "runnervmmprz5" 
                                           machine 
                                          "x86_64" 
                                             login 
@@ -355,7 +351,7 @@ if(any(results_sessioninfo_clean == "> ")){
 
     R version 4.6.1 (2026-06-24)
     Platform: x86_64-pc-linux-gnu
-    Running under: Ubuntu 24.04.4 LTS
+    Running under: Ubuntu 24.04.5 LTS
 
     Matrix products: default
     BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
@@ -461,42 +457,13 @@ if(tinytex::is_tinytex()){
 
 ##### R Core Operational Qualification - System Tests (OQ)
 
-The following is the output of `testInstalledBasic("both")`, which runs
-a series of core system-wide operational tests of the R installation,
-including various regression tests:
+The following is the output of `testInstalledBasic(scope = "basic")`,
+which runs the installed basic system tests; development and internet
+scopes are not run:
 
 ``` r
 
-# Copy system tests to IQ-OQ-TestOutput/tests
-r_test_path <- file.path(R.home(), "tests")
-fc          <- file.copy(r_test_path, "IQ-OQ-TestOutput", recursive=TRUE)
-
-# Set absolute test path
-path_system_tests <- normalizePath("IQ-OQ-TestOutput/tests", winslash="/")
-
-code_check1 <- sprintf('
-options(echo = FALSE)
-options(useFancyQuotes = FALSE)
-
-Failure <- tryCatch(tools:::testInstalledBasic(
-                    scope      = "basic",
-                    outDir     = "%s",
-                    testSrcdir = "%s"
-                    ),
-                    error=function(e) TRUE)
-
-if (Failure){
-  cat("\n\nTest suite result: FAIL\n\n")
-  fc <- file.create("IQ-OQ-TestOutput/CMDFile1Fail", showWarnings = FALSE)
-} else {
-  cat("\n\nTest suite result: PASS\n\n")
-}
-q(status = Failure)
-',path_system_tests,path_system_tests)
-
-results1 <- code_exec(code_block    = code_check1,
-                      file_prefix   = "CMDFile1",
-                      folder_output = "IQ-OQ-TestOutput")
+results1 <- rqualify:::run_validation_suite("basic", "IQ-OQ-TestOutput")
 ```
 
 
@@ -615,22 +582,7 @@ examples:
 
 ``` r
 
-code_check2 <- '
-options(echo = FALSE)
-options(useFancyQuotes = FALSE)
-Failure <- tryCatch(tools:::testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "base", types = "examples", errorsAreFatal = FALSE),
-                    error=function(e) TRUE)
-if (Failure) {
-  cat("\n\nTest suite result: FAIL\n\n")
-  fc <- file.create("IQ-OQ-TestOutput/CMDFile2Fail")
-} else {
-  cat("\n\nTest suite result: PASS\n\n")
-}
-q(status = Failure)
-'
-results2 <- code_exec(code_block    = code_check2,
-                      file_prefix   = "CMDFile2",
-                      folder_output = "IQ-OQ-TestOutput")
+results2 <- rqualify:::run_validation_suite("base_examples", "IQ-OQ-TestOutput")
 ```
 
 
@@ -701,22 +653,7 @@ code examples:
 
 ``` r
 
-code_check3 <- '
-options(echo = FALSE)
-options(useFancyQuotes = FALSE)
-Failure <- tryCatch(tools:::testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "base", types = "vignettes", errorsAreFatal = FALSE),
-                    error=function(e) TRUE)
-if (Failure) {
-  cat("\n\nTest suite result: FAIL\n\n")
-  fc <- file.create("IQ-OQ-TestOutput/CMDFile3Fail", showWarnings = FALSE)
-} else {
-  cat("\n\nTest suite result: PASS\n\n")
-}
-q(status = Failure)
-'
-results3 <- code_exec(code_block    = code_check3,
-                      file_prefix   = "CMDFile3",
-                      folder_output = "IQ-OQ-TestOutput")
+results3 <- rqualify:::run_validation_suite("base_vignettes", "IQ-OQ-TestOutput")
 ```
 
 
@@ -785,22 +722,7 @@ code examples:
 
 ``` r
 
-code_check4 <- '
-options(echo = FALSE)
-options(useFancyQuotes = FALSE)
-Failure <- tryCatch(tools:::testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "recommended", types = "examples", errorsAreFatal = FALSE),
-                    error=function(e) TRUE)
-if (Failure){
-  cat("\n\nTest suite result: FAIL\n\n")
-  fc <- file.create("IQ-OQ-TestOutput/CMDFile4Fail", showWarnings = FALSE)
-} else {
-  cat("\n\nTest suite result: PASS\n\n")
-}
-q(status = Failure)
-'
-results4 <- code_exec(code_block    = code_check4,
-                      file_prefix   = "CMDFile4",
-                      folder_output = "IQ-OQ-TestOutput")
+results4 <- rqualify:::run_validation_suite("recommended_examples", "IQ-OQ-TestOutput")
 ```
 
 
@@ -869,22 +791,7 @@ vignette code examples:
 
 ``` r
 
-code_check5 <- '
-options(echo = FALSE)
-options(useFancyQuotes = FALSE)
-Failure <- tryCatch(tools:::testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "recommended", types = "vignettes", errorsAreFatal = FALSE),
-                    error=function(e) TRUE)
-if (Failure){
-  cat("\n\nTest suite result: FAIL\n\n")
-  fc <- file.create("IQ-OQ-TestOutput/CMDFile5Fail", showWarnings = FALSE)
-} else {
-  cat("\n\nTest suite result: PASS\n\n")
-}
-q(status = Failure)
-'
-results5 <- code_exec(code_block    = code_check5,
-                      file_prefix   = "CMDFile5",
-                      folder_output = "IQ-OQ-TestOutput")
+results5 <- rqualify:::run_validation_suite("recommended_vignettes", "IQ-OQ-TestOutput")
 ```
 
 
@@ -960,22 +867,7 @@ tests:
 
 ``` r
 
-code_check6 <- '
-options(echo = FALSE)
-options(useFancyQuotes = FALSE)
-Failure <- tryCatch(tools:::testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "base", types = "tests", errorsAreFatal = FALSE),
-                    error=function(e) TRUE)
-if (Failure){
-  cat("\n\nTest suite result: FAIL\n\n")
-  fc <- file.create("IQ-OQ-TestOutput/CMDFile6Fail", showWarnings = FALSE)
-} else {
-  cat("\n\nTest suite result: PASS\n\n")
-}
-q(status = Failure)
-'
-results6 <- code_exec(code_block    = code_check6,
-                      file_prefix   = "CMDFile6",
-                      folder_output = "IQ-OQ-TestOutput")
+results6 <- rqualify:::run_validation_suite("base_tests", "IQ-OQ-TestOutput")
 ```
 
 
@@ -1135,22 +1027,7 @@ code tests:
 
 ``` r
 
-code_check7 <- '
-options(echo = FALSE)
-options(useFancyQuotes = FALSE)
-Failure <- tryCatch(tools:::testInstalledPackages(outDir = "IQ-OQ-TestOutput", scope = "recommended", types = "tests", errorsAreFatal = FALSE),
-                    error=function(e) TRUE)
-if (Failure){
-  cat("\n\nTest suite result: FAIL\n\n")
-  fc <- file.create("IQ-OQ-TestOutput/CMDFile7Fail", showWarnings = FALSE)
-} else {
-  cat("\n\nTest suite result: PASS\n\n")
-}
-q(status = Failure)
-'
-results7 <- code_exec(code_block    = code_check7,
-                      file_prefix   = "CMDFile7",
-                      folder_output = "IQ-OQ-TestOutput")
+results7 <- rqualify:::run_validation_suite("recommended_tests", "IQ-OQ-TestOutput")
 ```
 
 
@@ -1579,9 +1456,10 @@ this R installation.
 The final page of the report will include a table with the summary of
 findings from the above tests, including the overall status of the
 Installation Qualification and Operational Qualification of this R
-installation. The overall status is determined by the presence of any
-`FAIL` results in the above tests, which would indicate a failure in the
-qualification of this R installation.
+installation. A PASS requires a successful subprocess exit and an
+explicit completion result. The summary must contain all eight expected
+suites and valid statuses; missing or malformed evidence cannot
+establish a successful qualification.
 
 Please see
 <https://medtronic-biostatistics.github.io/rqualify/index.html> for the
