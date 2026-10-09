@@ -1,48 +1,39 @@
-#' Create the R-validation folder tree
-#'
-#' Internal helper. Normalizes `path_save`, verifies that the running R
-#' installation contains a `tests` directory, ensures no prior
-#' `R-validation` folder exists at the destination, and creates
-#' `R-validation/IQ-OQ-TestOutput`.
-#'
-#' @param path_save Character. Parent directory in which to create the
-#'   `R-validation` folder.
-#'
-#' @return A named list with elements `path_save`, `path_rvalidation`, and
-#'   `path_iqoqtestoutput` (all normalized absolute paths).
-#'
-#' @keywords internal
-#' @noRd
-setup_validation_dirs <- function(path_save) {
-  if (missing(path_save)) {
-    stop("`path_save` is required.")
+# Validate the destination without creating files or installing dependencies.
+validation_paths <- function(path_save) {
+  if (missing(path_save) || !is.character(path_save) || length(path_save) != 1L ||
+      is.na(path_save) || !nzchar(trimws(path_save))) {
+    stop("`path_save` must be a single, non-empty directory path.", call. = FALSE)
   }
-
-  path_save <- normalizePath(path_save, winslash = "/")
-
-  r_test_path <- file.path(R.home(), "tests")
-  if (!dir_exists(r_test_path)) {
+  if (!dir_exists(path_save)) stop("`path_save` must be an existing directory.", call. = FALSE)
+  path_save <- normalizePath(path_save, winslash = "/", mustWork = TRUE)
+  if (file.access(path_save, 2L) != 0L) stop("`path_save` is not writable.", call. = FALSE)
+  if (!dir_exists(file.path(R.home(), "tests"))) {
     stop(
       "R installation does not contain 'tests' folder. If running on Linux, ",
       "see https://cran.r-project.org/doc/manuals/r-patched/R-admin.html",
-      "#Testing-a-Unix_002dalike-Installation for instructions to install R ",
-      "with tests."
+      "#Testing-a-Unix_002dalike-Installation for instructions to install R with tests.",
+      call. = FALSE
     )
   }
-
-  path_rvalidation    <- file.path(path_save, "R-validation")
-  path_iqoqtestoutput <- file.path(path_rvalidation, "IQ-OQ-TestOutput")
-
-  if (dir_exists(path_rvalidation)) {
-    stop("Folder 'R-validation' already exists at the specified path. Rename or remove.")
+  output <- file.path(path_save, "R-validation")
+  link <- Sys.readlink(output)
+  if (file.exists(output) || (!is.na(link) && nzchar(link))) {
+    stop("Folder 'R-validation' already exists at the specified path. Rename or remove.", call. = FALSE)
   }
+  list(path_save = path_save, path_rvalidation = output,
+       path_iqoqtestoutput = file.path(output, "IQ-OQ-TestOutput"))
+}
 
-  dir.create(path_rvalidation)
-  dir.create(path_iqoqtestoutput)
-
-  list(
-    path_save           = path_save,
-    path_rvalidation    = path_rvalidation,
-    path_iqoqtestoutput = path_iqoqtestoutput
-  )
+setup_validation_dirs <- function(path_save) {
+  if (missing(path_save)) stop("`path_save` is required.", call. = FALSE)
+  paths <- validation_paths(path_save)
+  if (!dir.create(paths$path_rvalidation, showWarnings = FALSE)) {
+    stop("Could not create the R-validation directory.", call. = FALSE)
+  }
+  if (!dir.create(paths$path_iqoqtestoutput, showWarnings = FALSE)) {
+    # Only remove the new, empty directory created by this invocation.
+    unlink(paths$path_rvalidation, recursive = TRUE)
+    stop("Could not create the IQ-OQ-TestOutput directory.", call. = FALSE)
+  }
+  paths
 }

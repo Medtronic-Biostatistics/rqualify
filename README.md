@@ -1,4 +1,4 @@
-# rqualify <a href="https://medtronic-biostatistics.github.io/rqualify/"><img src="man/figures/logo.png" alt="rqualify website" align="right" height="111"/></a>
+# rqualify <a href="https://medtronic-biostatistics.github.io/rqualify/"><img src="man/figures/logo.png" alt="rqualify website" align="right" height="140"/></a>
 
 <!-- badges: start -->
 
@@ -6,17 +6,19 @@
 
 <!-- badges: end -->
 
+Development version: **1.1.0.9000**.
+
 ## Installation
 
 You can install the package via CRAN:
 
-```         
+```r
 install.packages("rqualify")
 ```
 
 The package can also be installed from this Github repository using the following:
 
-```         
+```r
 # If needed install.packages("remotes")
 remotes::install_github("Medtronic-Biostatistics/rqualify")
 ```
@@ -29,16 +31,16 @@ The purpose of this package is to ease the R software validation steps required 
 
 Once the `rqualify` package is installed, there are a few ways to execute the validation process. For instance, you can install Pandoc and TinyTeX as follows:
 
-```         
+```r
 library(rqualify)
 
 # Install and activate Pandoc
-pandoc_install()
-pandoc_activate()
+pandoc::pandoc_install()
+pandoc::pandoc_activate()
 
 # Install the TinyTeX bundle plus the grfext package
-install_tinytex(bundle="TinyTeX",
-                force=TRUE,
+tinytex::install_tinytex(bundle="TinyTeX",
+                force=FALSE,
                 extra_packages="grfext")
               
 rqualify(path_save     = tempdir(),
@@ -48,14 +50,14 @@ rqualify(path_save     = tempdir(),
 
 Alternately, a more convenient approach to execute the entire validation process can be used, where the Pandoc and TinyTeX installation process are wrapped inside the function:
 
-```         
+```r
 library(rqualify)
 rqualify(path_save = tempdir())
 ```
 
 Another alternative is to use Quarto, especially if you want to execute the validation process from within RStudio:
 
-```         
+```r
 library(rqualify)
 rqualify(path_save     = tempdir(),
          setup_tinytex = FALSE,
@@ -64,6 +66,10 @@ rqualify(path_save     = tempdir(),
 ```
 
 In any case, ensure that the `path_save` location does not already include a folder named `R-validation`. See `?rqualify` for more info.
+
+Pass `details = TRUE` to return the overall status, per-suite results, report paths, and tool versions. The same information is saved as `validation_result.rds` in the output folder. A status of `"ok"` requires a complete, valid summary with all tests passing.
+
+Quarto uses its bundled Pandoc and Typst; the TinyTeX and Pandoc setup arguments apply only to the LaTeX engine. Existing tools are reused when available.
 
 ## Special Thanks
 

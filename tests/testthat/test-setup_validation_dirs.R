@@ -1,19 +1,3 @@
-local_r_tests_dir_exists <- function(exists = TRUE, env = parent.frame()) {
-  r_tests <- normalizePath(
-    file.path(R.home(), "tests"),
-    mustWork = FALSE,
-    winslash = "/"
-  )
-
-  local_mocked_bindings(
-    dir_exists = function(paths) {
-      paths <- normalizePath(paths, mustWork = FALSE, winslash = "/")
-      ifelse(paths == r_tests, exists, base::dir.exists(paths))
-    },
-    .env = env
-  )
-}
-
 test_that("errors when path_save is missing", {
   expect_error(setup_validation_dirs(), "path_save")
 })
@@ -100,4 +84,29 @@ test_that("normalizes relative path_save before creating directories", {
     dir.exists(c(expected_path_rvalidation, expected_path_iqoqtestoutput)),
     c(TRUE, TRUE)
   )
+})
+
+test_that("unwritable destinations are rejected before creating output", {
+  tmp <- withr::local_tempdir()
+  local_r_tests_dir_exists()
+  local_mocked_bindings(file.access = function(...) -1L, .package = "base")
+  expect_error(setup_validation_dirs(tmp), "path_save.*not writable")
+  expect_false(dir.exists(file.path(tmp, "R-validation")))
+})
+
+test_that("directory creation failures are reported and partial setup is removed", {
+  tmp <- withr::local_tempdir()
+  local_r_tests_dir_exists()
+  original_create <- base::dir.create
+  local_mocked_bindings(dir.create = function(...) FALSE, .package = "base")
+  expect_error(setup_validation_dirs(tmp), "Could not create the R-validation directory")
+  expect_false(dir.exists(file.path(tmp, "R-validation")))
+
+  local_mocked_bindings(dir.create = function(path, ...) {
+    if (basename(path) == "IQ-OQ-TestOutput") return(FALSE)
+    original_create(path, ...)
+  }, .package = "base")
+  expect_error(setup_validation_dirs(tmp), "Could not create the IQ-OQ-TestOutput directory")
+  expect_false(dir.exists(file.path(tmp, "R-validation")))
+  expect_true(dir.exists(tmp))
 })
