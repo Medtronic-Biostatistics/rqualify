@@ -2,6 +2,8 @@
 
 ## rqualify 1.2.0
 
+CRAN release: 2026-10-09
+
 ### Major changes
 
 - Qualification now requires a successful subprocess exit and an
