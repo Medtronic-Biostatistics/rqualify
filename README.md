@@ -69,6 +69,10 @@ Pass `details = TRUE` to return the overall status, per-suite results, report pa
 
 Quarto uses its bundled Pandoc and Typst; the TinyTeX and Pandoc setup arguments apply only to the LaTeX engine. Existing tools are reused when available.
 
+## Example qualification report
+
+The [worked-example report](https://github.com/Medtronic-Biostatistics/rqualify/blob/main/vignettes/pdf/rqualify-example-report.pdf), prepared by Graeme L. Hickey, records qualification of an R 4.5.3 installation using rqualify 1.2.0. Identifying environment details have been redacted; test results are retained. The report illustrates one installation and does not establish the suitability of another.
+
 ## Special Thanks
 
 We would like to thank [Marc Schwartz](https://github.com/marcschwartz/) for allowing us to modify [R-IQ-OQ](https://github.com/marcschwartz/R-IQ-OQ) into the RMarkdown file made available by this package. As the original code was released under the GNU GPL version 2 license, we are adhering to the licensing and releasing this package under GNU GPL version 2 as well.
