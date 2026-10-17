@@ -69,9 +69,9 @@ Pass `details = TRUE` to return the overall status, per-suite results, report pa
 
 Quarto uses its bundled Pandoc and Typst; the TinyTeX and Pandoc setup arguments apply only to the LaTeX engine. Existing tools are reused when available.
 
-## Worked example
+## Example qualification report for manuscript
 
-The [worked example](https://github.com/Medtronic-Biostatistics/rqualify/blob/main/vignettes/pdf/rqualify-example-report.pdf), prepared by Graeme L. Hickey, illustrates qualification of an R 4.5.3 installation using rqualify 1.2.0. Identifying environment details have been redacted; test results are retained. The example concerns one installation and does not establish the suitability of another.
+The [worked-example report](https://github.com/Medtronic-Biostatistics/rqualify/blob/main/vignettes/pdf/rqualify-example-report.pdf), records qualification of an R 4.5.3 installation using `rqualify` v1.2.0. Identifying environment details have been redacted, but test results are retained.
 
 ## Special Thanks
 
