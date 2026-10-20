@@ -8,7 +8,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 resource_files:
-  - pdf/R-validation.pdf
+  - rjournal/R-validation.pdf
 ---
 
 ```{r setup, include=FALSE}

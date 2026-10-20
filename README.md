@@ -71,7 +71,7 @@ Quarto uses its bundled Pandoc and Typst; the TinyTeX and Pandoc setup arguments
 
 ## Example qualification report for manuscript
 
-The [worked-example report](https://github.com/Medtronic-Biostatistics/rqualify/blob/main/vignettes/pdf/rqualify-example-report.pdf), records qualification of an R 4.5.3 installation using `rqualify` v1.2.0. Identifying environment details have been redacted, but test results are retained.
+The [worked-example report](https://github.com/Medtronic-Biostatistics/rqualify/blob/main/vignettes/rjournal/rqualify-example-report.pdf), records qualification of an R 4.5.3 installation using `rqualify` v1.2.0. Identifying environment details have been redacted, but test results are retained. The [supporting outputs](https://github.com/Medtronic-Biostatistics/rqualify/blob/main/vignettes/rjournal/recorded-run.zip) are also available.
 
 ## Special Thanks
 

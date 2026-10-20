@@ -8,7 +8,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 resource_files:
-  - pdf/R-validation.pdf
+  - rjournal/R-validation.pdf
 ---
 
 ```{r setup, include=FALSE}
@@ -70,5 +70,5 @@ performed and their outcomes. This example was executed with argument `engine="l
 
 
 ```{r, out.width = "100%", out.height = "400px", echo = FALSE, fig.align = "center"}
-knitr::include_graphics("pdf/R-validation.pdf")
+knitr::include_graphics("rjournal/R-validation.pdf")
 ```
