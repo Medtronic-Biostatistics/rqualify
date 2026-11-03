@@ -5,7 +5,7 @@
 ^pkgdown$
 ^\.github$
 ^LICENSE$
-^vignettes/rjournal$
+^vignettes/pdf$
 ^vignettes/background.Rmd$
 ^vignettes/details.Rmd$
 ^vignettes/rqualify.Rmd$
