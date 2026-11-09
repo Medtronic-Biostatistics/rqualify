@@ -50,7 +50,7 @@ Arch         <- gsub("_", " ", RVersionInfo$arch)
 Platform     <- gsub("_", " ", RVersionInfo$platform)
 ```
 
-    R Version: R version 4.6.1 (2026-06-24)
+    R Version: R version 4.6.2 (2026-10-29)
 
     Architecture: x86 64
 
@@ -67,7 +67,7 @@ installed on this computer:
 r_home <- paste0(R.home(), sep="\n")
 ```
 
-    /opt/R/4.6.1/lib/R
+    /opt/R/4.6.2/lib/R
 
 ------------------------------------------------------------------------
 
@@ -82,7 +82,7 @@ results0 <- paste(iq_run$output, collapse = "\n")
 ```
 
 
-    R version 4.6.1 (2026-06-24) -- "Happy Hop"
+    R version 4.6.2 (2026-10-29) -- "Diversified Portfolio"
     Copyright (C) 2026 The R Foundation for Statistical Computing
     Platform: x86_64-pc-linux-gnu
 
@@ -124,22 +124,22 @@ if(any(results_sysinfo_clean == "> ")){
 }
 ```
 
-                                                          sysname 
-                                                          "Linux" 
-                                                          release 
-                                               "7.0.0-1017-azure" 
-                                                          version 
-    "#17~24.04.1-Ubuntu SMP PREEMPT Thu Sep 24 18:46:57 UTC 2026" 
-                                                         nodename 
-                                                  "runnervmxehtw" 
-                                                          machine 
-                                                         "x86_64" 
-                                                            login 
-                                                        "unknown" 
-                                                             user 
-                                                         "runner" 
-                                                   effective_user 
-                                                         "runner" 
+                                                  sysname 
+                                                  "Linux" 
+                                                  release 
+                                       "7.0.0-1019-azure" 
+                                                  version 
+    "#20-Ubuntu SMP PREEMPT Mon Oct 19 22:41:16 UTC 2026" 
+                                                 nodename 
+                                          "runnervmwuk1x" 
+                                                  machine 
+                                                 "x86_64" 
+                                                    login 
+                                                "unknown" 
+                                                     user 
+                                                 "runner" 
+                                           effective_user 
+                                                 "runner" 
 
 ------------------------------------------------------------------------
 
@@ -212,14 +212,14 @@ if(any(results_rversion_clean == "> ")){
     system         x86_64, linux-gnu           
     status                                     
     major          4                           
-    minor          6.1                         
+    minor          6.2                         
     year           2026                        
-    month          06                          
-    day            24                          
-    svn rev        90187                       
+    month          10                          
+    day            29                          
+    svn rev        90784                       
     language       R                           
-    version.string R version 4.6.1 (2026-06-24)
-    nickname       Happy Hop                   
+    version.string R version 4.6.2 (2026-10-29)
+    nickname       Diversified Portfolio       
 
 ------------------------------------------------------------------------
 
@@ -349,13 +349,13 @@ if(any(results_sessioninfo_clean == "> ")){
 }
 ```
 
-    R version 4.6.1 (2026-06-24)
+    R version 4.6.2 (2026-10-29)
     Platform: x86_64-pc-linux-gnu
-    Running under: Ubuntu 24.04.5 LTS
+    Running under: Ubuntu 26.04.1 LTS
 
     Matrix products: default
     BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
-    LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0
+    LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.32.so;  LAPACK version 3.12.0
 
     locale:
      [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
@@ -370,7 +370,7 @@ if(any(results_sessioninfo_clean == "> ")){
     [1] stats     graphics  grDevices utils     datasets  methods   base     
 
     loaded via a namespace (and not attached):
-    [1] compiler_4.6.1
+    [1] compiler_4.6.2
 
 ------------------------------------------------------------------------
 
@@ -392,8 +392,8 @@ if(any(results_libpath_clean == "> ")){
 }
 ```
 
-    [1] "/home/runner/work/_temp/Library" "/opt/R/4.6.1/lib/R/site-library"
-    [3] "/opt/R/4.6.1/lib/R/library"     
+    [1] "/home/runner/work/_temp/Library" "/opt/R/4.6.2/lib/R/site-library"
+    [3] "/opt/R/4.6.2/lib/R/library"     
 
 ------------------------------------------------------------------------
 
